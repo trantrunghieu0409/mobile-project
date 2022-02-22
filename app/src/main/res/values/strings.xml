@@ -2,4 +2,17 @@
     <string name="app_name">Mobile Project</string>
     <string name="stats_title"><i><u>STATS</u></i></string>
     <string name="edit_clickable"><u><i>Edits</i></u>></string>
+    <string name="name">Name</string>
+    <string name="play">Play</string>
+    <string name="create_room">Create room</string>
+    <string-array name="languages_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>
