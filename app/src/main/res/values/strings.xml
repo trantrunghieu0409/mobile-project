@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Mobile Project</string>
+    <string name="stats_title"><i><u>STATS</u></i></string>
+    <string name="edit_clickable"><u><i>Edits</i></u>></string>
 </resources>
