@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="border_color">#1C0F0F</color>
-    <color name="background_color">#54C0F1</color>
+    <color name="background_color">#48DFF2</color>
     <color name="dimgray">#FF696969</color>
     <color name="DodgerBlue">#FF1E90FF</color>
 </resources>
