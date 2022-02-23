@@ -11,4 +11,10 @@
     <color name="background_color">#48DFF2</color>
     <color name="dimgray">#FF696969</color>
     <color name="DodgerBlue">#FF1E90FF</color>
+    <color name="Blue">#ff0000ff</color>
+    <color name="Green">#ff00ff00</color>
+    <color name="Red">#ffff0000</color>
+    <color name="Yellow">#ffffff00</color>
+    <color name="Orange">#ffFF9900</color>
+    <color name="Brown">#ff996600</color>
 </resources>
