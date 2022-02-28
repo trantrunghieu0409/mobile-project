@@ -75,14 +75,14 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="@drawable/my_border"
+                android:background="@drawable/list_border"
                 android:id="@+id/players_spinner"
                 />
             <Spinner
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="@drawable/my_border"
+                android:background="@drawable/list_border"
                 android:id="@+id/points_spinner"
                 />
             <Button

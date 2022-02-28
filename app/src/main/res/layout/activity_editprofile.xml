@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:textSize="24dp"
             android:text="Edit"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -28,11 +29,12 @@
 
 
         <ImageView
+            android:id="@+id/imgAvatar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/avatar_batman" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,19 +43,29 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:padding="5dp">
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/btnChangeAvatar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Change avatar"/>
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:padding="2dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change avatar" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_baseline_border_color_24" />
+            </RelativeLayout>
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="2dp"
                 android:background="@color/black" />
-
-            <!--
-                Need icon edit here!
-             -->
 
         </LinearLayout>
 
@@ -64,20 +76,30 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:padding="5dp">
-            <TextView
-                android:id="@+id/txtUsername"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/btnChangeUsername"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username"/>
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:padding="2dp">
+                <TextView
+                    android:id="@+id/txtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"/>
 
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_border_color_24"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="2dp"
                 android:background="@color/black" />
-
-            <!--
-                Need icon edit here!
-             -->
 
         </LinearLayout>
 
@@ -88,20 +110,39 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:padding="5dp">
-            <TextView
-                android:id="@+id/txtCountry"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/btnChangeNation"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Change avatar"/>
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:padding="2dp">
 
+                <ImageView
+                    android:id="@+id/imgNationFlag"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="2dp"
+                    android:src="@drawable/icon_vn_small" />
+
+                <TextView
+                    android:id="@+id/txtNation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/imgNationFlag"
+                    android:text="Vietnam" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_border_color_24"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="2dp"
                 android:background="@color/black" />
-
-            <!--
-                Need icon edit here!
-             -->
 
         </LinearLayout>
 
@@ -112,19 +153,30 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:padding="5dp">
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/btnChangePassword"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Change password"/>
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:padding="2dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change password"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_border_color_24"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="2dp"
                 android:background="@color/black" />
-
-            <!--
-                Need icon edit here!
-             -->
 
         </LinearLayout>
 
@@ -134,7 +186,7 @@
             android:layout_height="wrap_content"
             android:text="SAVE CHANGES"
             android:textSize="12dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"/>
     </LinearLayout>
 
