@@ -50,9 +50,10 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/list_border.xml" value="0.2985" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.17426545086119555" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_editprofile.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_friendlist.xml" value="0.24954710144927536" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.1" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.19844357976653695" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.358695652173913" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_login.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
@@ -65,6 +66,7 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/homescreen.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_answer.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_chat.xml" value="0.24954710144927536" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_info.xml" value="0.3509963768115942" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_infor.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notidraw.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.24954710144927536" />
@@ -80,7 +82,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.1" />
+        <option name="scale" value="0.24954710144927536" />
       </ProjectState>
     </option>
   </component>

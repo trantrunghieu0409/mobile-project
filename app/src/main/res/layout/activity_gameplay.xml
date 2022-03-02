@@ -34,6 +34,7 @@
             android:background="@drawable/list_border">
 
             <ListView
+                android:id="@+id/list_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
