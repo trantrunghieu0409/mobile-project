@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:orientation="vertical"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent"
+            >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="80dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
         <ImageButton
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -60,49 +62,49 @@
         <TableLayout
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TableRow>
                 <ImageButton
-                    android:layout_height="40dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/Orange"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_height="40dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/background_color"/>
                 <ImageButton
                     android:layout_marginLeft="10dp"
-                    android:layout_height="40dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/Brown"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
-                    android:layout_height="40dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/dimgray"/>
 
             </TableRow>
             <TableRow>
                 <ImageButton
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/Yellow"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/Blue"/>
                 <ImageButton
                     android:layout_marginLeft="10dp"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/black"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
-                    android:layout_height="50dp"
-                    android:layout_width="50dp"
+                    android:layout_height="45dp"
+                    android:layout_width="45dp"
                     android:background="@color/Green"/>
 
             </TableRow>

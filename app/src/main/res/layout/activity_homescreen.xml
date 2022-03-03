@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/DodgerBlue"
+    android:background="@color/teal_200"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     <RelativeLayout
@@ -24,12 +24,12 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/icon_login" />
 
@@ -99,18 +99,24 @@
             android:background="@drawable/list_border"
             android:id="@+id/languages_spinner"
             />
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPlay"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/play"
+            android:background="@drawable/background_btn2"
             />
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCreateRoom"
+            android:minWidth="200dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_room"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_btn2"
             />
 
     </LinearLayout>

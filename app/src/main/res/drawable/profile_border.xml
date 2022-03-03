@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
 
-    <!-- View background color
+<!--    View background color-->
     <solid
-        android:color="@color/background_color" >
+        android:color="@color/cardview_light_background" >
     </solid>
-    -->
+
     <!-- View border color and width -->
     <stroke
         android:width="2dp"
