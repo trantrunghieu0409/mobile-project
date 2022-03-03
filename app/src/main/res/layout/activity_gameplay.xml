@@ -34,6 +34,7 @@
             android:background="@drawable/list_border">
 
             <ListView
+                android:id="@+id/list_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -63,12 +64,14 @@
                     android:layout_marginEnd="5dp"
                     />
                 <ImageButton
+                    android:id="@+id/btnPopUpInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_report_24"
                     android:layout_marginEnd="5dp"
                     />
                 <ImageButton
+                    android:id="@+id/btnPopUpChat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_question_answer_24"
