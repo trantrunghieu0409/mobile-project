@@ -3,14 +3,21 @@ package com.example.mobileproject;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 class Player {
     private String name;
@@ -38,6 +45,7 @@ class Player {
 
 public class GameplayActivity extends Activity {
     ArrayList<Player> list = new ArrayList<>();
+    ArrayList<String> message = new ArrayList<>();
     ListView listViewPlayer;
     boolean audio;
     boolean report;
@@ -45,21 +53,43 @@ public class GameplayActivity extends Activity {
     ImageButton btnAudio;
     ImageButton btnPopUpInfo;
     ImageButton btnPopUpChat;
+    ImageButton btnSendAnswer;
+
+    EditText editTextAnswer;
+    RecyclerView boxChatAnswer;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
 
-
+        message.add("User 1: Hello");
+        message.add("User 2: Hi");
         list.add(new Player("User 1", 10));
         list.add(new Player("User 2", 5));
         audio = true;
         report = false;
+
+
         btnReport = (ImageButton) findViewById(R.id.btnReport);
         btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnPopUpInfo = (ImageButton) findViewById(R.id.btnPopUpInfo);
         btnPopUpChat = (ImageButton) findViewById(R.id.btnPopUpChat);
+        btnSendAnswer = (ImageButton) findViewById(R.id.btnSendAnswer);
+
+
+        editTextAnswer = (EditText) findViewById(R.id.editTextAnswer);
         listViewPlayer = (ListView) findViewById(R.id.list_player);
+        boxChatAnswer = (RecyclerView) findViewById(R.id.BoxChatAnswer);
+
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+//        manager.setReverseLayout(true);
+        boxChatAnswer.setLayoutManager(manager);
+        boxChatAnswer.setHasFixedSize(true);
+        RecyclerChatAdapter adapterRecycler = new RecyclerChatAdapter(message);
+        boxChatAnswer.setAdapter(adapterRecycler);
+
 
         CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list);
         listViewPlayer.setAdapter(adapter);
@@ -67,6 +97,9 @@ public class GameplayActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(!report){
+                    message.add("User reported`RED`");
+                    adapterRecycler.notifyDataSetChanged();
+                    boxChatAnswer.scrollToPosition(Objects.requireNonNull(boxChatAnswer.getAdapter()).getItemCount() - 1);
                     btnReport.setAlpha(0.8f);
                     btnReport.setEnabled(false);
                 }
@@ -101,7 +134,27 @@ public class GameplayActivity extends Activity {
             }
         });
 
+        btnSendAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mess = String.valueOf(editTextAnswer.getText());
+                message.add(mess);
+                adapterRecycler.notifyDataSetChanged();
+                boxChatAnswer.scrollToPosition(Objects.requireNonNull(boxChatAnswer.getAdapter()).getItemCount() - 1);
+            }
+        });
 
+        editTextAnswer.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
+                    btnSendAnswer.callOnClick();
+                    editTextAnswer.setText("");
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
