@@ -39,6 +39,10 @@ class Player {
 public class GameplayActivity extends Activity {
     ArrayList<Player> list = new ArrayList<>();
     ListView listViewPlayer;
+    boolean audio;
+    boolean report;
+    ImageButton btnReport;
+    ImageButton btnAudio;
     ImageButton btnPopUpInfo;
     ImageButton btnPopUpChat;
     @Override
@@ -49,12 +53,39 @@ public class GameplayActivity extends Activity {
 
         list.add(new Player("User 1", 10));
         list.add(new Player("User 2", 5));
+        audio = true;
+        report = false;
+        btnReport = (ImageButton) findViewById(R.id.btnReport);
+        btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnPopUpInfo = (ImageButton) findViewById(R.id.btnPopUpInfo);
         btnPopUpChat = (ImageButton) findViewById(R.id.btnPopUpChat);
         listViewPlayer = (ListView) findViewById(R.id.list_player);
 
         CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list);
         listViewPlayer.setAdapter(adapter);
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!report){
+                    btnReport.setAlpha(0.8f);
+                    btnReport.setEnabled(false);
+                }
+            }
+        });
+
+        btnAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(audio){
+                    btnAudio.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                    audio = false;
+                }
+                else{
+                    btnAudio.setImageResource(R.drawable.ic_baseline_volume_up_24);
+                    audio = true;
+                }
+            }
+        });
 
         btnPopUpInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +100,7 @@ public class GameplayActivity extends Activity {
                 showDialogChat();
             }
         });
+
 
 
     }

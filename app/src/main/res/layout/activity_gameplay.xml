@@ -52,38 +52,49 @@
                 android:gravity="center"
                 >
                 <ImageButton
+                    android:id="@+id/btnReport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_campaign_24"
+                    android:background="@null"
+                    android:padding="5dp"
                     android:layout_marginEnd="5dp"
                     />
                 <ImageButton
+                    android:id="@+id/btnAudio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@null"
                     android:src="@drawable/ic_baseline_volume_up_24"
+                    android:padding="5dp"
                     android:layout_marginEnd="5dp"
                     />
                 <ImageButton
                     android:id="@+id/btnPopUpInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@null"
                     android:src="@drawable/ic_baseline_report_24"
+                    android:padding="5dp"
                     android:layout_marginEnd="5dp"
                     />
                 <ImageButton
                     android:id="@+id/btnPopUpChat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="5dp"
                     android:src="@drawable/ic_baseline_question_answer_24"
                     />
 
             </LinearLayout>
-            <TextView
+            <ListView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
                 android:background="@drawable/list_border"
                 android:layout_marginStart="5dp"
+                android:drawSelectorOnTop="false"
                 />
 
             <LinearLayout
@@ -103,7 +114,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:src="@drawable/ic_baseline_border_color_24"
+                    android:src="@drawable/ic_baseline_pending_24"
+                    android:padding="5dp"
                     android:background="@drawable/list_border"
                     />
 

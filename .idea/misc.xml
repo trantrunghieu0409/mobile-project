@@ -53,9 +53,12 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_border_color_24.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.2985" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_pencil_background.xml" value="0.1515" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_pending_24.xml" value="0.1515" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_question_answer_24.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_report_24.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_sms_24.xml" value="0.2985" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_volume_off_24.xml" value="0.115" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2985" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2985" />
@@ -63,7 +66,7 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.17426545086119555" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_editprofile.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_friendlist.xml" value="0.24954710144927536" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.19844357976653695" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.25" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.358695652173913" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_login.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
@@ -80,6 +83,9 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_infor.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notidraw.xml" value="0.24954710144927536" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.24954710144927536" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/mipmap-anydpi-v26/ic_baseline_pencil.xml" value="0.1515" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/mipmap-anydpi-v26/ic_baseline_pencil_round.xml" value="0.1515" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1515" />
       </map>
     </option>
   </component>
