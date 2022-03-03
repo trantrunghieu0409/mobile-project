@@ -83,11 +83,12 @@
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:padding="2dp">
+
                 <TextView
                     android:id="@+id/txtUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Username"/>
+                    android:text="Username" />
 
                 <ImageView
                     android:layout_width="20dp"
