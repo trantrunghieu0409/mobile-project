@@ -155,7 +155,7 @@
             android:layout_marginTop="30dp"
             android:layout_gravity="center"
             android:text="INVITE FRIENDS"
-            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:drawableLeft="@drawable/ic_baseline_person_add_alt_1_24"
             android:textSize="12sp"/>
 
     </LinearLayout>

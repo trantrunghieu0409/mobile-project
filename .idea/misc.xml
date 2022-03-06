@@ -47,6 +47,7 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.24375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/list_border.xml" value="0.1921875" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/my_border.xml" value="0.2" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/profile_border.xml" value="0.2" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/smaller_border.xml" value="0.24375" />
@@ -55,7 +56,8 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_gameplay.xml" value="0.536" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_login.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_profile.xml" value="0.264" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_profile.xml" value="0.536" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_register.xml" value="0.536" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/create_room.xml" value="0.4" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_friend.xml" value="0.536" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_player.xml" value="0.2234375" />
