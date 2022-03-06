@@ -5,14 +5,30 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/imgAvatar"
-        android:layout_width="24dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:maxWidth="50dp"
-        android:src="@drawable/avatar_batman" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:maxWidth="50dp"
+            android:src="@drawable/avatar_batman" />
+
+        <ImageView
+            android:id="@+id/iconStatus"
+            android:layout_width="8sp"
+            android:layout_height="8sp"
+            android:layout_alignBottom="@+id/imgAvatar"
+            android:layout_toEndOf="@+id/imgAvatar"
+            android:layout_marginStart="-10dp"
+            android:layout_marginBottom="3dp"
+            android:src="@drawable/icon_online" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_gravity="center"
         android:layout_width="80dp"
@@ -22,7 +38,7 @@
             android:id="@+id/name_player"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="User01"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/Blue"
@@ -31,16 +47,38 @@
             android:id="@+id/point_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0 pts"
+            android:text="Active now"
             android:textSize="15sp"
             />
     </LinearLayout>
-    <ImageView
-        android:layout_gravity="center"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_baseline_mic_24"
-        android:layout_margin="5dp"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toStartOf="@+id/btnUnfriend"
+            android:background="@drawable/background_btn2"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_person_add_alt_1_24" />
+
+        <ImageView
+            android:id="@+id/btnUnfriend"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_baseline_block_24" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -21,92 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:text="Your profile"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textStyle="bold" />
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/profile_holder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="10dp">
-
-            <ImageView
-                android:id="@+id/imgAvatar"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_weight="3"
-                android:src="@drawable/avatar_batman"
-                android:padding="5dp"
-                android:layout_margin="5dp"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:orientation="vertical"
-                android:paddingStart="10dp"
-                android:paddingTop="15dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView android:layout_height="20dp"
-                        android:layout_width="20dp"
-                        android:src="@drawable/icon_user_small"
-                        android:layout_marginEnd="2dp"/>
-
-                    <TextView
-                        android:id="@+id/txtUsername"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="Username" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView android:layout_height="20dp"
-                        android:layout_width="20dp"
-                        android:src="@drawable/icon_achievement_small"
-                        android:layout_marginEnd="2dp"/>
-
-                    <TextView
-                        android:id="@+id/txtAchievements"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="Achievement" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/btnEditProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:clickable="true">
-
-                    <ImageView android:layout_height="20dp"
-                        android:layout_width="20dp"
-                        android:src="@drawable/ic_baseline_border_color_24"
-                        android:layout_marginEnd="2dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:text="@string/edit_clickable" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_height="wrap_content"/>
 
         <View
             android:layout_width="wrap_content"
@@ -147,7 +71,7 @@
                         <LinearLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:background="@drawable/smaller_border">
+                            android:background="@drawable/blue_background_border">
                             <TextView
                                 android:id="@+id/txtGames"
                                 android:layout_width="match_parent"
@@ -171,7 +95,7 @@
                         <LinearLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:background="@drawable/smaller_border">
+                            android:background="@drawable/blue_background_border">
                             <TextView
                                 android:id="@+id/txtWin"
                                 android:layout_width="match_parent"
@@ -195,7 +119,7 @@
                         <LinearLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:background="@drawable/smaller_border">
+                            android:background="@drawable/blue_background_border">
                             <TextView
                                 android:id="@+id/txtLose"
                                 android:layout_width="match_parent"
@@ -223,7 +147,7 @@
                         <LinearLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:background="@drawable/smaller_border">
+                            android:background="@drawable/blue_background_border">
                             <TextView
                                 android:id="@+id/txtRecord"
                                 android:layout_width="match_parent"
@@ -247,7 +171,7 @@
                         <LinearLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:background="@drawable/smaller_border">
+                            android:background="@drawable/blue_background_border">
                             <TextView
                                 android:id="@+id/txtWinPer"
                                 android:layout_width="match_parent"
@@ -271,7 +195,7 @@
                         <LinearLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:background="@drawable/smaller_border">
+                            android:background="@drawable/blue_background_border">
                             <TextView
                                 android:id="@+id/txtTimePlay"
                                 android:layout_width="match_parent"
@@ -297,7 +221,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SIGN OUT"
-            android:textSize="12dp"
             android:layout_marginTop="30dp"
             android:layout_gravity="center"/>
     </LinearLayout>

@@ -88,14 +88,13 @@
                     android:id="@+id/txtUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Username" />
+                    android:text="Username"/>
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_baseline_border_color_24"
                     android:layout_alignParentEnd="true"
-                    />
+                    android:src="@drawable/ic_baseline_border_color_24" />
             </RelativeLayout>
             <View
                 android:layout_width="wrap_content"
