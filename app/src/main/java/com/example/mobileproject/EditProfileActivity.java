@@ -1,7 +1,6 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,15 +11,14 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 
 public class EditProfileActivity extends Activity {
     RelativeLayout btnChangeAvatar, btnChangeUsername, btnChangeNation, btnChangePassword;
@@ -96,5 +94,10 @@ public class EditProfileActivity extends Activity {
 
             }
         });
-    }
-}
+        btnChangeNation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+}}
