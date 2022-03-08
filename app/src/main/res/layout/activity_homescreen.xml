@@ -23,7 +23,7 @@
 
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/btnLogin"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -31,7 +31,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/icon_login" />
+            android:src="@drawable/icon_login" />
 
 
     </RelativeLayout>
@@ -45,19 +45,25 @@
         android:background="@drawable/profile_border"
         >
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose avatar"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         >
 
         <ImageButton
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_play"
+            android:id="@+id/btnPrev"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@android:drawable/ic_media_play"
             android:rotation="180"
             android:layout_gravity="center"/>
 
@@ -69,10 +75,10 @@
             />
 
         <ImageButton
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_media_play"
+            android:id="@+id/btnNext"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@android:drawable/ic_media_play"
             android:layout_gravity="center"/>
     </LinearLayout>
 
@@ -86,12 +92,12 @@
         android:layout_marginBottom="30dp"
         >
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/name" />
+            android:text=""/>
         <Spinner
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"

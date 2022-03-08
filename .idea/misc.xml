@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/drawable/my_border.xml" value="0.2265" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_createroom.xml" value="0.1" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.1105072463768116" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.22826086956521738" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.2" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/create_room.xml" value="0.22826086956521738" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/homescreen.xml" value="0.2" />
