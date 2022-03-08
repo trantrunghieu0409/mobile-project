@@ -6,125 +6,50 @@
     tools:context=".GameplayActivity"
     android:orientation="vertical">
 
-    <LinearLayout
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:background="@drawable/list_border"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:src="@drawable/x"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+    <FrameLayout
+        android:id="@+id/holder_draw"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
         android:background="@drawable/list_border"
-        android:orientation="vertical">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:src="@drawable/x"
-            android:background="@android:color/transparent"
-            />
-
-    </LinearLayout>
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_margin="10dp">
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/holder_list_player"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:background="@drawable/list_border">
-
-            <ListView
-                android:id="@+id/list_player"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:background="@drawable/list_border"
+            />
+        <FrameLayout
+            android:id="@+id/holder_chat_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                >
-                <ImageButton
-                    android:id="@+id/btnReport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_campaign_24"
-                    android:background="@null"
-                    android:padding="5dp"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageButton
-                    android:id="@+id/btnAudio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:src="@drawable/ic_baseline_volume_up_24"
-                    android:padding="5dp"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageButton
-                    android:id="@+id/btnPopUpInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:src="@drawable/ic_baseline_report_24"
-                    android:padding="5dp"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageButton
-                    android:id="@+id/btnPopUpChat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_baseline_question_answer_24"
-                    />
-
-            </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/BoxChatAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:background="@drawable/list_border"
-                android:layout_marginStart="5dp"/>
-<!--                android:drawSelectorOnTop="false"-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
-                android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/editTextAnswer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/list_border"
-                    android:layout_marginEnd="5dp"
-                    />
-                <ImageButton
-                    android:id="@+id/btnSendAnswer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:src="@drawable/ic_baseline_pending_24"
-                    android:padding="5dp"
-                    android:background="@drawable/list_border"
-                    />
-
-            </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_marginStart="5dp"
+            />
 
     </LinearLayout>
+
+</LinearLayout>
