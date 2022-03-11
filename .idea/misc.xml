@@ -4,13 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/drawable/my_border.xml" value="0.2265" />
-        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_createroom.xml" value="0.1" />
-        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.1105072463768116" />
-        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.22826086956521738" />
-        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.2" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/create_room.xml" value="0.22826086956521738" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/homescreen.xml" value="0.2" />
+        <entry key="..\:/Users/123/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/drawable/background_btn.xml" value="0.13425925925925927" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/drawable/background_btn2.xml" value="0.13425925925925927" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/drawable/background_btn_white.xml" value="0.13425925925925927" />
@@ -39,9 +36,33 @@
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/layout/popup_infor.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/layout/popup_notidraw.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/drawable/red_background_border.xml" value="0.1" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_createroom.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_editprofile.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_friendlist.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_login.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_profile.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/activity_register.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/custom_item_chat.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/custom_list_country.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/custom_list_friend.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/custom_list_player.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/layout_box_chat.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/layout_chat_input.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/layout_list_player.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/layout_profile.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_answer.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_avatarlist.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_chat.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_countrylist.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_votekick.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/votekick_popup.xml" value="0.17552083333333332" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn2.xml" value="0.24375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn_white.xml" value="0.234" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_edittext.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_border_color_24.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.24375" />
@@ -52,14 +73,9 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.24375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/icon_offline.xml" value="0.234" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/icon_online.xml" value="0.234" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/list_border.xml" value="0.234" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/my_border.xml" value="0.2" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/profile_border.xml" value="0.2" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/red_background_border.xml" value="0.234" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/smaller_border.xml" value="0.24375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/white_background_border.xml" value="0.234" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_editprofile.xml" value="0.4" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_friendlist.xml" value="0.3857566765578635" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_gameplay.xml" value="0.536" />
@@ -69,43 +85,13 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/create_room.xml" value="0.4" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_friend.xml" value="0.536" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_player.xml" value="0.2234375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_solo_picture.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/draw_screen.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/homescreen.xml" value="0.536" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_profile.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_answer.xml" value="0.2234375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_avatarlist.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_chat.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_infor.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_notidraw.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.2234375" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/background_btn.xml" value="0.2085" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/background_btn2.xml" value="0.2085" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_border_color_24.xml" value="0.2085" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.2085" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/icon_offline.xml" value="0.162" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/icon_online.xml" value="0.162" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_createroom.xml" value="0.358695652173913" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.358695652173913" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_editprofile.xml" value="0.1762917933130699" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_friendlist.xml" value="0.1762917933130699" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.33" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.1828125" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_profile.xml" value="0.16530797101449277" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_register.xml" value="0.358695652173913" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_item_chat.xml" value="0.1762917933130699" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_list_friend.xml" value="0.1762917933130699" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_list_player.xml" value="0.1762917933130699" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_box_chat.xml" value="0.1828125" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_chat.xml" value="0.1828125" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_chat_input.xml" value="0.1828125" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_list_player.xml" value="0.1828125" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_profile.xml" value="0.358695652173913" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_answer.xml" value="0.16666666666666666" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_avatarlist.xml" value="0.358695652173913" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_chat.xml" value="0.1762917933130699" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_info.xml" value="0.1762917933130699" />
       </map>
     </option>
   </component>
@@ -118,7 +104,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.536" />
+        <option name="scale" value="0.3333333333333333" />
       </ProjectState>
     </option>
   </component>

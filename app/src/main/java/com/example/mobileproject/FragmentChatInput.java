@@ -1,18 +1,23 @@
 package com.example.mobileproject;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 
@@ -60,11 +65,38 @@ public class FragmentChatInput extends Fragment {
         audio = true;
         report = false;
         btnReport.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if(!report){
-                    gameplayActivity.onMsgFromFragToMain("MESS-FLAG", "User reported`RED`");
-                    btnReport.setEnabled(false);
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View popupVoteKick = inflater.inflate(R.layout.popup_votekick, null);
+                    int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                    boolean focusable = true; // tap outside to dismiss this pop up
+                    final PopupWindow popupWindow = new PopupWindow(popupVoteKick, width, height, focusable);
+
+                    // show a pop up
+                    popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
+//
+                    final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
+                    final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
+
+                    btnVoteKick.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            gameplayActivity.onMsgFromFragToMain("MESS-FLAG", "User reported`RED`");
+                            btnReport.setEnabled(false);
+                            popupWindow.dismiss();
+                        }
+                    });
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popupWindow.dismiss();
+                        }
+                    });
+
                 }
             }
         });
