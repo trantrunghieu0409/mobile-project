@@ -50,8 +50,10 @@
             android:maxHeight="60dp"
             android:scaleType="fitCenter"
             android:src="@drawable/pencil"
+            android:onClick="setDraw"
             />
         <ImageButton
+            android:id="@+id/btnEraser"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:adjustViewBounds="true"
@@ -59,6 +61,7 @@
             android:maxHeight="60dp"
             android:scaleType="fitCenter"
             android:src="@drawable/eraser"
+            android:onClick="setEraser"
             />
         <ImageButton
             android:layout_height="wrap_content"
@@ -77,45 +80,53 @@
                 <ImageButton
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/Orange"/>
+                    android:background="@color/Red"
+                    android:onClick="setColorRed"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/background_color"/>
+                    android:background="@color/Orange"
+                    android:onClick="setColorOrange"/>
                 <ImageButton
                     android:layout_marginLeft="10dp"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/Brown"/>
+                    android:background="@color/Yellow"
+                    android:onClick="setColorYellow"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/dimgray"/>
+                    android:background="@color/Green"
+                    android:onClick="setColorGreen"/>
 
             </TableRow>
             <TableRow>
                 <ImageButton
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/Yellow"/>
+                    android:background="@color/Blue"
+                    android:onClick="setColorBlue"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/Blue"/>
+                    android:background="@color/purple_700"
+                    android:onClick="setColorPurple"/>
                 <ImageButton
                     android:layout_marginLeft="10dp"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/black"/>
+                    android:background="@color/dimgray"
+                    android:onClick="setColorGray"/>
                 <ImageButton
                     android:layout_marginLeft="5dp"
                     android:layout_height="45dp"
                     android:layout_width="45dp"
-                    android:background="@color/Green"/>
+                    android:background="@color/Brown"
+                    android:onClick="setColorBrown"/>
 
             </TableRow>
         </TableLayout>

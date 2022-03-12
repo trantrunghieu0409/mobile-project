@@ -19,7 +19,7 @@ import com.example.mobileproject.draw_config.Config;
 
 public class DrawActivity extends Activity {
     private ImageView i;
-    private int thickness = 1;
+    private int thickness = 10;
     private SeekBar thick;
     private int PaintColor = Color.argb(0xFF, 0, 0, 0);
     private int prevX = 0;
@@ -64,39 +64,100 @@ public class DrawActivity extends Activity {
         }
         c = new Canvas(b);
         i.setImageBitmap(b);
-        switch(e.getActionMasked()) {
-            case MotionEvent.ACTION_MOVE:
-                switch(penMode) {
-                    case DRAW:
-                        synchronized (new Object()){
-                            if (returnShape != null) {
-                                returnShape.interrupt();
-                            }
-                            p.setColor(PaintColor);
-                            if (prevX != 0) {
-                                p.setStrokeWidth((float) thickness);
-                                c.drawLine((float) prevX, (float) prevY, e.getX(), e.getY() - Config.offset, p);
-                            }
-                            prevX = (int) e.getX();
-                            prevY = (int) (e.getY() - Config.offset);
-                            Log.d("Doot", Integer.toString(Config.offset));
+        synchronized (new Object()){
+            if (returnShape != null) {
+                returnShape.interrupt();
+            }
+            switch(penMode) {
+                case DRAW:
+                    p.setColor(PaintColor);
+                    break;
+                case ERASE:
+                    p.setColor(Color.WHITE);
+                    break;
+                case ORANGE:
+                    p.setColor(Color.rgb(255,165,0));
+                    break;
+                case RED:
+                    p.setColor(Color.RED);
+                    break;
+                case YELLOW:
+                    p.setColor(Color.YELLOW);
+                    break;
+                case GREEN:
+                    p.setColor(Color.GREEN);
+                case BLUE:
+                    p.setColor(Color.BLUE);
+                case PURPLE:
+                    p.setColor(Color.rgb(128,0,128));
+                    break;
+                case GRAY:
+                    p.setColor(Color.GRAY);
+                    break;
+                case BROWN:
+                    p.setColor(Color.rgb(148,83,5));
+                    break;
+            }
+            if (prevX != 0) {
+                p.setStrokeWidth((float) thickness);
+                c.drawLine((float) prevX, (float) prevY, e.getX(), e.getY() - Config.offset, p);
+            }
+            prevX = (int) e.getX();
+            prevY = (int) (e.getY() - Config.offset);
+            Log.d("Doot", Integer.toString(Config.offset));
 
-                            returnShape = new Thread() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.sleep(100);
-                                        prevX = 0;
-                                    } catch (InterruptedException e) {
-                                    }
-                                }
-                            };
-                            returnShape.start();
-                        }
-                        break;
-
+            returnShape = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(100);
+                        prevX = 0;
+                    } catch (InterruptedException e) {
+                    }
                 }
+            };
+            returnShape.start();
         }
         return false;
+    }
+    public void setEraser(View v){
+        penMode = Config.PenType.ERASE;
+        thickness = 30;
+    }
+    public void setDraw(View v){
+        penMode = Config.PenType.DRAW;
+        thickness = 10;
+    }
+    public void setColorOrange(View v){
+        penMode = Config.PenType.ORANGE;
+        thickness = 10;
+    }
+    public void setColorRed(View v){
+        penMode = Config.PenType.RED;
+        thickness = 10;
+    }
+    public void setColorYellow(View v){
+        penMode = Config.PenType.YELLOW;
+        thickness = 10;
+    }
+    public void setColorGreen(View v){
+        penMode = Config.PenType.GREEN;
+        thickness = 10;
+    }
+    public void setColorBlue(View v){
+        penMode = Config.PenType.BLUE;
+        thickness = 10;
+    }
+    public void setColorPurple(View v){
+        penMode = Config.PenType.PURPLE;
+        thickness = 10;
+    }
+    public void setColorGray(View v){
+        penMode = Config.PenType.GRAY;
+        thickness = 10;
+    }
+    public void setColorBrown(View v){
+        penMode = Config.PenType.BROWN;
+        thickness = 10;
     }
 }

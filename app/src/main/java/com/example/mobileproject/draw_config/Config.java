@@ -5,7 +5,16 @@ import android.app.Activity;
 public final class Config extends Activity {
 
     public enum PenType {
-        DRAW
+        DRAW,
+        ERASE,
+        RED,
+        ORANGE,
+        YELLOW,
+        GREEN,
+        BLUE,
+        PURPLE,
+        GRAY,
+        BROWN
     }
 
     public static int height;
