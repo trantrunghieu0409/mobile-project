@@ -13,9 +13,14 @@
     <string name="it_s_your_turn">It\'s your turn!</string>
     <string name="draw_the_word">Draw the word:</string>
     <string name="draw">Draw</string>
-    <string name="answer">Answer</string>
+    <string name="interval">Interval</string>
     <string name="ok">OK</string>
-    <string name="noti">Noti</string>
+    <string name="new_turn">New turn!</string>
+    <string name="it_s_the_turn_of">It\'s the turn of</string>
+    <string name="the_answer_was">The answer was:</string>
+    <string name="take_a_while_to_relax">Take a while to relax</string>
+    <string name="waiting_for_player">Waiting for player</string>
+    <string name="waiting">Waiting</string>
     <string-array name="languages_array">
         <item>Mercury</item>
         <item>Venus</item>
