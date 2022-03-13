@@ -24,7 +24,7 @@
 <!--    </LinearLayout>-->
 
     <FrameLayout
-        android:id="@+id/holder_draw"
+        android:id="@+id/holder_box_draw"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"

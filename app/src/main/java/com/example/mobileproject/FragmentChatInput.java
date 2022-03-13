@@ -133,6 +133,7 @@ public class FragmentChatInput extends Fragment {
             @Override
             public void onClick(View view) {
                 String mess = String.valueOf(editTextAnswer.getText());
+                editTextAnswer.setText("");
                 gameplayActivity.onMsgFromFragToMain("MESS-FLAG", mess);
             }
         });
@@ -142,7 +143,6 @@ public class FragmentChatInput extends Fragment {
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
                     btnSendAnswer.callOnClick();
-                    editTextAnswer.setText("");
                     return true;
                 }
                 return false;

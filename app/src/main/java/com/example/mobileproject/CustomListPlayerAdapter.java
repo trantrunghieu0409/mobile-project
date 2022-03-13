@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,6 +39,22 @@ public class CustomListPlayerAdapter extends BaseAdapter {
             row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
         }
         else row = convertView;
+        ImageView iconTopScore = (ImageView) row.findViewById(R.id.iconTopScore);
+        switch (position){
+            case 0:
+                iconTopScore.setImageResource(R.drawable.icon_winner1);
+                break;
+            case 1:
+                iconTopScore.setImageResource(R.drawable.icon_winner2);
+                break;
+            case 2:
+                iconTopScore.setImageResource(R.drawable.icon_winner3);
+                break;
+            default:
+                iconTopScore.setImageResource(0);
+                break;
+
+        }
         TextView name = (TextView) row.findViewById(R.id.name_player);
         TextView point = (TextView) row.findViewById(R.id.point_player);
         Player player = (Player) getItem(position);

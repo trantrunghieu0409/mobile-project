@@ -71,7 +71,8 @@ public class FragmentListPlayer extends Fragment {
         ArrayList<Player> list = new ArrayList<>();
         final ListView listViewPlayer = (ListView) layout_list_player.findViewById(R.id.list_player);;
 
-
+        list.add(new Player("User 4", 20));
+        list.add(new Player("User 3", 15));
         list.add(new Player("User 1", 10));
         list.add(new Player("User 2", 5));
         CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list);

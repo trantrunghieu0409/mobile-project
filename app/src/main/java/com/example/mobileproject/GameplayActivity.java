@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft;
+    FragmentDrawBox FragmentDrawBox;
     FragmentListPlayer FragmentListPlayer;
     FragmentChatInput FragmentChatInput;
     FragmentBoxChat FragmentBoxChat;
@@ -23,6 +24,11 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         setContentView(R.layout.activity_gameplay);
 
         ft = getSupportFragmentManager().beginTransaction();
+
+        FragmentDrawBox = FragmentDrawBox.newInstance(true);
+        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+
+
         FragmentListPlayer = FragmentListPlayer.newInstance(true);
         ft.replace(R.id.holder_list_player, FragmentListPlayer);
 
