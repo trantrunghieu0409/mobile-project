@@ -70,9 +70,11 @@
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_countrylist.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_votekick.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/votekick_popup.xml" value="0.17552083333333332" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_beatiful_button.xml" value="0.2175" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn2.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_edittext.xml" value="0.24375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_title.xml" value="0.2175" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_border_color_24.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.24375" />
@@ -84,7 +86,9 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/my_border.xml" value="0.2" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/profile_border.xml" value="0.2" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/red_background_border.xml" value="0.2175" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/smaller_border.xml" value="0.24375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/a_test.xml" value="0.4" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_createroom.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_drawscreen.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_editprofile.xml" value="0.4" />
@@ -122,7 +126,7 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_infor.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_notidraw.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.2234375" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_shareinvite.xml" value="0.2234375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_shareinvite.xml" value="0.3333333333333333" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_sharestreamer.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_votekick.xml" value="0.2234375" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.3335" />
