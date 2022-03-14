@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="3dp"
+    android:paddingTop="3dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -15,6 +17,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:maxWidth="50dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/avatar_batman" />
         <ImageView
             android:id="@+id/iconTopScore"

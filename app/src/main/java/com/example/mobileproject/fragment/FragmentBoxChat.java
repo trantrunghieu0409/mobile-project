@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,10 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobileproject.FragmentCallbacks;
+import com.example.mobileproject.GameplayActivity;
+import com.example.mobileproject.R;
+import com.example.mobileproject.custom_adapter.RecyclerChatAdapter;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FragmentBoxChat extends Fragment implements FragmentCallbacks{
+public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity;
     Context context = null;
     ArrayList<String> message = new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class FragmentDrawBox extends Fragment implements FragmentCallbacks{
+import com.example.mobileproject.FragmentCallbacks;
+import com.example.mobileproject.GameplayActivity;
+import com.example.mobileproject.R;
+
+public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity;
     Context context = null;
 

@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.custom_adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.mobileproject.R;
+import com.example.mobileproject.module.Player;
 
 import java.util.ArrayList;
 

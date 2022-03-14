@@ -1,7 +1,6 @@
-package com.example.mobileproject;
+package com.example.mobileproject.fragment;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -17,8 +16,10 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+
+import com.example.mobileproject.GameplayActivity;
+import com.example.mobileproject.R;
 
 
 public class FragmentChatInput extends Fragment {

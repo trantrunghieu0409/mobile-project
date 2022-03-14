@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,31 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.mobileproject.GameplayActivity;
+import com.example.mobileproject.R;
+import com.example.mobileproject.custom_adapter.CustomListPlayerAdapter;
+import com.example.mobileproject.module.Player;
+
 import java.util.ArrayList;
 
-class Player {
-    private String name;
-    private int point;
-    public Player(String name, int point){
-        this.name = name;
-        this.point = point;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public void setPoint(int point) {
-        this.point = point;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public String getName() {
-        return name;
-    }
-}
 
 public class FragmentListPlayer extends Fragment {
     GameplayActivity gameplayActivity;

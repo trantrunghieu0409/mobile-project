@@ -10,13 +10,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 
-
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft;
-    FragmentDrawBox FragmentDrawBox;
-    FragmentListPlayer FragmentListPlayer;
-    FragmentChatInput FragmentChatInput;
-    FragmentBoxChat FragmentBoxChat;
+    com.example.mobileproject.fragment.FragmentDrawBox FragmentDrawBox;
+    com.example.mobileproject.fragment.FragmentListPlayer FragmentListPlayer;
+    com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
+    com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
