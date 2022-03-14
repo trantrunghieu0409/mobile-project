@@ -40,6 +40,12 @@
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginTop="40dp"/>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:src="@drawable/img_people_connect"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
