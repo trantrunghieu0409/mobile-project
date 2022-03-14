@@ -1,13 +1,29 @@
 package com.example.mobileproject;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+
+import com.example.mobileproject.custom_adapter.CustomChatPopupApdater;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
@@ -42,26 +58,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     @Override
     public void onMsgFromFragToMain(String sender, String strValue) {
-        if (sender.equals("INFO-FLAG")) {
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.popup_info);
-            dialog.show();
-        }
-
-        if (sender.equals("CHAT-FLAG")) {
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.popup_chat);
-
-            ImageView btnClose = dialog.findViewById(R.id.btnClosePopUpChat);
-            btnClose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-        }
-
         if (sender.equals("MESS-FLAG")) {
             FragmentBoxChat.onMsgFromMainToFragment(strValue);
         }

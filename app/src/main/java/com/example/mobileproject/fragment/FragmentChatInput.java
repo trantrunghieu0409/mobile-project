@@ -1,5 +1,6 @@
 package com.example.mobileproject.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 
 
@@ -20,6 +23,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
+import com.example.mobileproject.custom_adapter.CustomChatPopupApdater;
+
+import java.util.ArrayList;
 
 
 public class FragmentChatInput extends Fragment {
@@ -79,7 +85,7 @@ public class FragmentChatInput extends Fragment {
 
                     // show a pop up
                     popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
-//
+
                     final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
                     final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
 
@@ -119,14 +125,77 @@ public class FragmentChatInput extends Fragment {
         btnPopUpInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameplayActivity.onMsgFromFragToMain("INFO-FLAG", "info_popup");
+
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View popupInfo = inflater.inflate(R.layout.popup_info, null);
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                final PopupWindow popupWindow = new PopupWindow(popupInfo, width, height, true);
+
+                popupWindow.showAtLocation(view,Gravity.CENTER, 0 , 0);
             }
         });
 
         btnPopUpChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameplayActivity.onMsgFromFragToMain("CHAT-FLAG", "chat_popup");
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View popupChat = inflater.inflate(R.layout.popup_chat, null);
+                int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                final PopupWindow popupWindow = new PopupWindow(popupChat, width, height, true);
+
+
+
+                ListView boxchat = popupChat.findViewById(R.id.box_chat_popup);
+                ImageView btnClose = popupChat.findViewById(R.id.btnClosePopUpChat);
+                final ImageButton btnSendChat =  (ImageButton) popupChat.findViewById(R.id.btnSendChat);
+
+                final EditText editTextChat = (EditText) popupChat.findViewById(R.id.editTextChat);
+
+                editTextChat.requestFocus();
+                ArrayList<String> listMess = new ArrayList<>();
+                listMess.add("Hello");
+                listMess.add("Hi");
+                listMess.add("HiHi");
+
+
+                CustomChatPopupApdater customChatPopupApdater = new CustomChatPopupApdater(listMess);
+                boxchat.setAdapter(customChatPopupApdater);
+
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupWindow.dismiss();
+                    }
+                });
+
+                btnSendChat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String mess = String.valueOf(editTextChat.getText());
+                        editTextChat.setText("");
+                        listMess.add(mess);
+                        customChatPopupApdater.notifyDataSetChanged();
+                        boxchat.setSelection(boxchat.getCount() - 1);
+                    }
+                });
+
+                editTextChat.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                        if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
+                            btnSendChat.callOnClick();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                popupWindow.showAtLocation(view,Gravity.CENTER, 0 , 0);
+
+
             }
         });
 
