@@ -20,6 +20,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
     Spinner numPlayerSpinner;
     Spinner maxPointSpinner;
     TextView btnBack;
+    TextView txtTopic;
     ImageButton btnNext;
     ImageButton btnPrev;
     CircularImageView imgTopic;
@@ -31,6 +32,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_createroom);
 
         imgTopic = (CircularImageView) findViewById(R.id.topic);
+        txtTopic = (TextView) findViewById(R.id.txtTopic);
 
         btnNext = (ImageButton) findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +42,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                     pos = 0;
                 }
                 imgTopic.setImageResource(topicImgs[pos]);
+                txtTopic.setText(topics[pos]);
             }
         });
         btnPrev = (ImageButton) findViewById(R.id.btnPrev);
@@ -52,6 +55,9 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                 imgTopic.setImageResource(topicImgs[pos]);
             }
         });
+
+        String name = getIntent().getStringExtra("name");
+        int avatar = getIntent().getIntExtra("avatar", 0);
 
         numPlayerSpinner = (Spinner) findViewById(R.id.players_spinner);
         ArrayAdapter<String> playerAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, numPlayers);

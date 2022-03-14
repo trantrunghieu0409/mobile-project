@@ -28,7 +28,7 @@ public class FirebaseAuthentication {
         );
         return user[0];
     }
-    public FirebaseUser login(String email, String password){
+    public FirebaseUser loginWithEmailAndPassword(String email, String password){
         final FirebaseUser[] user = new FirebaseUser[1];
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
