@@ -58,7 +58,7 @@ public class FragmentListPlayer extends Fragment {
         list.add(new Player("User 3", 15));
         list.add(new Player("User 1", 10));
         list.add(new Player("User 2", 5));
-        CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list);
+        CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list,getContext());
         listViewPlayer.setAdapter(adapter);
 
 
