@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inactive!"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        />
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_baseline_sad_face_24"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        />
+
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User01"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="has lost his turn"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        />
+
+</LinearLayout>

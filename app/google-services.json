@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "263980318876",
+    "project_id": "drawguess-79bb9",
+    "storage_bucket": "drawguess-79bb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263980318876:android:6202643c57439bf3552d59",
+        "android_client_info": {
+          "package_name": "com.example.mobileproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263980318876-lbq67urdbjkmcub53u64p4nreirhj1a0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1ghon8ervTlPaxdtKSX6uybotAlOUBuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263980318876-lbq67urdbjkmcub53u64p4nreirhj1a0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

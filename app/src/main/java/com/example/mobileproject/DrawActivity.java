@@ -104,6 +104,7 @@ public class DrawActivity extends Activity {
             }
             prevX = (int) e.getX();
             prevY = (int) (e.getY() - Config.offset);
+            System.out.println(e.getX() + "," + e.getY());
             Log.d("Doot", Integer.toString(Config.offset));
 
             returnShape = new Thread() {
