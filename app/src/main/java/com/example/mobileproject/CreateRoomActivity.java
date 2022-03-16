@@ -1,9 +1,11 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
     TextView txtTopic;
     ImageButton btnNext;
     ImageButton btnPrev;
+    Button btnCreate;
     CircularImageView imgTopic;
     int pos = 0;
 
@@ -66,6 +69,21 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
         maxPointSpinner = (Spinner) findViewById(R.id.points_spinner);
         ArrayAdapter<String> pointAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, maxPoints);
         maxPointSpinner.setAdapter(pointAdapter);
+
+        btnCreate = (Button) findViewById(R.id.btnCreate);
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
+                playIntent.putExtra("name", name);
+                playIntent.putExtra("avatar", avatar);
+                playIntent.putExtra("topic", topics[pos]);
+                playIntent.putExtra("numPlayer", numPlayerSpinner.getSelectedItem().toString());
+                playIntent.putExtra("maxPoint", maxPointSpinner.getSelectedItem().toString());
+                startActivity(playIntent);
+                finish();
+            }
+        });
 
         btnBack = (TextView) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);

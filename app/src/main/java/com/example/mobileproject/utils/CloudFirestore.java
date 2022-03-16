@@ -12,8 +12,13 @@ import java.util.Random;
 
 public class CloudFirestore {
     FirebaseFirestore db;
-    CloudFirestore(){
+    static final CloudFirestore INSTANCE = new CloudFirestore();
+
+    private CloudFirestore(){
         db = FirebaseFirestore.getInstance();
+    }
+    public static CloudFirestore getInstance(){
+        return INSTANCE;
     }
     public String createRoom(String userID){
         // generate RoomID
@@ -24,7 +29,7 @@ public class CloudFirestore {
         Map<String, Object> initPoint = new HashMap<>();
         initPoint.put("playerScore", 0);
         //add to firestore
-        db.collection("GamePlay").document(generatedString)
+        db.collection("ListofRooms").document(generatedString)
                 .collection("Players").document(userID).set(initPoint).addOnSuccessListener(
                 new OnSuccessListener<Void>() {
                     @Override
