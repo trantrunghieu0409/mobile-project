@@ -3,22 +3,19 @@ package com.example.mobileproject.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.mobileproject.models.Room;
+import com.example.mobileproject.models.Player;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 public class CloudFirestore {
     public static FirebaseFirestore db;
@@ -61,6 +58,9 @@ public class CloudFirestore {
         }
 
         return null;
+    }
+    public static Task<QuerySnapshot> getListofRooms(){
+        return db.collection("ListofRooms").get();
     }
 
 
