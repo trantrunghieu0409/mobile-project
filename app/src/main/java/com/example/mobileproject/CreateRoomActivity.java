@@ -88,6 +88,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                 Room room = new Room(nPoints[maxPointSpinner.getSelectedItemPosition()], nPlayers[numPlayerSpinner.getSelectedItemPosition()], topics[pos], host);
                 room.autoCreateRoomID();
                 CloudFirestore.sendData("ListofRooms", room.getRoomID(), room);
+                playIntent.putExtra("IDRoom",room.getRoomID());
                 startActivity(playIntent);
                 finish();
             }

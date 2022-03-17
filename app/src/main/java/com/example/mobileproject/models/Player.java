@@ -5,6 +5,7 @@ public class Player {
     private String name;
     private int point;
     int avatar;
+    public Player(){}
     public Player(String name, int point, int avatar) {
         this.name = name;
         this.point = point;
@@ -25,5 +26,7 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public int getAvatar(){return avatar;}
 
 }

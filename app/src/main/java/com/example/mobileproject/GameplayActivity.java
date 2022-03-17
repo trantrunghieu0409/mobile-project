@@ -16,7 +16,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentListPlayer FragmentListPlayer;
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
-    
+    String IDRoom;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +40,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
 
         ft.commit();
+
+//        IDRoom = getIntent().getExtras().get("IDRoom").toString();
+//        //Send IDRoom
+//        FragmentListPlayer.onMsgFromMainToFragment(IDRoom);
     }
 
     @Override
@@ -46,6 +51,5 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         if (sender.equals("MESS-FLAG")) {
             FragmentBoxChat.onMsgFromMainToFragment(strValue);
         }
-
     }
 }

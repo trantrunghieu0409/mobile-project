@@ -11,6 +11,7 @@ public class Room {
     ArrayList<Player>players;
     int maxPlayer;
     String roomID;
+    public Room(){}
 
     public Room(String roomID, int maxPoint, int maxPlayer, String topic, ArrayList<Player> players) {
         this.roomID = roomID;
