@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.custom_adapter.CustomListPlayerAdapter;
+import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Player;
 
 import java.util.ArrayList;
@@ -54,10 +55,10 @@ public class FragmentListPlayer extends Fragment {
         ArrayList<Player> list = new ArrayList<>();
         final ListView listViewPlayer = (ListView) layout_list_player.findViewById(R.id.list_player);;
 
-        list.add(new Player("User 4", 20));
-        list.add(new Player("User 3", 15));
-        list.add(new Player("User 1", 10));
-        list.add(new Player("User 2", 5));
+        list.add(new Player("User 4", 20, Config.Avatars[0]));
+        list.add(new Player("User 3", 15, Config.Avatars[1]));
+        list.add(new Player("User 1", 10, Config.Avatars[2]));
+        list.add(new Player("User 2", 5, Config.Avatars[0]));
         CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list,getContext());
         listViewPlayer.setAdapter(adapter);
 

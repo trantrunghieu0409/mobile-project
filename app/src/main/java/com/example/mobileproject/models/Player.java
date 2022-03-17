@@ -1,13 +1,14 @@
 package com.example.mobileproject.models;
 
-import com.google.gson.Gson;
 
 public class Player {
     private String name;
     private int point;
-    public Player(String name, int point) {
+    int avatar;
+    public Player(String name, int point, int avatar) {
         this.name = name;
         this.point = point;
+        this.avatar = avatar;
     }
     public void setName(String name) {
         this.name = name;
@@ -23,19 +24,6 @@ public class Player {
 
     public String getName() {
         return name;
-    }
-
-    public String toJson(){
-        Gson gson = new Gson();
-        String json = gson.toJson(new Player(name,point));
-        return json;
-
-    }
-    public Player fromJson(String json){
-        Gson gson = new Gson();
-        Player player = gson.fromJson(json, Player.class);
-        return player;
-
     }
 
 }

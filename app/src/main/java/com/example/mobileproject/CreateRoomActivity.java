@@ -12,13 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.Player;
+import com.example.mobileproject.models.Room;
+import com.example.mobileproject.utils.CloudFirestore;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 public class CreateRoomActivity extends Activity implements View.OnClickListener {
     String[] numPlayers = {"5 players", "10 players", "15 players", "20 players"};
     String[] maxPoints = {"120 Points", "200 Points", "300 Points", "400 Points"};
     String[] topics = {"Animal", "Household", "Transportation"};
-    Integer[] topicImgs = {R.drawable.topic1,R.drawable.topic2,R.drawable.topic3};
+    int[] nPlayers = {5, 10, 15, 20};
+    int[] nPoints = {120, 200, 300, 400};
+    Integer[] topicImgs = Config.Topics;
     Spinner numPlayerSpinner;
     Spinner maxPointSpinner;
     TextView btnBack;
@@ -28,6 +34,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
     Button btnCreate;
     CircularImageView imgTopic;
     int pos = 0;
+    String name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +66,8 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
             }
         });
 
-        String name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("name").toString();
+        System.out.println(name);
         int avatar = getIntent().getIntExtra("avatar", 0);
 
         numPlayerSpinner = (Spinner) findViewById(R.id.players_spinner);
@@ -75,11 +83,11 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(View view) {
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
-                playIntent.putExtra("name", name);
-                playIntent.putExtra("avatar", avatar);
-                playIntent.putExtra("topic", topics[pos]);
-                playIntent.putExtra("numPlayer", numPlayerSpinner.getSelectedItem().toString());
-                playIntent.putExtra("maxPoint", maxPointSpinner.getSelectedItem().toString());
+                System.out.println(name);
+                Player host = new Player(name, 0, avatar);
+                Room room = new Room(nPoints[maxPointSpinner.getSelectedItemPosition()], nPlayers[numPlayerSpinner.getSelectedItemPosition()], topics[pos], host);
+                room.autoCreateRoomID();
+                CloudFirestore.sendData("ListofRooms", room.getRoomID(), room);
                 startActivity(playIntent);
                 finish();
             }

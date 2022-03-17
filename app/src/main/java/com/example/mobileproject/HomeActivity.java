@@ -14,13 +14,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.mobileproject.draw_config.Config;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends Activity {
     String[] languages = {"Vietnamese", "English"};
-    Integer[] avatars = {R.drawable.avatar,R.drawable.avatar1, R.drawable.avatar2, R.drawable.avatar3, R.drawable.avatar_batman};
+    Integer[] avatars = Config.Avatars;
 
     Button btnPlay;
     Button btnCreateRoom;
@@ -87,7 +88,7 @@ public class HomeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
-                roomIntent.putExtra("name", edtName.getText());
+                roomIntent.putExtra("name", edtName.getText().toString());
                 roomIntent.putExtra("avatar", avatars[pos]);
                 startActivityForResult(roomIntent, 0);
             }

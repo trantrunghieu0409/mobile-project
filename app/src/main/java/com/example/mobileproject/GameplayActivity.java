@@ -16,6 +16,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentListPlayer FragmentListPlayer;
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
+    
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
