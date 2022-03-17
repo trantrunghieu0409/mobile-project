@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.mobileproject.module.Player;
+import com.example.mobileproject.models.Player;
 
 import java.util.ArrayList;
 

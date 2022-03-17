@@ -1,6 +1,5 @@
 package com.example.mobileproject.models;
 
-import com.example.mobileproject.module.Player;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 

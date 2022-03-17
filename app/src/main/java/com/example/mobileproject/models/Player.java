@@ -1,10 +1,7 @@
-package com.example.mobileproject.module;
+package com.example.mobileproject.models;
 
-import com.example.mobileproject.models.Room;
 import com.google.gson.Gson;
 
-import java.util.HashMap;
-import org.json.JSONObject;
 public class Player {
     private String name;
     private int point;

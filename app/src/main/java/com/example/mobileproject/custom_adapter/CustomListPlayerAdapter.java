@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.module.Player;
+import com.example.mobileproject.models.Player;
 
 import java.util.ArrayList;
 

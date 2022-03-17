@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.custom_adapter.CustomListPlayerAdapter;
-import com.example.mobileproject.module.Player;
+import com.example.mobileproject.models.Player;
 
 import java.util.ArrayList;
 
