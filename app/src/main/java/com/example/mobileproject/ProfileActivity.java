@@ -1,6 +1,5 @@
 package com.example.mobileproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,7 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-public class ProfileActivity extends FragmentActivity implements MainCallbacks{
+import com.example.mobileproject.fragment.FragmentProfile;
+import com.example.mobileproject.fragment.MainCallbacks;
+
+public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft; FragmentProfile fragmentProfile;
 
     @Override
