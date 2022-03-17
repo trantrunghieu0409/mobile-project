@@ -24,24 +24,27 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class FragmentListPlayer extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity;
     Context context = null;
-    String IDRoom = "cjhmdyymjg";
-    ArrayList<Player> list = new ArrayList<>();
+
+    ArrayList<Player> list;
     public static FragmentListPlayer newInstance(boolean isListPlayer) {
         Bundle args = new Bundle();
         FragmentListPlayer fragment = new FragmentListPlayer();
         args.putBoolean("isListPlayer", isListPlayer);
         fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        list = new ArrayList<>();
+
         try{
             context = getActivity();
             gameplayActivity = (GameplayActivity) getActivity();
@@ -57,21 +60,11 @@ public class FragmentListPlayer extends Fragment implements FragmentCallbacks {
         LinearLayout layout_list_player = (LinearLayout) inflater.inflate(R.layout.layout_list_player, null);
 
 
+        DocumentReference documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
 
+        list = gameplayActivity.room.getPlayers();
         final ListView listViewPlayer = (ListView) layout_list_player.findViewById(R.id.list_player);
-        DocumentReference documentReference = CloudFirestore.getData("ListofRooms",IDRoom);
         CustomListPlayerAdapter adapter = new CustomListPlayerAdapter(list,getContext());
-
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Room room = documentSnapshot.toObject(Room.class);
-                System.out.println(room.getPlayers().get(0).getName());
-                list.addAll(room.getPlayers());
-                adapter.notifyDataSetChanged();
-
-            }
-        });
 
 //        list.add(new Player("User 4", 20, Config.Avatars[0]));
 //        list.add(new Player("User 3", 15, Config.Avatars[1]));
@@ -85,6 +78,6 @@ public class FragmentListPlayer extends Fragment implements FragmentCallbacks {
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
-        this.IDRoom = strValue;
+        gameplayActivity.roomID = strValue;
     }
 }

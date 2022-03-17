@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class CloudFirestore {
-    static FirebaseFirestore db;
+    public static FirebaseFirestore db;
     static final CloudFirestore INSTANCE = new CloudFirestore();
 
     private CloudFirestore(){
@@ -51,13 +51,13 @@ public class CloudFirestore {
         return feedback[0];
     }
 
-    public static DocumentReference getData(String collectionName, Object document) {
+    public static DocumentReference getData(String collectionName, String document) {
         try {
-            return db.collection(collectionName).document(String.valueOf(document));
+            return db.collection(collectionName).document(document);
         }
         catch (Exception e) {
             System.out.println(collectionName + " - " +
-                    String.valueOf(document) + " not found!");
+                    document + " not found!");
         }
 
         return null;

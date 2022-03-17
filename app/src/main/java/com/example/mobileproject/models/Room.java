@@ -11,7 +11,7 @@ public class Room {
     ArrayList<Player>players;
     int maxPlayer;
     String roomID;
-    public Room(){}
+
 
     public Room(String roomID, int maxPoint, int maxPlayer, String topic, ArrayList<Player> players) {
         this.roomID = roomID;
@@ -26,6 +26,8 @@ public class Room {
         this.topic = topic;
         this.players = new ArrayList<>();
         players.add(host);
+    }
+    public Room(){
     }
     public String autoCreateRoomID(){
         //generate random string
@@ -51,11 +53,22 @@ public class Room {
         }
         // done
         this.roomID = r.toString();
-        System.out.println(roomID);
         return this.roomID;
+    }
+
+    public void setMaxPlayer(int maxPlayer) {
+        this.maxPlayer = maxPlayer;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
     }
     public String getRoomID(){
         return roomID;
+    }
+
+    public int getMaxPlayer() {
+        return maxPlayer;
     }
 
     public int getMaxPoint() {
@@ -82,4 +95,14 @@ public class Room {
         this.players = players;
     }
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "maxPoint=" + maxPoint +
+                ", topic='" + topic + '\'' +
+                ", players=" + players +
+                ", maxPlayer=" + maxPlayer +
+                ", roomID='" + roomID + '\'' +
+                '}';
+    }
 }

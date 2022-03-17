@@ -8,6 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.mobileproject.fragment.MainCallbacks;
+import com.example.mobileproject.models.Room;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
@@ -16,34 +21,50 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentListPlayer FragmentListPlayer;
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
-    String IDRoom;
+
+    public String roomID;
+    public Room room;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        roomID = getIntent().getStringExtra("RoomID");
+        DocumentReference documentReference = CloudFirestore.getData("ListofRooms", roomID);
 
-        ft = getSupportFragmentManager().beginTransaction();
+        if(documentReference != null){
+            System.out.println("Existed " + documentReference.toString());
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    assert documentSnapshot != null;
+                    System.out.println(documentSnapshot.getData());
 
-        FragmentDrawBox = FragmentDrawBox.newInstance(true);
-        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+                    room = documentSnapshot.toObject(Room.class);
+                    if(room != null){
+                        ft = getSupportFragmentManager().beginTransaction();
+
+                        FragmentDrawBox = FragmentDrawBox.newInstance(true);
+                        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
 
 
-        FragmentListPlayer = FragmentListPlayer.newInstance(true);
-        ft.replace(R.id.holder_list_player, FragmentListPlayer);
+                        FragmentListPlayer = FragmentListPlayer.newInstance(true);
+                        ft.replace(R.id.holder_list_player, FragmentListPlayer);
 
-        FragmentChatInput = FragmentChatInput.newInstance(true);
-        ft.replace(R.id.holder_chat_input, FragmentChatInput);
+                        FragmentChatInput = FragmentChatInput.newInstance(true);
+                        ft.replace(R.id.holder_chat_input, FragmentChatInput);
 
-        FragmentBoxChat = FragmentBoxChat.newInstance(true);
-        ft.replace(R.id.holder_chat_box, FragmentBoxChat);
 
-        ft.commit();
+                        FragmentBoxChat = FragmentBoxChat.newInstance(true);
+                        ft.replace(R.id.holder_chat_box, FragmentBoxChat);
 
-//        IDRoom = getIntent().getExtras().get("IDRoom").toString();
-//        //Send IDRoom
-//        FragmentListPlayer.onMsgFromMainToFragment(IDRoom);
+                        ft.commit();
+                    }
+
+                }
+            });
+        }
     }
 
     @Override

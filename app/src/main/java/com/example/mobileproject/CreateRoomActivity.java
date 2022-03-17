@@ -16,6 +16,7 @@ import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 public class CreateRoomActivity extends Activity implements View.OnClickListener {
@@ -67,7 +68,6 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
         });
 
         name = getIntent().getStringExtra("name").toString();
-        System.out.println(name);
         int avatar = getIntent().getIntExtra("avatar", 0);
 
         numPlayerSpinner = (Spinner) findViewById(R.id.players_spinner);
@@ -83,14 +83,25 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(View view) {
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
-                System.out.println(name);
                 Player host = new Player(name, 0, avatar);
                 Room room = new Room(nPoints[maxPointSpinner.getSelectedItemPosition()], nPlayers[numPlayerSpinner.getSelectedItemPosition()], topics[pos], host);
                 room.autoCreateRoomID();
-                CloudFirestore.sendData("ListofRooms", room.getRoomID(), room);
-                playIntent.putExtra("IDRoom",room.getRoomID());
-                startActivity(playIntent);
-                finish();
+                //create room on firebase
+//                String result = CloudFirestore.sendData("ListofRooms", room.getRoomID(), room);
+//                System.out.println("Result is: " + result);
+//                if(result == "Success"){
+//                    playIntent.putExtra("RoomID", room.getRoomID());
+//                    startActivity(playIntent);
+//                    finish();
+//                }
+                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        playIntent.putExtra("RoomID", room.getRoomID());
+                        startActivity(playIntent);
+                        finish();
+                    }
+                });
             }
         });
 
