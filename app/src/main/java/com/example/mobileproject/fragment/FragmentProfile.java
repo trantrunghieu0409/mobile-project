@@ -1,7 +1,6 @@
-package com.example.mobileproject;
+package com.example.mobileproject.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.mobileproject.ProfileActivity;
+import com.example.mobileproject.R;
 
 public class FragmentProfile extends Fragment implements FragmentCallbacks {
     ProfileActivity profileActivity; Context context = null;

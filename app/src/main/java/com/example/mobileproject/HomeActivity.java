@@ -12,15 +12,28 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.Player;
+import com.example.mobileproject.models.Room;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
+import java.util.List;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends Activity {
     String[] languages = {"Vietnamese", "English"};
-    Integer[] avatars = {R.drawable.avatar,R.drawable.avatar1, R.drawable.avatar2, R.drawable.avatar3, R.drawable.avatar_batman};
+    Integer[] avatars = Config.Avatars;
 
     Button btnPlay;
     Button btnCreateRoom;
@@ -80,6 +93,26 @@ public class HomeActivity extends Activity {
                 }
                 else {
                     //go to play screen here
+                    CloudFirestore.getListofRooms().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            Random rand = new Random();
+                            List<DocumentSnapshot> listRooms = task.getResult().getDocuments();
+                            DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
+                            Room room = documentSnapshot.toObject(Room.class);
+                            assert room != null;
+                            room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
+                            Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
+                            CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    playIntent.putExtra("RoomID", room.getRoomID());
+                                    startActivity(playIntent);
+                                    finish();
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });
@@ -87,7 +120,7 @@ public class HomeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
-                roomIntent.putExtra("name", edtName.getText());
+                roomIntent.putExtra("name", edtName.getText().toString());
                 roomIntent.putExtra("avatar", avatars[pos]);
                 startActivityForResult(roomIntent, 0);
             }

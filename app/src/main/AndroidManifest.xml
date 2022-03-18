@@ -16,7 +16,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".GameplayActivity"
+            android:name=".HomeActivity"
 
             android:exported="true">
             <intent-filter>
@@ -29,7 +29,7 @@
         <activity android:name=".EditProfileActivity" />
 <!--        <activity android:name=".HomeActivity" />-->
         <activity android:name=".FriendListActivity" />
-<!--        <activity android:name=".GameplayActivity"/>-->
+        <activity android:name=".GameplayActivity"/>
         <activity android:name=".CreateRoomActivity"/>
     </application>
 

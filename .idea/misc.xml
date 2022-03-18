@@ -166,9 +166,12 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_chat.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_countrylist.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_gameover.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_inactive.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_info.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notidraw.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_shareinvite.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_sharestreamer.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_votekick.xml" value="0.36666666666666664" />
       </map>
     </option>

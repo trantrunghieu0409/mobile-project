@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.example.mobileproject.R;
 
 import java.util.ArrayList;
 

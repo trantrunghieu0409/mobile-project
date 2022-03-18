@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.module.Player;
+import com.example.mobileproject.models.Player;
 
 import java.util.ArrayList;
 
@@ -53,8 +53,13 @@ public class CustomListPlayerAdapter extends BaseAdapter {
             row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
         }
         else row = convertView;
+
+
         ImageView iconTopScore = (ImageView) row.findViewById(R.id.iconTopScore);
         ImageView PlayerIcon=(ImageView) row.findViewById(R.id.icon);
+        TextView name = (TextView) row.findViewById(R.id.name_player);
+        TextView point = (TextView) row.findViewById(R.id.point_player);
+
         switch (position){
             case 0:
                 iconTopScore.setImageResource(R.drawable.icon_winner1);
@@ -109,9 +114,8 @@ public class CustomListPlayerAdapter extends BaseAdapter {
                 }
 
         });
-        TextView name = (TextView) row.findViewById(R.id.name_player);
-        TextView point = (TextView) row.findViewById(R.id.point_player);
 
+        PlayerIcon.setImageResource(player.getAvatar());
         name.setText(player.getName());
         point.setText(player.getPoint() + "pts");
         return row;

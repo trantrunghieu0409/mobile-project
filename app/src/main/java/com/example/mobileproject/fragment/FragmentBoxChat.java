@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobileproject.FragmentCallbacks;
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.custom_adapter.RecyclerChatAdapter;

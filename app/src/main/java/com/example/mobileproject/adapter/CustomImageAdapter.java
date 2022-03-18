@@ -1,4 +1,4 @@
-package com.example.mobileproject;
+package com.example.mobileproject.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.example.mobileproject.R;
 
 public class CustomImageAdapter extends BaseAdapter {
     // This custom adapter populates the GridView with a visual representation of each thumbnail in the input data set. It also implements a method -getView()- to access individual cells in the GridView.
