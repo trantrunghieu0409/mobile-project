@@ -37,12 +37,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
 
         if(documentReference != null){
-            System.out.println("Existed " + documentReference.toString());
             documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     assert documentSnapshot != null;
-                    System.out.println(documentSnapshot.getData());
 
                     room = documentSnapshot.toObject(Room.class);
                     if(room != null){
@@ -69,6 +67,20 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public void onMsgFromFragToMain(String sender, String strValue) {
         if (sender.equals("MESS-FLAG")) {
             FragmentBoxChat.onMsgFromMainToFragment(strValue);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        room.removePlayer(userName);
+        if(room.getPlayers().size() == 0){
+            // If the last person in room left
+            // Delete that room
+            CloudFirestore.deleteDoc("ListofRooms", roomID);
+        }
+        else {
+            CloudFirestore.sendData("ListofRooms", roomID, room);
         }
     }
 }

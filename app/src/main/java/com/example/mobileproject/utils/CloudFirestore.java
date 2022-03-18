@@ -62,6 +62,9 @@ public class CloudFirestore {
     public static Task<QuerySnapshot> getListofRooms(){
         return db.collection("ListofRooms").get();
     }
+    public static void deleteDoc(String collectionName, String document){
+        db.collection(collectionName).document(document).delete();
+    }
 
     public static String encodeBitmap(Bitmap bmp) {
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
