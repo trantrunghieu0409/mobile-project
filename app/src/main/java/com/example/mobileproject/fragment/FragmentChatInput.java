@@ -204,7 +204,7 @@ public class FragmentChatInput extends Fragment {
             public void onClick(View view) {
                 String mess = String.valueOf(editTextAnswer.getText());
                 editTextAnswer.setText("");
-                gameplayActivity.onMsgFromFragToMain("MESS-FLAG", mess);
+                gameplayActivity.onMsgFromFragToMain("MESS-FLAG", gameplayActivity.userName + ": " + mess);
             }
         });
 

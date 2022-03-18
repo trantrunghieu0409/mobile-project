@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 
+
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft;
     com.example.mobileproject.fragment.FragmentDrawBox FragmentDrawBox;
@@ -24,14 +25,16 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     public String roomID;
     public Room room;
-
+    public String userName;
+    DocumentReference documentReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
         roomID = getIntent().getStringExtra("RoomID");
-        DocumentReference documentReference = CloudFirestore.getData("ListofRooms", roomID);
+        userName = getIntent().getStringExtra("UserName");
+        documentReference = CloudFirestore.getData("ListofRooms", roomID);
 
         if(documentReference != null){
             System.out.println("Existed " + documentReference.toString());
@@ -46,19 +49,14 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         ft = getSupportFragmentManager().beginTransaction();
 
                         FragmentDrawBox = FragmentDrawBox.newInstance(true);
-                        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
-
-
                         FragmentListPlayer = FragmentListPlayer.newInstance(true);
-                        ft.replace(R.id.holder_list_player, FragmentListPlayer);
-
                         FragmentChatInput = FragmentChatInput.newInstance(true);
-                        ft.replace(R.id.holder_chat_input, FragmentChatInput);
-
-
                         FragmentBoxChat = FragmentBoxChat.newInstance(true);
-                        ft.replace(R.id.holder_chat_box, FragmentBoxChat);
 
+                        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+                        ft.replace(R.id.holder_list_player, FragmentListPlayer);
+                        ft.replace(R.id.holder_chat_input, FragmentChatInput);
+                        ft.replace(R.id.holder_chat_box, FragmentBoxChat);
                         ft.commit();
                     }
 

@@ -107,6 +107,7 @@ public class HomeActivity extends Activity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     playIntent.putExtra("RoomID", room.getRoomID());
+                                    playIntent.putExtra("UserName",edtName.getText().toString());
                                     startActivity(playIntent);
                                     finish();
                                 }

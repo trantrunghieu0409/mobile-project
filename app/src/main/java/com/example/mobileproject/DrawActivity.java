@@ -1,6 +1,7 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,12 +11,17 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import androidx.annotation.Nullable;
 
+import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.RoomState;
+import com.example.mobileproject.utils.CloudFirestore;
 
 public class DrawActivity extends Activity {
     private ImageView i;
@@ -30,6 +36,8 @@ public class DrawActivity extends Activity {
     private View pw;
     private Config.PenType penMode = Config.PenType.DRAW;
     private Thread returnShape = null;
+    private RoomState roomState;
+    private ImageButton btnClose;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +61,24 @@ public class DrawActivity extends Activity {
         Config.height = displayMetrics.heightPixels;
         Config.width = displayMetrics.widthPixels;
         Config.offset = Config.height/10 + Config.height/30;
+
+        // get Room Information and update room state
+        // For now, I will hard code this part
+        // However, later use intent to transfer roomID to this
+        String roomID = "abc";
+        roomState = new RoomState(roomID, GlobalConstants.TIME_FOR_A_GAME,
+                CloudFirestore.encodeBitmap(b));
+
+        btnClose = (ImageButton) findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // get back to MainActivity for now to debug
+                // change it later to HomeActivity
+                Intent intent = new Intent(DrawActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -105,7 +131,7 @@ public class DrawActivity extends Activity {
             prevX = (int) e.getX();
             prevY = (int) (e.getY() - Config.offset);
             System.out.println(e.getX() + "," + e.getY());
-            Log.d("Doot", Integer.toString(Config.offset));
+            Log.d("Dot", Integer.toString(Config.offset));
 
             returnShape = new Thread() {
                 @Override
@@ -113,6 +139,11 @@ public class DrawActivity extends Activity {
                     try {
                         Thread.sleep(100);
                         prevX = 0;
+
+                        // send current drawing to firebase
+                        roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
+                        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
+
                     } catch (InterruptedException e) {
                     }
                 }
