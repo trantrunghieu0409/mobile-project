@@ -98,6 +98,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                     @Override
                     public void onSuccess(Void unused) {
                         playIntent.putExtra("RoomID", room.getRoomID());
+                        playIntent.putExtra("UserName",name);
                         startActivity(playIntent);
                         finish();
                     }

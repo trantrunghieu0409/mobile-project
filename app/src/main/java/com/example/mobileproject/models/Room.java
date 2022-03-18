@@ -56,6 +56,15 @@ public class Room {
         return this.roomID;
     }
 
+    public void removePlayer(String name){
+        for(Player player : players){
+            if (player.equals("name")){
+                players.remove(player);
+                break;
+            }
+        }
+    }
+
     public void setMaxPlayer(int maxPlayer) {
         this.maxPlayer = maxPlayer;
     }

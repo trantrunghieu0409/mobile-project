@@ -16,6 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.custom_adapter.RecyclerChatAdapter;
+import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -27,6 +36,8 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     RecyclerChatAdapter adapterRecycler;
     RecyclerView boxChatAnswer;
 
+
+    DocumentReference documentReference ;
     public static FragmentBoxChat newInstance(boolean isBoxChat) {
         Bundle args = new Bundle();
         FragmentBoxChat fragment = new FragmentBoxChat();
@@ -45,16 +56,25 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
         catch (IllegalStateException e) {
             throw new IllegalStateException("Activity must implement callbacks");
         }
+        documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
+        documentReference.collection("Chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                message.clear();
+                for (QueryDocumentSnapshot document : value) {
+                    Chat msg = document.toObject(Chat.class);
+                    message.add(msg.getNameUser() + ": " + msg.getMsg());
+                    boxChatAnswer.scrollToPosition(Objects.requireNonNull(boxChatAnswer.getAdapter()).getItemCount() - 1);
+                    adapterRecycler.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LinearLayout layout_box_chat = (LinearLayout) inflater.inflate(R.layout.layout_box_chat, null);
-
-        message.add("User 1: Hello");
-        message.add("User 2: Hi");
-
         boxChatAnswer = (RecyclerView) layout_box_chat.findViewById(R.id.BoxChatAnswer);
         LinearLayoutManager manager = new LinearLayoutManager(context);
 //        manager.setReverseLayout(true);
@@ -68,8 +88,8 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
-        message.add(strValue);
-        adapterRecycler.notifyDataSetChanged();
-        boxChatAnswer.scrollToPosition(Objects.requireNonNull(boxChatAnswer.getAdapter()).getItemCount() - 1);
+        String[] msg = strValue.split(":");
+        System.out.println(msg.length);
+        documentReference.collection("Chat").add(new Chat(msg[0],msg[1]));
     }
 }
