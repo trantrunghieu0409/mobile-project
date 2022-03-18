@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
     String email,password;
     EditText emailEditText,passwordEditText;
+    TextView signUpRefence;
     private FirebaseAuth mAuth;
     public void updateUI(FirebaseUser account){
 
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         loginBtn = (Button) findViewById(R.id.loginBtn);
+        signUpRefence=(TextView) findViewById((R.id.signUpReference));
         emailEditText=(EditText)findViewById(R.id.editTextRegsiterEmail);
         passwordEditText=(EditText) findViewById(R.id.editTextRegsiterPassword);
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +70,14 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
+            }
+        });
+
+        signUpRefence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signUpIntent=new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(signUpIntent);
             }
         });
     }

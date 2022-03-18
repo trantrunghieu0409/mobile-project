@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DrawX"
+        android:text="DrawGuess"
         android:textColor="@color/black"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -133,7 +133,7 @@
             android:text="New to this game?" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/signUpReference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
     Button registerBtn;
+    TextView loginReference;
     EditText registerEmail,registerPassword,registerRetypePassword;
     private FirebaseAuth mAuth;
     public void updateUI(FirebaseUser account){
@@ -44,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+        loginReference=(TextView)findViewById(R.id.loginReference);
         registerBtn = (Button) findViewById(R.id.registerBtn);
         registerEmail=(EditText) findViewById(R.id.editTextRegsiterEmail);
         registerPassword=(EditText) findViewById(R.id.editTextRegsiterPassword);
@@ -100,6 +103,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+            }
+        });
+
+        loginReference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent loginIntent=new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(loginIntent);
             }
         });
 
