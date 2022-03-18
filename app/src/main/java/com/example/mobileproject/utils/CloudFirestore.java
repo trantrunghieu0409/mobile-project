@@ -63,8 +63,6 @@ public class CloudFirestore {
         return db.collection("ListofRooms").get();
     }
 
-
-
     public static String encodeBitmap(Bitmap bmp) {
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, bao); // bmp is bitmap from user image file
