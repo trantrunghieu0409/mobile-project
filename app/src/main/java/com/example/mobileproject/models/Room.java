@@ -58,7 +58,8 @@ public class Room {
 
     public void removePlayer(String name){
         for(Player player : players){
-            if (player.equals("name")){
+            if (player.getName().equals(name)){
+                System.out.println(player.getName());
                 players.remove(player);
                 break;
             }

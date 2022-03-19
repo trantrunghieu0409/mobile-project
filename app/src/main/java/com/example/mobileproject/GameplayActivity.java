@@ -1,6 +1,8 @@
 package com.example.mobileproject;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -27,6 +29,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public Room room;
     public String userName;
     DocumentReference documentReference;
+    ProgressBar barHorizontal;
+    Handler myHandler = new Handler();
+    final int MAX_PROGRESS = 20;
+    int accum = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +40,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         setContentView(R.layout.activity_gameplay);
         roomID = getIntent().getStringExtra("RoomID");
         userName = getIntent().getStringExtra("UserName");
+        barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
+
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
 
         if(documentReference != null){
@@ -69,6 +77,46 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             FragmentBoxChat.onMsgFromMainToFragment(strValue);
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        beginProgressBar(MAX_PROGRESS);
+
+    }
+
+    public void beginProgressBar(int MAX_PROGRESS){
+        accum = MAX_PROGRESS;
+        barHorizontal.setMax(MAX_PROGRESS);
+        barHorizontal.setProgress(accum);
+        Thread backgroundThread = new Thread(backgroundTime,"isBarTime");
+        backgroundThread.start();
+    }
+
+    private Runnable foregroundRunnable = new Runnable() {
+        @Override
+        public void run() {
+            accum--;
+            barHorizontal.setProgress(accum);
+            if(accum < 0){
+                // Do something
+            }
+        }
+    };
+
+    private Runnable backgroundTime = new Runnable() {
+        @Override
+        public void run() {
+            for(int i = 0; i < MAX_PROGRESS;i++){
+                try {
+                    Thread.sleep(1000);
+                    myHandler.post(foregroundRunnable);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onStop() {
