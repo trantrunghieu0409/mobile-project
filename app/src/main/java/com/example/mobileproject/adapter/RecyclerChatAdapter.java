@@ -1,4 +1,4 @@
-package com.example.mobileproject.custom_adapter;
+package com.example.mobileproject.adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;

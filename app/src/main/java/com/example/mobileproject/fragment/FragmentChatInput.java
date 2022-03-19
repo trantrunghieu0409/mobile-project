@@ -1,6 +1,5 @@
 package com.example.mobileproject.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,7 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.custom_adapter.CustomChatPopupApdater;
+import com.example.mobileproject.adapter.CustomChatPopupApdater;
 
 import java.util.ArrayList;
 

@@ -15,18 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.custom_adapter.RecyclerChatAdapter;
+import com.example.mobileproject.adapter.RecyclerChatAdapter;
 import com.example.mobileproject.models.Chat;
 import com.example.mobileproject.utils.CloudFirestore;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
@@ -60,13 +60,22 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
         documentReference.collection("Chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                message.clear();
-                for (QueryDocumentSnapshot document : value) {
-                    Chat msg = document.toObject(Chat.class);
-                    message.add(msg.getNameUser() + ": " + msg.getMsg());
-                    boxChatAnswer.scrollToPosition(Objects.requireNonNull(boxChatAnswer.getAdapter()).getItemCount() - 1);
+                List<DocumentSnapshot> listMessage = value.getDocuments();
+                // get latest message
+                if(value.size() > 0){
+                    Chat msg = listMessage.get(value.size()-1).toObject(Chat.class);
+                    message.add(msg.getMsg());
                     adapterRecycler.notifyDataSetChanged();
+                    boxChatAnswer.scrollToPosition(adapterRecycler.getItemCount() - 1);
                 }
+
+//                message.clear();
+//                for (QueryDocumentSnapshot document : value) {
+//                    Chat msg = document.toObject(Chat.class);
+//                    message.add(msg.getMsg());
+//                    adapterRecycler.notifyDataSetChanged();
+//                    boxChatAnswer.scrollToPosition(adapterRecycler.getItemCount() -1);
+//                }
             }
         });
     }
@@ -88,8 +97,7 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
-        String[] msg = strValue.split(":");
-        System.out.println(msg.length);
-        documentReference.collection("Chat").add(new Chat(msg[0],msg[1]));
+        Chat chat = new Chat(strValue);
+        documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
     }
 }

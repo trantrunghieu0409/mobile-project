@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.custom_adapter.CustomListPlayerAdapter;
+import com.example.mobileproject.adapter.CustomListPlayerAdapter;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
