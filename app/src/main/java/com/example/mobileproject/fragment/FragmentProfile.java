@@ -15,14 +15,19 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobileproject.ProfileActivity;
 import com.example.mobileproject.R;
+import com.example.mobileproject.models.Account;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class FragmentProfile extends Fragment implements FragmentCallbacks {
     ProfileActivity profileActivity; Context context = null;
-    public static FragmentProfile newInstance(boolean isEditable) {
-        Bundle args = new Bundle();
+    TextView txtGames, txtWin, txtLose, txtFirst, txtSecond, txtThird;
+    Account account;
+    public static FragmentProfile newInstance(Account account) {
         FragmentProfile fragment = new FragmentProfile();
-        args.putBoolean("isEditable", isEditable);
-        fragment.setArguments(args);
+        fragment.account = account;
         return fragment;
     }
 
@@ -43,18 +48,21 @@ public class FragmentProfile extends Fragment implements FragmentCallbacks {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LinearLayout layout_profile = (LinearLayout) inflater.inflate(R.layout.layout_profile, null);
 
-        final ImageView imgAvatar = (ImageView) layout_profile.findViewById(R.id.imgAvatar);
-        final TextView txtUsername = (TextView) layout_profile.findViewById(R.id.txtUsername);
-        final TextView txtAchievements = (TextView) layout_profile.findViewById(R.id.txtAchievements);
+        txtGames = (TextView) layout_profile.findViewById(R.id.txtGames);
+        txtWin = (TextView) layout_profile.findViewById(R.id.txtWin);
+        txtLose = (TextView) layout_profile.findViewById(R.id.txtLose);
+        txtFirst = (TextView) layout_profile.findViewById(R.id.txtFirst);
+        txtSecond = (TextView) layout_profile.findViewById(R.id.txtSecond);
+        txtThird = (TextView) layout_profile.findViewById(R.id.txtThird);
 
-        final LinearLayout btnEditProfile = (LinearLayout) layout_profile.findViewById(R.id.btnEditProfile);
-
-        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                profileActivity.onMsgFromFragToMain("EDIT-FLAG", "Edit");
-            }
-        });
+        txtGames.setText(account.getnGames());
+        int nWin = account.getFirst_place() + account.getSecond_place()
+                + account.getThird_place();
+        txtWin.setText(nWin);
+        txtLose.setText(account.getnGames() - nWin);
+        txtFirst.setText(account.getFirst_place());
+        txtSecond.setText(account.getSecond_place());
+        txtThird.setText(account.getThird_place());
 
         return layout_profile;
     }

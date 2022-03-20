@@ -29,7 +29,6 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".DrawActivity" />
-        <activity android:name=".FriendListActivity" />
         <activity android:name=".GameplayActivity"/>
         <activity android:name=".CreateRoomActivity"/>
     </application>

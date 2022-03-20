@@ -1,10 +1,13 @@
 package com.example.mobileproject.models;
 
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private String name;
     private int point;
     int avatar;
+
     public Player(String name, int point, int avatar) {
         this.name = name;
         this.point = point;
