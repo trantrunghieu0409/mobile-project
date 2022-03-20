@@ -58,7 +58,8 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         btnEditProfile = (LinearLayout) findViewById(R.id.btnEditProfile);
         btnEditProfile.setOnClickListener(view -> {
             Intent intent1 = new Intent(ProfileActivity.this, EditProfileActivity.class);
-            startActivity(intent1);
+            intent1.putExtra("account", account);
+            startActivityForResult(intent1, 110);
         });
 
         btnClose = (ImageButton) findViewById(R.id.btnClose);

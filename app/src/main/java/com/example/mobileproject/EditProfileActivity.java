@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.example.mobileproject.adapter.CustomImageAdapter;
+import com.example.mobileproject.constants.GlobalConstants;
 
 import java.util.Arrays;
 
@@ -52,42 +53,42 @@ public class EditProfileActivity extends Activity {
 
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                boolean focusable = true; // tap outside to dismiss this pop up
-                final PopupWindow popupWindow = new PopupWindow(popupAvatarList, width, height, focusable);
+
+                final PopupWindow popupWindow = new PopupWindow(popupAvatarList, width, height, true);
 
                 // show a pop up
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
 
-                Integer[] thumbnails = {R.drawable.avatar_batman, R.drawable.avatar};
-
                 // handle click image and click button to change avatar
                 final GridView gridViewAvatar = (GridView) popupAvatarList.findViewById(R.id.gridViewAvatar);
-                gridViewAvatar.setAdapter(new CustomImageAdapter(EditProfileActivity.this, thumbnails));
-
-
-                final int[] chosenPos = {Arrays.asList(thumbnails).indexOf((Integer) avatar.getTag())};
-                gridViewAvatar.setItemChecked(chosenPos[0], true);
-
+                gridViewAvatar.setAdapter(new CustomImageAdapter(EditProfileActivity.this, GlobalConstants.thumbnails));
+                final int[] chosenPos = {-1};
                 gridViewAvatar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        if (i != chosenPos[0]) {
-                            view.setBackgroundColor(R.drawable.red_background_border);
-
-                            chosenPos[0] = i;
-                       }
-
+                        if (chosenPos[0] != -1) {
+                            View v = gridViewAvatar.getChildAt(chosenPos[0]);
+                            v.setBackgroundColor(124333); // initial background color of gridview
+                        }
+                        chosenPos[0] = i;
+                        view.setBackgroundColor(R.drawable.red_background_border);
                     }
                 });
+
 
                 // confirm
                 final Button btnOk = (Button) popupAvatarList.findViewById(R.id.btnOk);
                 btnOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // change avatar here :)
+
                         System.out.println("pos" + chosenPos[0]);
-                        avatar.setTag(thumbnails[chosenPos[0]]);
+                        if (chosenPos[0] != -1) {
+                            avatar.setImageResource(GlobalConstants.thumbnails[chosenPos[0]]);
+                        }
+                        else {
+                            // do nothing
+                        }
                         popupWindow.dismiss();
                     }
                 });

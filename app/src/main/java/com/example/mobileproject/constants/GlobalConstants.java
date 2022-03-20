@@ -1,5 +1,7 @@
 package com.example.mobileproject.constants;
 
+import com.example.mobileproject.R;
+
 public class GlobalConstants {
     /*
         Please declare global constants here.
@@ -7,4 +9,5 @@ public class GlobalConstants {
         time for a game, number of players in game, score system, .etc
      */
     public static final int TIME_FOR_A_GAME = 20; // 20 seconds
+    public static final Integer[] thumbnails = {R.drawable.avatar_batman, R.drawable.avatar};
 }
