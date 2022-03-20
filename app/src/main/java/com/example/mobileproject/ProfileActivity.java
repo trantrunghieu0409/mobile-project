@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -26,6 +28,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     ImageView imgAvatar;
     TextView txtUsername, txtAchievements;
     LinearLayout btnEditProfile;
+    ImageButton btnClose;
     Account account;
     String accountName;
     RadioButton radioLeft, radioRight;
@@ -45,7 +48,6 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         Intent intent = getIntent();
         Bundle myBundle = intent.getExtras();
         account = (Account) myBundle.getSerializable("account");
-        System.out.println(account.getName());
         accountName = account.getName();
 
 
@@ -54,14 +56,13 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         txtAchievements.setText(String.valueOf(account.getnGames()));
 
         btnEditProfile = (LinearLayout) findViewById(R.id.btnEditProfile);
-        btnEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-                startActivity(intent);
-            }
+        btnEditProfile.setOnClickListener(view -> {
+            Intent intent1 = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent1);
         });
 
+        btnClose = (ImageButton) findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(view -> { finish(); });
 
         ft = getSupportFragmentManager().beginTransaction();
         profileFragment = FragmentProfile.newInstance(account);

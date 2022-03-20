@@ -56,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 if (documentReference != null) {
                     documentReference.get().addOnSuccessListener(documentSnapshot -> {
                         accountList[0] = documentSnapshot.toObject(Account.class);
-
-                        System.out.println("OK");
-                        System.out.println(accountList[0].getEmail());
-
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                         intent.putExtra("account", (Serializable) accountList[0]);
                         startActivity(intent);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 
 public class EditProfileActivity extends Activity {
     RelativeLayout btnChangeAvatar, btnChangeUsername, btnChangeNation, btnChangePassword;
+    ImageButton btnClose;
     ImageView avatar;
 
     @Override
@@ -31,6 +33,9 @@ public class EditProfileActivity extends Activity {
         setContentView(R.layout.activity_editprofile);
 
         avatar = (ImageView) findViewById(R.id.imgAvatar);
+
+        btnClose = (ImageButton) findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(view -> { finish(); });
 
         btnChangeAvatar = (RelativeLayout) findViewById(R.id.btnChangeAvatar);
         btnChangeUsername = (RelativeLayout) findViewById(R.id.btnChangeUsername);
