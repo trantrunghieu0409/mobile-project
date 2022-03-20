@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     LinearLayout btnEditProfile;
     Account account;
     String accountName;
+    RadioButton radioLeft, radioRight;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         txtUsername = (TextView) findViewById(R.id.txtUsername);
         txtAchievements = (TextView) findViewById(R.id.txtAchievements);
+        radioLeft = (RadioButton) findViewById(R.id.radioLeft);
+        radioRight = (RadioButton) findViewById(R.id.radioRight);
+
 
         Intent intent = getIntent();
         Bundle myBundle = intent.getExtras();
@@ -60,26 +65,61 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
 
         ft = getSupportFragmentManager().beginTransaction();
         profileFragment = FragmentProfile.newInstance(account);
-        ft.replace(R.id.profile_holder, profileFragment);
+        ft.replace(R.id.profile_holder, profileFragment); ft.commit();
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.profile_holder);
+
+        radioLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ft = getSupportFragmentManager().beginTransaction();
+                profileFragment = FragmentProfile.newInstance(account);
+                ft.replace(R.id.profile_holder, profileFragment);
+                ft.commit();
+
+                radioLeft.setChecked(true);
+                radioRight.setChecked(false);
+            }
+        });
+
+        radioRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ft = getSupportFragmentManager().beginTransaction();
+                listFriendsFragment = FragmentListFriends.newInstance(accountName);
+                ft.replace(R.id.profile_holder, listFriendsFragment);
+                ft.commit();
+
+                radioRight.setChecked(true);
+                radioLeft.setChecked(false);
+            }
+        });
+
         frame.setOnTouchListener(new OnSwipeTouchListener(ProfileActivity.this) {
             @Override
-            public void onSwipeRight() {
+            public void onSwipeLeft() {
                 super.onSwipeRight();
 
                 ft = getSupportFragmentManager().beginTransaction();
                 listFriendsFragment = FragmentListFriends.newInstance(accountName);
                 ft.replace(R.id.profile_holder, listFriendsFragment);
+                ft.commit();
+
+                radioRight.setChecked(true);
+                radioLeft.setChecked(false);
             }
 
             @Override
-            public void onSwipeLeft() {
+            public void onSwipeRight() {
                 super.onSwipeLeft();
 
                 ft = getSupportFragmentManager().beginTransaction();
                 profileFragment = FragmentProfile.newInstance(account);
                 ft.replace(R.id.profile_holder, profileFragment);
+                ft.commit();
+
+                radioLeft.setChecked(true);
+                radioRight.setChecked(false);
             }
         });
 

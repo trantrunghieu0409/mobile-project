@@ -55,14 +55,14 @@ public class FragmentProfile extends Fragment implements FragmentCallbacks {
         txtSecond = (TextView) layout_profile.findViewById(R.id.txtSecond);
         txtThird = (TextView) layout_profile.findViewById(R.id.txtThird);
 
-        txtGames.setText(account.getnGames());
+        txtGames.setText(String.valueOf(account.getnGames()));
         int nWin = account.getFirst_place() + account.getSecond_place()
                 + account.getThird_place();
-        txtWin.setText(nWin);
-        txtLose.setText(account.getnGames() - nWin);
-        txtFirst.setText(account.getFirst_place());
-        txtSecond.setText(account.getSecond_place());
-        txtThird.setText(account.getThird_place());
+        txtWin.setText(String.valueOf(nWin));
+        txtLose.setText(String.valueOf(account.getnGames() - nWin));
+        txtFirst.setText(String.valueOf(account.getFirst_place()));
+        txtSecond.setText(String.valueOf(account.getSecond_place()));
+        txtThird.setText(String.valueOf(account.getThird_place()));
 
         return layout_profile;
     }

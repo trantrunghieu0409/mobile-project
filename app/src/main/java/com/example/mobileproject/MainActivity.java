@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
- //               Account account = new Account("User01", 0, R.drawable.avatar, "19127641@student.hcmus.edu.vn", "11");
-//                Account.sendDataToFirebase(account);
+                Account account = new Account("User01", 0, R.drawable.avatar_batman, "19127641@student.hcmus.edu.vn", "11");
+                Account.sendDataToFirebase(account);
 
                 String accountName = "User01";
                 final Account[] accountList = {new Account("example@gmail.com", "password")};
