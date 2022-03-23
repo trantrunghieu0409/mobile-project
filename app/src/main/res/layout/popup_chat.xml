@@ -20,10 +20,14 @@
             android:layout_weight="3"
             android:background="@drawable/profile_border"
             android:layout_margin="5dp">
+
             <ListView
                 android:id="@+id/box_chat_popup"
                 android:layout_width="wrap_content"
-                android:layout_height="500dp"/>
+                android:layout_height="500dp"
+                android:divider="@null"
+                android:transcriptMode="alwaysScroll" />
+
             <ImageButton
                 android:layout_alignParentEnd="true"
                 android:id="@+id/btnClosePopUpChat"

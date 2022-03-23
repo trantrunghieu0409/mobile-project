@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <androidx.recyclerview.widget.RecyclerView
-
+    <ListView
         android:id="@+id/BoxChatAnswer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:transcriptMode="alwaysScroll"
+        android:listSelector="@android:color/transparent"
+        android:divider="@null"
         />
 
 </LinearLayout>
