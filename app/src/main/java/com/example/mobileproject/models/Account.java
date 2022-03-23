@@ -3,6 +3,7 @@ package com.example.mobileproject.models;
 import android.util.Log;
 
 import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.io.Serializable;
@@ -87,8 +88,12 @@ public class Account extends Player implements Serializable {
     }
 
     public  static void sendDataToFirebase(Account account) {
-        String res = CloudFirestore.sendData("Account", account.getName(), account);
-        Log.e("Firebase Error", res);
+        CloudFirestore.sendData("Account", account.getName(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.e("Firebase Error", "Success");
+            }
+        });
     }
 
     public static DocumentReference getDataFromFirebase(String name) {

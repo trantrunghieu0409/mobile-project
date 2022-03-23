@@ -57,7 +57,8 @@
                 android:layout_weight="3"
                 android:src="@drawable/avatar_batman"
                 android:padding="5dp"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:clickable="true"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -77,12 +78,15 @@
                         android:src="@drawable/icon_user_small"
                         android:layout_marginEnd="2dp"/>
 
-                    <TextView
+
+                    <EditText
+                        android:maxLength="15"
                         android:id="@+id/txtUsername"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:text="Username" />
+                        android:background="@android:color/transparent" >
+                    </EditText>
                 </LinearLayout>
 
 
@@ -105,7 +109,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnEditProfile"
+                    android:id="@+id/btnChangePassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -121,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="@string/edit_clickable" />
+                        android:text= "Change password" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

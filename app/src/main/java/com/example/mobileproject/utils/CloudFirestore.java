@@ -4,11 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
-import androidx.annotation.NonNull;
-
-import com.example.mobileproject.models.Player;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,24 +23,9 @@ public class CloudFirestore {
         return INSTANCE;
     }
 
-    public static String sendData(String collectionName, Object document, Object data) {
-        final String[] feedback = {""};
+    public static Task<Void> sendData(String collectionName, Object document, Object data) {
         CollectionReference dbCollection = db.collection(collectionName);
-
-        dbCollection.document(String.valueOf(document)).set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        feedback[0] = "Success";
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        feedback[0] = "Fail";
-                    }
-                });
-        return feedback[0];
+        return dbCollection.document(String.valueOf(document)).set(data);
     }
 
     public static DocumentReference getData(String collectionName, String document) {

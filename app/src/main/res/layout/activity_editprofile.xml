@@ -100,11 +100,12 @@
                 android:clickable="true"
                 android:padding="2dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/txtUsername"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Username"/>
+                    android:background="@android:color/transparent" >
+                </EditText>
 
                 <ImageView
                     android:layout_width="20dp"
@@ -198,6 +199,7 @@
 
 
         <Button
+            android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SAVE CHANGES"
