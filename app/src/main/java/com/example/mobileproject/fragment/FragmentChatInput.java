@@ -22,8 +22,16 @@ import androidx.fragment.app.Fragment;
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.adapter.CustomChatPopupApdater;
+import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FragmentChatInput extends Fragment {
@@ -31,6 +39,9 @@ public class FragmentChatInput extends Fragment {
     Context context = null;
     boolean audio;
     boolean report;
+    DocumentReference documentReference;
+    ArrayList<String> messages = new ArrayList<>();
+    CustomChatPopupApdater customChatPopupApdater;
 
     public static FragmentChatInput newInstance(boolean isChatInput) {
         Bundle args = new Bundle();
@@ -50,6 +61,22 @@ public class FragmentChatInput extends Fragment {
         catch (IllegalStateException e) {
             throw new IllegalStateException("Activity must implement callbacks");
         }
+        documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
+        documentReference.collection("ChatPopUp").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                List<DocumentSnapshot> listMessage = value.getDocuments();
+                // get latest message
+                if(value.size() > 0){
+                    Chat msg = listMessage.get(value.size()-1).toObject(Chat.class);
+                    messages.add(msg.getMsg());
+                    customChatPopupApdater.notifyDataSetChanged();
+                }
+            }
+        });
+        messages.add("Hello");
+        messages.add("Hi");
+        messages.add("HiHi");
     }
 
     @Nullable
@@ -69,8 +96,8 @@ public class FragmentChatInput extends Fragment {
 
         audio = true;
         report = false;
-        btnReport.setOnClickListener(new View.OnClickListener() {
 
+        btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                if(!report){
@@ -90,7 +117,8 @@ public class FragmentChatInput extends Fragment {
 //                    btnVoteKick.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View view) {
-//                            gameplayActivity.onMsgFromFragToMain("MESS-FLAG", "User reported`RED`");
+//                            String mess = "<font color=\"#FF0000\"> <b> User </b> reported </font>";
+//                            gameplayActivity.onMsgFromFragToMain("MESS-FLAG", mess);
 //                            btnReport.setEnabled(false);
 //                            popupWindow.dismiss();
 //                        }
@@ -152,13 +180,8 @@ public class FragmentChatInput extends Fragment {
                 final EditText editTextChat = (EditText) popupChat.findViewById(R.id.editTextChat);
 
                 editTextChat.requestFocus();
-                ArrayList<String> listMess = new ArrayList<>();
-                listMess.add("Hello");
-                listMess.add("Hi");
-                listMess.add("HiHi");
 
-
-                CustomChatPopupApdater customChatPopupApdater = new CustomChatPopupApdater(listMess);
+                customChatPopupApdater = new CustomChatPopupApdater(messages);
                 boxchat.setAdapter(customChatPopupApdater);
 
 
@@ -174,9 +197,10 @@ public class FragmentChatInput extends Fragment {
                     public void onClick(View view) {
                         String mess = String.valueOf(editTextChat.getText());
                         editTextChat.setText("");
-                        listMess.add(mess);
-                        customChatPopupApdater.notifyDataSetChanged();
-                        boxchat.setSelection(boxchat.getCount() - 1);
+//                        messages.add(mess);
+//                        customChatPopupApdater.notifyDataSetChanged();
+                        Chat chat = new Chat(mess);
+                        documentReference.collection("Chat2").document(chat.getTimestamp()).set(chat);
                     }
                 });
 

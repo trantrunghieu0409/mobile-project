@@ -1,5 +1,6 @@
 package com.example.mobileproject.adapter;
 
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,21 +10,21 @@ import com.example.mobileproject.R;
 
 import java.util.ArrayList;
 
-public class CustomChatPopupApdater extends BaseAdapter {
-    ArrayList<String> list;
+public class CustomChatAdapter extends BaseAdapter {
+    private ArrayList<String> messages;
 
-    public CustomChatPopupApdater(ArrayList<String> list){
-        this.list = list;
+    public CustomChatAdapter(ArrayList<String> messages){
+        this.messages = messages;
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return messages.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return messages.get(i);
     }
 
     @Override
@@ -35,16 +36,13 @@ public class CustomChatPopupApdater extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row;
         if (convertView == null) {
-            if (position == 1) {
-                row = View.inflate(parent.getContext(), R.layout.custom_item_chat_popup2, null);
-            } else {
-                row = View.inflate(parent.getContext(), R.layout.custom_item_chat_popup, null);
-            }
+            row = View.inflate(parent.getContext(), R.layout.custom_item_chat, null);
         }
         else row = convertView;
-        TextView mess = (TextView) row.findViewById(R.id.item_text_chat);
 
-        mess.setText(list.get(position));
+        TextView mess = (TextView) row.findViewById(R.id.item_messengerAnswer);
+
+        mess.setText(Html.fromHtml(messages.get(position)));
         return row;
     }
 }
