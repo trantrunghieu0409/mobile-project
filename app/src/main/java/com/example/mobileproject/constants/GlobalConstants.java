@@ -11,4 +11,7 @@ public class GlobalConstants {
     public static final int TIME_FOR_A_GAME = 20; // 20 seconds
     public static final Integer[] thumbnails = {R.drawable.avatar_batman,
         R.drawable.avatar1, R.drawable.avatar2, R.drawable.avatar3};
+
+    // This only for testing sync drawing
+    public static String currentRoomID = "example_room";
 }

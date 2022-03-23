@@ -39,12 +39,14 @@ public class DrawActivity extends Activity {
     private RoomState roomState;
     private ImageButton btnClose;
     int timeout;
+    String roomID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawscreen);
         timeout = getIntent().getIntExtra("Timeout", 20);
+        roomID = getIntent().getStringExtra("roomID");
         i = findViewById(R.id.imageView);
         p = new Paint();
         c = new Canvas();
@@ -65,9 +67,6 @@ public class DrawActivity extends Activity {
         Config.offset = Config.height/10 + Config.height/30;
 
         // get Room Information and update room state
-        // For now, I will hard code this part
-        // However, later use intent to transfer roomID to this
-        String roomID = "abc";
         roomState = new RoomState(roomID, GlobalConstants.TIME_FOR_A_GAME,
                 CloudFirestore.encodeBitmap(b));
 

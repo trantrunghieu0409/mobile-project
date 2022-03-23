@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
@@ -94,6 +95,11 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
 //                    startActivity(playIntent);
 //                    finish();
 //                }
+
+                // delete this later when you've already have event from GamePLay to drawActivity
+                GlobalConstants.currentRoomID = room.getRoomID();
+
+
                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

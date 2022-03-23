@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.example.mobileproject.fragment.FragmentDrawBox;
+import com.example.mobileproject.fragment.FragmentGetDrawing;
+import com.example.mobileproject.fragment.FragmentListPlayer;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
@@ -24,7 +27,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentListPlayer FragmentListPlayer;
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
-
+    FragmentGetDrawing fragmentGetDrawing;
     public String roomID;
     public Room room;
     public String userName;
@@ -58,6 +61,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         FragmentListPlayer = FragmentListPlayer.newInstance(true);
                         FragmentChatInput = FragmentChatInput.newInstance(true);
                         FragmentBoxChat = FragmentBoxChat.newInstance(true);
+                        fragmentGetDrawing = FragmentGetDrawing.newInstance(room.getRoomID());
 
                         ft.replace(R.id.holder_box_draw, FragmentDrawBox);
                         ft.replace(R.id.holder_list_player, FragmentListPlayer);
@@ -87,6 +91,12 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         accum = MAX_PROGRESS;
         barHorizontal.setMax(MAX_PROGRESS);
         barHorizontal.setProgress(accum);
+
+        // start sync drawing fragment
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
+        ft.commit();
+
         Thread backgroundThread = new Thread(backgroundTime,"isBarTime");
         backgroundThread.start();
     }
@@ -113,6 +123,12 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                     e.printStackTrace();
                 }
             }
+            // Stop SyncDrawing
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+            // Replace this fragment with result fragment
+            ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+            ft.commit();
         }
     };
 

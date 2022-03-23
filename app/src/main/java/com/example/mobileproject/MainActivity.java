@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.models.Account;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent drawIntent = new Intent(MainActivity.this, DrawActivity.class);
+                drawIntent.putExtra("roomID", GlobalConstants.currentRoomID);
                 startActivity(drawIntent);
             }
         });
