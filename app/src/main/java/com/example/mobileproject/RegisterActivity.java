@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser account){
 
         if(account != null){
-            Toast.makeText(this,"You Signed Up successfully",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Signed Up successfully",Toast.LENGTH_LONG).show();
             startActivity(new Intent(this,LoginActivity.class));
 
         }else {
@@ -59,13 +59,9 @@ public class RegisterActivity extends AppCompatActivity {
                     FirebaseUser currentUser = mAuth.getCurrentUser();
                     String email=registerEmail.getText().toString();
                     String password=registerPassword.getText().toString();
-                    if(email.equals(currentUser.getEmail().toString())) {
-                        Toast.makeText(RegisterActivity.this, "User already existed", Toast.LENGTH_SHORT).show();
-                        System.out.println("Already exists");
-                        System.out.println("Name" + currentUser.getEmail().toString());
-                        startActivity (HomeIntent);
-                    }
-                    else if (registerPassword.getText().toString().equals(registerRetypePassword.getText().toString())) {
+                    if(currentUser==null)
+                    {
+                        if (registerPassword.getText().toString().equals(registerRetypePassword.getText().toString())) {
 
                         mAuth.createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
@@ -98,9 +94,20 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 });
                     }
-
-
-
+                        else{
+                            Toast.makeText(RegisterActivity.this, "Those passwords didn’t match. Try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+//                    else if(email.equals(currentUser.getEmail().toString()))
+//                    {
+//                        Toast.makeText(RegisterActivity.this, "User already existed", Toast.LENGTH_SHORT).show();
+//                        System.out.println("Already exists");
+//                        System.out.println("Name" + currentUser.getEmail().toString());
+//                        startActivity (HomeIntent);
+//                    }
+                    else{
+                        Toast.makeText(RegisterActivity.this, "User already logged", Toast.LENGTH_SHORT).show();
+                    }
 
 
             }
