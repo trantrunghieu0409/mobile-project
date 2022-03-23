@@ -11,6 +11,8 @@ public class Room {
     ArrayList<Player>players;
     int maxPlayer;
     String roomID;
+    boolean isPlaying = false;
+    int drawer = 0;
 
 
     public Room(String roomID, int maxPoint, int maxPlayer, String topic, ArrayList<Player> players) {
@@ -105,8 +107,27 @@ public class Room {
         this.players = players;
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public int getDrawer() {
+        return drawer;
+    }
+
+    public void setDrawer(int drawer) {
+        this.drawer = drawer;
+    }
+
     public void addPlayer(Player player){
         this.players.add(player);
+    }
+    public String getOwnerUsername(){
+        return this.players.get(0).getName();
     }
 
     @Override

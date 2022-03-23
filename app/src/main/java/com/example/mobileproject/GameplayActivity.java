@@ -31,7 +31,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     DocumentReference documentReference;
     ProgressBar barHorizontal;
     Handler myHandler = new Handler();
-    final int MAX_PROGRESS = 20;
+    public final int MAX_PROGRESS = 20;
     int accum = 0;
 
     @Override
@@ -81,8 +81,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     @Override
     protected void onStart() {
         super.onStart();
-        beginProgressBar(MAX_PROGRESS);
-
     }
 
     public void beginProgressBar(int MAX_PROGRESS){

@@ -38,11 +38,13 @@ public class DrawActivity extends Activity {
     private Thread returnShape = null;
     private RoomState roomState;
     private ImageButton btnClose;
+    int timeout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawscreen);
+        timeout = getIntent().getIntExtra("Timeout", 20);
         i = findViewById(R.id.imageView);
         p = new Paint();
         c = new Canvas();
@@ -79,6 +81,21 @@ public class DrawActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        Thread killActivity = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < timeout;i++){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                finish();
+            }
+        });
+        killActivity.start();
     }
 
     @Override

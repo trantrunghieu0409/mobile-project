@@ -19,7 +19,7 @@
     <string name="it_s_the_turn_of">It\'s the turn of</string>
     <string name="the_answer_was">The answer was:</string>
     <string name="take_a_while_to_relax">Take a while to relax</string>
-    <string name="waiting_for_player">Waiting for player</string>
+    <string name="waiting_for_player">Waiting for owner to start</string>
     <string name="waiting">Waiting</string>
     <string-array name="languages_array">
         <item>Mercury</item>
