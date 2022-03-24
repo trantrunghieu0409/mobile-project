@@ -247,31 +247,5 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         super.onDestroy();
     }
 
-    public void notiDraw(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater layoutInflater = getLayoutInflater();
 
-        //this is custom dialog
-        //custom_popup_dialog contains textview only
-        View customView = layoutInflater.inflate(R.layout.popup_notidraw, null);
-        // reference the textview of custom_popup_dialog
-        Button buttonDrawTurn = customView.findViewById(R.id.buttonDrawTurn);
-
-
-        buttonDrawTurn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
-                drawIntent.putExtra("Timeout", MAX_PROGRESS);
-                drawIntent.putExtra("roomID", roomID);
-                drawIntent.putExtra("vocab", Topic.generateVocab(room.getTopic()));
-                startActivity(drawIntent);
-                System.out.println("End draw");
-            }
-        });
-
-        builder.setView(customView);
-        builder.create();
-        builder.show();
-    }
 }

@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +51,28 @@ public class DrawActivity extends Activity {
     int timeout;
     String roomID;
     String vocab;
+    public void notiDraw(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        //this is custom dialog
+        //custom_popup_dialog contains textview only
+        View customView = layoutInflater.inflate(R.layout.popup_notidraw, null);
+        // reference the textview of custom_popup_dialog
+        Button buttonDrawTurn = customView.findViewById(R.id.buttonDrawTurn);
+
+
+
+        builder.setView(customView);
+        AlertDialog alert = builder.create();
+        buttonDrawTurn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert.dismiss();
+            }
+        });
+        builder.show();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +80,8 @@ public class DrawActivity extends Activity {
         setContentView(R.layout.activity_drawscreen);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        // tell that it's time to draw
+        notiDraw();
 
         timeout = bundle.getInt("Timeout", GlobalConstants.TIME_FOR_A_GAME);
         roomID = bundle.getString("roomID");
