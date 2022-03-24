@@ -96,17 +96,18 @@ public class DrawActivity extends Activity {
             roomState.nextHint();
             roomState.setShowHint(true);
 
-            CloudFirestore.updateField("RoomState", roomID, "Hint", roomState.getHint());
-            CloudFirestore.updateField("RoomState", roomID, "isShowHint", true);
-        });
+            Thread updateThread = new Thread(() -> {
+                CloudFirestore.updateField("RoomState", roomState.getRoomID(), "hint", roomState.getHint());
+                CloudFirestore.updateField("RoomState", roomState.getRoomID(), "showHint", true);
+            });
+            updateThread.start();
+       });
 
         btnClose = (ImageButton) findViewById(R.id.btnClose);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
-                startActivity(intent);
 
                 AlertDialog exitDialog = new AlertDialog.Builder(DrawActivity.this)
                         .setTitle("Exit the game")
@@ -115,6 +116,11 @@ public class DrawActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // remove player from database
+
+
+                                Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
                             }
                         })
                         .setNegativeButton("No", null)
@@ -130,6 +136,11 @@ public class DrawActivity extends Activity {
                     try {
                         Thread.sleep(1000);
                         roomState.setTimeLeft(timeout-i-1);
+                        Thread updateThread = new Thread(() -> {
+                            CloudFirestore.updateField("RoomState", roomState.getRoomID(),
+                                    "timeLeft", roomState.getTimeLeft());
+                        });
+                        updateThread.start();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -137,6 +148,7 @@ public class DrawActivity extends Activity {
                 Intent intent = new Intent(DrawActivity.this, GameplayActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
             }
         });
         killActivity.start();
