@@ -45,13 +45,25 @@
             android:textAlignment="center" />
 
         <Button
+            android:id="@+id/friendRequestBtn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text="SEND FRIEND REQUEST"
+            android:textSize="12dp" />
+
+
+        <Button
             android:id="@+id/votekickBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
             android:text="VOTE KICK USER"
             android:textSize="12dp" />
+
+
 
         <Button
             android:id="@+id/votekickCancelBtn"

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobileproject.models.Account;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+
 
     Button loginBtn;
     String email,password;
@@ -31,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(account != null){
             Toast.makeText(this,"You login successfully",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this,HomeActivity.class));
+            startActivity(new Intent(this,MainActivity.class));
 
         }else {
             Toast.makeText(this,"Login failed",Toast.LENGTH_LONG).show();
