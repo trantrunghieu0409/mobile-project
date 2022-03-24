@@ -7,6 +7,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import kotlin.text.UStringsKt;
 
 public class Account extends Player implements Serializable {
     String email;
@@ -15,6 +18,8 @@ public class Account extends Player implements Serializable {
     int second_place;
     int third_place;
     int nGames;
+    String acountId;
+    ArrayList<String>friendListId;
 
     public Account() {
 
@@ -37,6 +42,18 @@ public class Account extends Player implements Serializable {
         this.second_place = 0;
         this.third_place = 0;
         this.nGames = 0;
+    }
+
+    public Account(String email,String hashPassword,String accountId)
+    {
+        this.email = email;
+        this.hashPassword = null;
+        this.first_place = 0;
+        this.second_place = 0;
+        this.third_place = 0;
+        this.nGames = 0;
+        this.acountId=accountId;
+        friendListId=new ArrayList<String>();
     }
 
     public int getFirst_place() {
@@ -87,7 +104,7 @@ public class Account extends Player implements Serializable {
         this.hashPassword = hashPassword;
     }
 
-    public  static void sendDataToFirebase(Account account) {
+    public static void sendDataToFirebase(Account account) {
         CloudFirestore.sendData("Account", account.getName(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

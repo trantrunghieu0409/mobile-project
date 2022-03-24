@@ -56,8 +56,9 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
                     gameplayActivity.beginProgressBar(gameplayActivity.MAX_PROGRESS);
                     Intent drawIntent = new Intent(gameplayActivity, DrawActivity.class);
                     drawIntent.putExtra("Timeout", gameplayActivity.MAX_PROGRESS);
+                    drawIntent.putExtra("roomID", gameplayActivity.roomID);
                     startActivity(drawIntent);
-                    Log.d("afterdrawing","done drawing");
+                    System.out.println("After exit draw activity");
                 }
             });
         }

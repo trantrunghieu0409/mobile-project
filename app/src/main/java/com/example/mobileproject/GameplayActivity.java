@@ -1,9 +1,17 @@
 package com.example.mobileproject;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,7 +42,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     DocumentReference documentReference;
     ProgressBar barHorizontal;
     Handler myHandler = new Handler();
-    public final int MAX_PROGRESS = 20;
+    public final int MAX_PROGRESS = 5;
     int accum = 0;
 
     @Override
@@ -123,12 +131,14 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                     e.printStackTrace();
                 }
             }
-            // Stop SyncDrawing
             fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
             // Replace this fragment with result fragment
-            ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.holder_box_draw, FragmentDrawBox);
-            ft.commit();
+//            ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+//            ft.commit();
+            // current drawer will indicate the next drawer
+
+            // Stop SyncDrawing
         }
     };
 
@@ -144,5 +154,31 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         else {
             CloudFirestore.sendData("ListofRooms", roomID, room);
         }
+    }
+    public void notiDraw(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        //this is custom dialog
+        //custom_popup_dialog contains textview only
+        View customView = layoutInflater.inflate(R.layout.popup_notidraw, null);
+        // reference the textview of custom_popup_dialog
+        Button buttonDrawTurn = customView.findViewById(R.id.buttonDrawTurn);
+
+
+        buttonDrawTurn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
+                drawIntent.putExtra("Timeout", MAX_PROGRESS);
+                drawIntent.putExtra("roomID", roomID);
+                startActivity(drawIntent);
+                System.out.println("End draw");
+            }
+        });
+
+        builder.setView(customView);
+        builder.create();
+        builder.show();
     }
 }

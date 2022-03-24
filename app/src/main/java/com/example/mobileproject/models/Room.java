@@ -123,6 +123,7 @@ public class Room {
         this.drawer = drawer;
     }
 
+
     public void addPlayer(Player player){
         this.players.add(player);
     }

@@ -92,6 +92,7 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 
                 final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
                 final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
+                final Button btnFriendRequest=popupVoteKick.findViewById(R.id.friendRequestBtn);
                 final TextView userTxt=popupVoteKick.findViewById(R.id.usernameTxt);
 
                 userTxt.setText(player.getName());
@@ -104,6 +105,14 @@ public class CustomListPlayerAdapter extends BaseAdapter {
                         popupWindow.dismiss();
                     }
                 });
+
+                btnFriendRequest.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
