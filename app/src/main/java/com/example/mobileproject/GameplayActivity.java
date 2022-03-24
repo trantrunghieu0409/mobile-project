@@ -116,6 +116,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     if(value != null){
+                        // new room bị mất user ??
                         Room newRoom = value.toObject(Room.class);
                         // Chỉ chạy nếu drawer thay đổi
                         if(room != null && newRoom != null){
@@ -171,9 +172,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
         // start sync drawing fragment
         ft = getSupportFragmentManager().beginTransaction();
-        //fragmentGetDrawing = FragmentGetDrawing.newInstance(roomID);
         ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
-        ft.commit();
+        ft.commitAllowingStateLoss();
+        fragmentGetDrawing.onMsgFromMainToFragment("START-FLAG");
 
         Thread backgroundThread = new Thread(backgroundTime,"isBarTime");
         backgroundThread.start();
