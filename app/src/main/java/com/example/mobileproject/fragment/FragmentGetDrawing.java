@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
-    GameplayActivity gameplayActivity;
+    GameplayActivity gameplayActivity; TextView txtHint;
     Context context = null;
     private ImageView i;
     private Bitmap b;
@@ -58,6 +59,9 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LinearLayout layout_getdrawing;
         layout_getdrawing = (LinearLayout) inflater.inflate(R.layout.layout_getdrawing,null);
+
+        txtHint = (TextView) layout_getdrawing.findViewById(R.id.txtHint);
+
         i = (ImageView) layout_getdrawing.findViewById(R.id.imageView);
         b = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         i.post(() -> {
@@ -74,11 +78,14 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
                             room = documentSnapshot.toObject(RoomState.class);
 
                             if (room != null) {
+                                // show drawing
                                 b = CloudFirestore.decodeBitmap(room.getImgBitmap());
-                                System.out.println(b);
                                 i.setImageBitmap(b);
-                            }
 
+                                // show hint
+                                if (room.isShowHint())
+                                    txtHint.setText(room.getHint());
+                            }
                         });
                     }
                     Thread.sleep(100);

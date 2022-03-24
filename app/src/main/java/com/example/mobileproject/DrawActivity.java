@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -38,15 +39,33 @@ public class DrawActivity extends Activity {
     private Thread returnShape = null;
     private RoomState roomState;
     private ImageButton btnClose;
+    private ImageButton btnHint;
+
+    TextView txtVocab;
+
     int timeout;
     String roomID;
+    String vocab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawscreen);
-        timeout = getIntent().getIntExtra("Timeout", 20);
-        roomID = getIntent().getStringExtra("roomID");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        timeout = bundle.getInt("Timeout", GlobalConstants.TIME_FOR_A_GAME);
+        roomID = bundle.getString("roomID");
+        vocab = bundle.getString("vocab");
+
+        // get Room Information and update room state
+        roomState = new RoomState(roomID, timeout,
+                CloudFirestore.encodeBitmap(b), vocab);
+        roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
+        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
+
+        txtVocab.setText(roomState.getVocab());
+
         i = findViewById(R.id.imageView);
         p = new Paint();
         c = new Canvas();
@@ -66,33 +85,32 @@ public class DrawActivity extends Activity {
         Config.width = displayMetrics.widthPixels;
         Config.offset = Config.height/10 + Config.height/30;
 
-        // get Room Information and update room state
-        roomState = new RoomState(roomID, GlobalConstants.TIME_FOR_A_GAME,
-                CloudFirestore.encodeBitmap(b));
+        btnHint = (ImageButton) findViewById(R.id.btnHint);
+        btnHint.setOnClickListener(view -> {
+            roomState.nextHint();
+            roomState.setShowHint(true);
 
-        btnClose = (ImageButton) findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // get back to MainActivity for now to debug
-                // change it later to HomeActivity
-                Intent intent = new Intent(DrawActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+            CloudFirestore.updateField("RoomState", roomID, "Hint", roomState.getHint());
+            CloudFirestore.updateField("RoomState", roomID, "isShowHint", true);
         });
 
-        Thread killActivity = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for(int i = 0; i < timeout;i++){
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        btnClose = (ImageButton) findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(view -> {
+            // get back to MainActivity for now to debug
+            // change it later to HomeActivity
+            Intent intent1 = new Intent(DrawActivity.this, MainActivity.class);
+            startActivity(intent1);
+        });
+
+        Thread killActivity = new Thread(() -> {
+            for(int i = 0; i < timeout;i++){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                finish();
             }
+            finish();
         });
         killActivity.start();
     }
@@ -158,9 +176,11 @@ public class DrawActivity extends Activity {
 
                         // send current drawing to firebase
                         roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
-                        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
+                        CloudFirestore.updateField("RoomState", roomState.getRoomID(),
+                                "imgBitmap",
+                                roomState.getImgBitmap());
 
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException ignored) {
                     }
                 }
             };

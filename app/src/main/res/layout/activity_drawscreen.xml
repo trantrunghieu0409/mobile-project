@@ -21,6 +21,7 @@
             android:src="@drawable/x"/>
 
         <TextView
+            android:id="@+id/txtVocab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Android"
@@ -65,6 +66,7 @@
             android:onClick="setEraser"
             />
         <ImageButton
+            android:id="@+id/btnHint"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:adjustViewBounds="true"
