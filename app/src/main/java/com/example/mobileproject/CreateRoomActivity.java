@@ -23,9 +23,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 public class CreateRoomActivity extends Activity implements View.OnClickListener {
     String[] numPlayers = {"5 players", "10 players", "15 players", "20 players"};
     String[] maxPoints = {"120 Points", "200 Points", "300 Points", "400 Points"};
-    String[] topics = {"Animal", "Household", "Transportation"};
-    int[] nPlayers = {5, 10, 15, 20};
-    int[] nPoints = {120, 200, 300, 400};
+
     Integer[] topicImgs = Config.Topics;
     Spinner numPlayerSpinner;
     Spinner maxPointSpinner;
@@ -54,7 +52,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                     pos = 0;
                 }
                 imgTopic.setImageResource(topicImgs[pos]);
-                txtTopic.setText(topics[pos]);
+                txtTopic.setText(GlobalConstants.topics[pos]);
             }
         });
         btnPrev = (ImageButton) findViewById(R.id.btnPrev);
@@ -85,7 +83,9 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
             public void onClick(View view) {
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
                 Player host = new Player(name, 0, avatar);
-                Room room = new Room(nPoints[maxPointSpinner.getSelectedItemPosition()], nPlayers[numPlayerSpinner.getSelectedItemPosition()], topics[pos], host);
+                Room room = new Room(GlobalConstants.nPoints[maxPointSpinner.getSelectedItemPosition()],
+                        GlobalConstants.nPlayers[numPlayerSpinner.getSelectedItemPosition()],
+                        GlobalConstants.topics[pos], host);
                 room.autoCreateRoomID();
                 //create room on firebase
 //                String result = CloudFirestore.sendData("ListofRooms", room.getRoomID(), room);

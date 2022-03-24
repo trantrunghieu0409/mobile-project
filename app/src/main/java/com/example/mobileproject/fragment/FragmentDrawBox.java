@@ -18,11 +18,16 @@ import com.example.mobileproject.DrawActivity;
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.MainActivity;
 import com.example.mobileproject.R;
+import com.example.mobileproject.models.RoomState;
+import com.example.mobileproject.models.Topic;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity;
     Context context = null;
     Button buttonStart;
+    RoomState roomState;
 
     public static FragmentDrawBox newInstance(boolean isDrawBox) {
         Bundle args = new Bundle();
@@ -54,11 +59,23 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
                 @Override
                 public void onClick(View view) {
                     gameplayActivity.beginProgressBar(gameplayActivity.MAX_PROGRESS);
-                    Intent drawIntent = new Intent(gameplayActivity, DrawActivity.class);
-                    drawIntent.putExtra("Timeout", gameplayActivity.MAX_PROGRESS);
-                    drawIntent.putExtra("roomID", gameplayActivity.roomID);
-                    startActivity(drawIntent);
-                    System.out.println("After exit draw activity");
+                    roomState = new RoomState(gameplayActivity.roomID,
+                            gameplayActivity.MAX_PROGRESS,
+                            null,
+                            Topic.generateVocab(gameplayActivity.room.getTopic()));
+                    CloudFirestore.sendData("RoomState", gameplayActivity.roomID, roomState)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Intent drawIntent = new Intent(gameplayActivity, DrawActivity.class);
+                            drawIntent.putExtra("Timeout", gameplayActivity.MAX_PROGRESS);
+                            drawIntent.putExtra("roomID", gameplayActivity.roomID);
+                            drawIntent.putExtra("vocab", roomState.getVocab());
+                            startActivity(drawIntent);
+                        }
+                    });
+
+
                 }
             });
         }

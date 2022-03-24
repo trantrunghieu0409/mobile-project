@@ -22,6 +22,7 @@ import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentListPlayer;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Room;
+import com.example.mobileproject.models.Topic;
 import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -145,7 +146,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     @Override
     protected void onStop() {
         super.onStop();
-        room.removePlayer(userName);
+        if (userName != null)
+            room.removePlayer(userName);
         if(room.getPlayers().size() == 0){
             // If the last person in room left
             // Delete that room
@@ -172,6 +174,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
                 drawIntent.putExtra("Timeout", MAX_PROGRESS);
                 drawIntent.putExtra("roomID", roomID);
+                drawIntent.putExtra("vocab", Topic.generateVocab(room.getTopic()));
                 startActivity(drawIntent);
                 System.out.println("End draw");
             }

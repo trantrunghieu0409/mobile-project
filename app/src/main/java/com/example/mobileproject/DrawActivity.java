@@ -62,14 +62,6 @@ public class DrawActivity extends Activity {
         roomID = bundle.getString("roomID");
         vocab = bundle.getString("vocab");
 
-        // get Room Information and update room state
-        roomState = new RoomState(roomID, timeout,
-                CloudFirestore.encodeBitmap(b), vocab);
-        roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
-        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
-
-        txtVocab.setText(roomState.getVocab());
-
         i = findViewById(R.id.imageView);
         p = new Paint();
         c = new Canvas();
@@ -88,6 +80,16 @@ public class DrawActivity extends Activity {
         Config.height = displayMetrics.heightPixels;
         Config.width = displayMetrics.widthPixels;
         Config.offset = Config.height/10 + Config.height/30;
+
+
+        // get Room Information and update room state
+        roomState = new RoomState(roomID, timeout,
+                CloudFirestore.encodeBitmap(b), vocab);
+        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
+
+        txtVocab = (TextView) findViewById(R.id.txtVocab);
+        txtVocab.setText(roomState.getVocab());
+
 
         btnHint = (ImageButton) findViewById(R.id.btnHint);
         btnHint.setOnClickListener(view -> {

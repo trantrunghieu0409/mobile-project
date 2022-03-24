@@ -29,7 +29,8 @@ public class RoomState {
         this.imgBitmap = imgBitmap;
         this.vocab = vocab;
 
-        hint = vocab.replaceAll("\\w+", "-");
+        if (vocab != null)
+            hint = vocab.replaceAll("\\w+", "-");
     }
 
     public String getVocab() {
