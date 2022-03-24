@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.fragment.FragmentDrawBox;
 import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentListPlayer;
@@ -49,7 +50,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     DocumentReference documentReference;
     ProgressBar barHorizontal;
     Handler myHandler = new Handler();
-    public final int MAX_PROGRESS = 5;
+    public final int MAX_PROGRESS = GlobalConstants.TIME_FOR_A_GAME;
     int accum = 0;
 
     @Override

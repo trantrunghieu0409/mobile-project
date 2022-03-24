@@ -61,7 +61,7 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
         layout_getdrawing = (LinearLayout) inflater.inflate(R.layout.layout_getdrawing,null);
 
         txtHint = (TextView) layout_getdrawing.findViewById(R.id.txtHint);
-
+        txtHint.setText(roomID);
         i = (ImageView) layout_getdrawing.findViewById(R.id.imageView);
         b = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         i.post(() -> {
@@ -72,15 +72,17 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
         syncThread = new Thread(() -> {
             try {
                 while (true) {
-                    DocumentReference docRef = CloudFirestore.getData("Room", roomID);
+                    DocumentReference docRef = CloudFirestore.getData("RoomState", roomID);
                     if (docRef != null) {
                         docRef.get().addOnSuccessListener(documentSnapshot -> {
                             room = documentSnapshot.toObject(RoomState.class);
 
                             if (room != null) {
-                                // show drawing
-                                b = CloudFirestore.decodeBitmap(room.getImgBitmap());
-                                i.setImageBitmap(b);
+                                if (room.getImgBitmap() != null) { // if not draw anything
+                                    // show drawing
+                                    b = CloudFirestore.decodeBitmap(room.getImgBitmap());
+                                    i.setImageBitmap(b);
+                                }
 
                                 // show hint
                                 if (room.isShowHint())

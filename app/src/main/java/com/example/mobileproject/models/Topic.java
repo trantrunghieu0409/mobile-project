@@ -45,13 +45,13 @@ public class Topic {
         String vocab = "";
 
         if (topicName.equals("Animal")) {
-            vocab = GlobalConstants.topics[rnd.nextInt(GlobalConstants.animals.length)];
+            vocab = GlobalConstants.animals[rnd.nextInt(GlobalConstants.animals.length)];
         }
         if (topicName.equals("Household")) {
-            vocab = GlobalConstants.topics[rnd.nextInt(GlobalConstants.households.length)];
+            vocab = GlobalConstants.households[rnd.nextInt(GlobalConstants.households.length)];
         }
         if (topicName.equals("Transportation")) {
-            vocab = GlobalConstants.topics[rnd.nextInt(GlobalConstants.transportations.length)];
+            vocab = GlobalConstants.transportations[rnd.nextInt(GlobalConstants.transportations.length)];
         }
 
         return vocab;
