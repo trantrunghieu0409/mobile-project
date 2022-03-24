@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent drawIntent = new Intent(MainActivity.this, DrawActivity.class);
                 drawIntent.putExtra("roomID", GlobalConstants.currentRoomID);
+                drawIntent.putExtra("vocab", "Hello World");
                 startActivity(drawIntent);
             }
         });

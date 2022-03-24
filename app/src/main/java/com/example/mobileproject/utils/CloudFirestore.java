@@ -3,6 +3,7 @@ package com.example.mobileproject.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -33,12 +34,17 @@ public class CloudFirestore {
             return db.collection(collectionName).document(document);
         }
         catch (Exception e) {
-            System.out.println(collectionName + " - " +
+            Log.e("Firebase Error", collectionName + " - " +
                     document + " not found!");
         }
 
         return null;
     }
+
+    public static Task<Void> updateField(String collection, String document, String field, Object value) {
+        return db.collection(collection).document(document).update(field, value);
+    }
+
     public static Task<QuerySnapshot> getListofRooms(){
         return db.collection("ListofRooms").get();
     }

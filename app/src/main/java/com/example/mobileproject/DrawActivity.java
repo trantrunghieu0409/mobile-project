@@ -1,6 +1,8 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,11 +17,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.utils.CloudFirestore;
 
@@ -38,15 +43,25 @@ public class DrawActivity extends Activity {
     private Thread returnShape = null;
     private RoomState roomState;
     private ImageButton btnClose;
+    private ImageButton btnHint;
+
+    TextView txtVocab;
+
     int timeout;
     String roomID;
+    String vocab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawscreen);
-        timeout = getIntent().getIntExtra("Timeout", 20);
-        roomID = getIntent().getStringExtra("roomID");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        timeout = bundle.getInt("Timeout", GlobalConstants.TIME_FOR_A_GAME);
+        roomID = bundle.getString("roomID");
+        vocab = bundle.getString("vocab");
+
         i = findViewById(R.id.imageView);
         p = new Paint();
         c = new Canvas();
@@ -66,20 +81,45 @@ public class DrawActivity extends Activity {
         Config.width = displayMetrics.widthPixels;
         Config.offset = Config.height/10 + Config.height/30;
 
+
         // get Room Information and update room state
-        roomState = new RoomState(roomID, GlobalConstants.TIME_FOR_A_GAME,
-                CloudFirestore.encodeBitmap(b));
+        roomState = new RoomState(roomID, timeout,
+                CloudFirestore.encodeBitmap(b), vocab);
+        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
+
+        txtVocab = (TextView) findViewById(R.id.txtVocab);
+        txtVocab.setText(roomState.getVocab());
+
+
+        btnHint = (ImageButton) findViewById(R.id.btnHint);
+        btnHint.setOnClickListener(view -> {
+            roomState.nextHint();
+            roomState.setShowHint(true);
+
+            CloudFirestore.updateField("RoomState", roomID, "Hint", roomState.getHint());
+            CloudFirestore.updateField("RoomState", roomID, "isShowHint", true);
+        });
 
         btnClose = (ImageButton) findViewById(R.id.btnClose);
+
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get back to MainActivity for now to debug
-                // change it later to HomeActivity
-                Intent intent = new Intent(DrawActivity.this, MainActivity.class);
+                Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
                 startActivity(intent);
-                // should be exit the game !!
-                // before that pop up the message "do you want to exit the game ?"
+
+                AlertDialog exitDialog = new AlertDialog.Builder(DrawActivity.this)
+                        .setTitle("Exit the game")
+                        .setMessage("Are you sure want to quit this game?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // remove player from database
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .setIcon(R.drawable.ic_baseline_sad_face_24)
+                        .show(); // do nothing
             }
         });
 
@@ -163,9 +203,11 @@ public class DrawActivity extends Activity {
 
                         // send current drawing to firebase
                         roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
-                        CloudFirestore.sendData("RoomState", roomState.getRoomID(), roomState);
+                        CloudFirestore.updateField("RoomState", roomState.getRoomID(),
+                                "imgBitmap",
+                                roomState.getImgBitmap());
 
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException ignored) {
                     }
                 }
             };
