@@ -90,6 +90,7 @@ public class HomeActivity extends Activity {
             public void onClick(View view) {
                 if(edtName.getText().length() == 0){
                     // Pop up Error message
+                    edtName.requestFocus();
                 }
                 else {
                     //go to play screen here
@@ -120,10 +121,16 @@ public class HomeActivity extends Activity {
         btnCreateRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
-                roomIntent.putExtra("name", edtName.getText().toString());
-                roomIntent.putExtra("avatar", avatars[pos]);
-                startActivityForResult(roomIntent, 0);
+                if(edtName.getText().length() == 0){
+                    // Pop up Error message
+                    edtName.requestFocus();
+                }
+                else {
+                    Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
+                    roomIntent.putExtra("name", edtName.getText().toString());
+                    roomIntent.putExtra("avatar", avatars[pos]);
+                    startActivityForResult(roomIntent, 0);
+                }
             }
         });
     }

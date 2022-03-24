@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.example.mobileproject.R;
 
-public final class Config extends Activity {
+public final class Config {
 
     public enum PenType {
         DRAW,

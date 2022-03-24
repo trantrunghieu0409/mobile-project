@@ -24,30 +24,36 @@ public class CloudFirestore {
         return INSTANCE;
     }
 
-    public static Task<Void> sendData(String collectionName, Object document, Object data) {
-        CollectionReference dbCollection = db.collection(collectionName);
+    public static Task<Void> sendData(String collection, Object document, Object data) {
+        CollectionReference dbCollection = db.collection(collection);
         return dbCollection.document(String.valueOf(document)).set(data);
     }
 
-    public static DocumentReference getData(String collectionName, String document) {
+    public static DocumentReference getData(String collection, String document) {
         try {
-            return db.collection(collectionName).document(document);
+            return db.collection(collection).document(document);
         }
         catch (Exception e) {
-            Log.e("Firebase Error", collectionName + " - " +
+            Log.e("Get Data From Firebase Error", collection + " - " +
                     document + " not found!");
         }
-
         return null;
     }
 
-    public static Task<Void> updateField(String collection, String document, String field, Object value) {
-        return db.collection(collection).document(document).update(field, value);
+    public static void updateField(String collection, String document, String field, Object value) {
+        try {
+            db.collection(collection).document(document).update(field, value);
+        }
+        catch (Exception e) {
+            Log.e("Update on Firebase Error", collection + " - " +
+                    document + " not found!");
+        }
     }
 
     public static Task<QuerySnapshot> getListofRooms(){
         return db.collection("ListofRooms").get();
     }
+
     public static void deleteDoc(String collectionName, String document){
         db.collection(collectionName).document(document).delete();
     }
