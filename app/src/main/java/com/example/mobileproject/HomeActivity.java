@@ -90,6 +90,7 @@ public class HomeActivity extends Activity {
             public void onClick(View view) {
                 if(edtName.getText().length() == 0){
                     // Pop up Error message
+                    edtName.requestFocus();
                 }
                 else {
                     //go to play screen here

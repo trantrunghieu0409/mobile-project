@@ -115,8 +115,7 @@ public class DrawActivity extends Activity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                // remove player from database
-
+                                // remove player from database ?
 
                                 Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
                                 startActivity(intent);

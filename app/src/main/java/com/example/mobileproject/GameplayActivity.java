@@ -1,6 +1,7 @@
 package com.example.mobileproject;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +9,7 @@ import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
     FragmentGetDrawing fragmentGetDrawing;
+    ImageButton btnClose;
     public String roomID;
     public Room room;
     public String userName;
@@ -55,6 +58,42 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
 
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
+
+
+        btnClose = (ImageButton) findViewById(R.id.btnClose);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog exitDialog = new AlertDialog.Builder(GameplayActivity.this)
+                        .setTitle("Exit the game")
+                        .setMessage("Are you sure want to quit this game?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // remove player from database
+                                if (userName != null)
+                                    room.removePlayer(userName);
+                                if(room.getPlayers().size() == 0){
+                                    // If the last person in room left
+                                    // Delete that room
+                                    CloudFirestore.deleteDoc("ListofRooms", roomID);
+                                }
+                                else {
+                                    CloudFirestore.sendData("ListofRooms", roomID, room);
+                                }
+
+                                Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .setIcon(R.drawable.ic_baseline_sad_face_24)
+                        .show(); // do nothing
+            }
+        });
 
         if(documentReference != null){
             documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
