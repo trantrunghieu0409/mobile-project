@@ -54,6 +54,8 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
             throw new IllegalStateException("Activity must implement callbacks");
         }
         documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
+        if(documentReference != null){
+
         documentReference.collection("Chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -67,6 +69,7 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
                 }
             }
         });
+        }
     }
 
     @Nullable
