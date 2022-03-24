@@ -63,6 +63,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                     pos = topicImgs.length - 1;
                 }
                 imgTopic.setImageResource(topicImgs[pos]);
+                txtTopic.setText(GlobalConstants.topics[pos]);
             }
         });
 
