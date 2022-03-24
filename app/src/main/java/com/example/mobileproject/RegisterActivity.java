@@ -57,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    mAuth.signOut();
                     FirebaseUser currentUser = mAuth.getCurrentUser();
                     String email=registerEmail.getText().toString();
                     String password=registerPassword.getText().toString();
@@ -73,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             Log.d(TAG, "createUserWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             System.out.println("createUserWithEmail:success");
-                                            Account newAcc=new Account(user.getEmail(),"password",user.getUid());
+                                            Account newAcc=new Account(user.getEmail(),user.getEmail(),"password",user.getUid());
                                             newAcc.sendDataToFirebase(newAcc);
                                             updateUI(user);
                                         } else {

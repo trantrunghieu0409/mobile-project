@@ -59,14 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
              mAuth = FirebaseAuth.getInstance();
              FirebaseUser currentUser = mAuth.getCurrentUser();
-             System.out.println("CURRENT USER" + currentUser);
              if (currentUser == null) {
                  Toast.makeText(MainActivity.this, "Profile only available for logged user", Toast.LENGTH_SHORT).show();
                  Intent LoginIntent = new Intent(MainActivity.this, LoginActivity.class);
                  startActivity(LoginIntent);
              } else {
 
-                 String accountName = "User01";
+                 String accountName = currentUser.getEmail();
                  final Account[] accountList = {new Account("example@gmail.com", "password")};
 
                  DocumentReference documentReference = Account.getDataFromFirebase(accountName);
@@ -83,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
              }
          }
      });
+
         buttonNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

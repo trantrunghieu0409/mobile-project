@@ -43,4 +43,10 @@ public class FirebaseAuthentication {
     public void logout(){
         mAuth.signOut();
     }
+
+    String nameExtractor(String email ){
+        int endIdx=email.indexOf('@');
+        if (endIdx==-1) {endIdx=email.length();}
+        return email.substring(0, endIdx);
+    }
 }

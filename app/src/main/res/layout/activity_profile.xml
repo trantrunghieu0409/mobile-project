@@ -179,11 +179,12 @@
             android:layout_marginEnd="20dp"/>
 
         <Button
+            android:id="@+id/btnSignOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SIGN OUT"
+            android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_gravity="center"/>
+            android:text="SIGN OUT" />
     </LinearLayout>
 
 

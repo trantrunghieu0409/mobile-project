@@ -30,6 +30,7 @@ import com.example.mobileproject.fragment.FragmentListFriends;
 import com.example.mobileproject.fragment.FragmentProfile;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Account;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 
 public class ProfileActivity extends FragmentActivity implements MainCallbacks {
@@ -42,6 +43,8 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     Account account;
     String accountName;
     RadioButton radioLeft, radioRight;
+    Button btnSignOut;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         txtAchievements = (TextView) findViewById(R.id.txtAchievements);
         radioLeft = (RadioButton) findViewById(R.id.radioLeft);
         radioRight = (RadioButton) findViewById(R.id.radioRight);
+        btnSignOut=(Button)findViewById(R.id.btnSignOut) ;
 
 
         Intent intent = getIntent();
@@ -182,7 +186,15 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                 });
             }
         });
-
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.signOut();
+                Intent intent=new Intent(ProfileActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
