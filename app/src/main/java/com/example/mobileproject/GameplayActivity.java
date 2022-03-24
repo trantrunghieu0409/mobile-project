@@ -1,6 +1,9 @@
 package com.example.mobileproject;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -88,6 +92,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         .show(); // do nothing
             }
         });
+        // Pop up invitation
+        popupInvitation();
+        //end pop up invitation
+
 
         if(documentReference != null){
             documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -251,6 +259,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             // If the last person in room left
             // Delete that room
             CloudFirestore.deleteDoc("ListofRooms", roomID);
+            CloudFirestore.deleteDoc("RoomState", roomID);
         }
         else {
             CloudFirestore.sendData("ListofRooms", roomID, room);
@@ -259,5 +268,30 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         super.onDestroy();
     }
 
+    public void popupInvitation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        //this is custom dialog
+        //custom_popup_dialog contains textview only
+        View customView = layoutInflater.inflate(R.layout.popup_shareinvite, null);
+        // reference the textview of custom_popup_dialog
+        Button buttonDrawTurn = customView.findViewById(R.id.copyButton);
+        TextView txtInvitation = customView.findViewById(R.id.txtInvitation);
+        txtInvitation.setText(roomID);
+        builder.setView(customView);
+        AlertDialog alert = builder.create();
+        buttonDrawTurn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("invitation", txtInvitation.getText().toString());
+                clipboard.setPrimaryClip(clip);
+                alert.dismiss();
+                Toast.makeText(GameplayActivity.this, "Copied to clipboard", Toast.LENGTH_LONG);
+            }
+        });
+        alert.show();
+    }
 
 }

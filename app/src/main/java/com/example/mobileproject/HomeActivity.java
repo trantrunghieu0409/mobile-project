@@ -1,6 +1,8 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -101,6 +103,31 @@ public class HomeActivity extends Activity {
                             List<DocumentSnapshot> listRooms = task.getResult().getDocuments();
                             if (listRooms.size() == 0) {
                                 // do something here -> pop up notify that there is no room to play
+                                AlertDialog noRoomDialog = new AlertDialog.Builder(HomeActivity.this)
+                                        .setTitle("No room to play")
+                                        .setMessage("There is no active room now. Want to create one ?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
+                                                Room room = documentSnapshot.toObject(Room.class);
+                                                assert room != null;
+                                                room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
+                                                Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
+                                                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        playIntent.putExtra("RoomID", room.getRoomID());
+                                                        playIntent.putExtra("UserName",edtName.getText().toString());
+                                                        startActivity(playIntent);
+                                                        finish();
+                                                    }
+                                                });
+                                            }
+                                        })
+                                        .setNegativeButton("No", null)
+                                        .setIcon(R.drawable.ic_baseline_sad_face_24)
+                                        .show(); // do nothing
 
                             }
                             else {
@@ -139,5 +166,8 @@ public class HomeActivity extends Activity {
                 }
             }
         });
+    }
+    public void popupPlay(){
+        
     }
 }

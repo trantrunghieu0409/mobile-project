@@ -71,7 +71,7 @@ public class DrawActivity extends Activity {
                 alert.dismiss();
             }
         });
-        builder.show();
+        alert.show();
     }
 
     @Override
