@@ -46,7 +46,7 @@ public class Account extends Player implements Serializable {
 
     public Account(String name,String email,String hashPassword,String accountId)
     {
-        super(name, 0, 0);
+        super(name, 0, 2131230807);
         this.email = email;
         this.hashPassword = null;
         this.first_place = 0;
