@@ -57,6 +57,7 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
             if(gameplayActivity.userName.equals(gameplayActivity.room.getOwnerUsername()) && gameplayActivity.room.isPlaying() == false){
                 layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waitstart,null);
                 buttonStart = (Button) layout_draw_box.findViewById(R.id.btnStart);
+                buttonStart.setEnabled(false);
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -77,6 +78,8 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
 
         @Override
     public void onMsgFromMainToFragment(String strValue) {
-
+        if(strValue.equals("NEW_PLAYER")){
+            buttonStart.setEnabled(true);
+        }
     }
 }

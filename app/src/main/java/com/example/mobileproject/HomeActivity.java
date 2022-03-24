@@ -101,6 +101,7 @@ public class HomeActivity extends Activity {
                             List<DocumentSnapshot> listRooms = task.getResult().getDocuments();
                             if (listRooms.size() == 0) {
                                 // do something here -> pop up notify that there is no room to play
+
                             }
                             else {
                                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));

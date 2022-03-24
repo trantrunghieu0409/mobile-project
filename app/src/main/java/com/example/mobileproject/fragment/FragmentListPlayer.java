@@ -60,6 +60,13 @@ public class FragmentListPlayer extends Fragment{
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 Room room = value.toObject(Room.class);
                 if(room != null){
+                    if(gameplayActivity.room != null){
+                        if(room.getPlayers().size() > gameplayActivity.room.getPlayers().size()){
+                            // a new player is in
+                            // call to owner to start the game
+                            gameplayActivity.onMsgFromFragToMain("PLAYER-FLAG", "NEW_PLAYER");
+                        }
+                    }
                     gameplayActivity.room = room;
                     list.clear();
                     list.addAll(room.getPlayers());

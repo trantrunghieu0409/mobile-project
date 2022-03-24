@@ -24,6 +24,7 @@ import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.fragment.FragmentDrawBox;
 import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentListPlayer;
+import com.example.mobileproject.fragment.FragmentResult;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.models.RoomState;
@@ -43,6 +44,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
     FragmentGetDrawing fragmentGetDrawing;
+    FragmentResult fragmentResult;
     ImageButton btnClose;
     public String roomID;
     public Room room;
@@ -102,6 +104,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         FragmentChatInput = FragmentChatInput.newInstance(true);
                         FragmentBoxChat = FragmentBoxChat.newInstance(true);
                         fragmentGetDrawing = FragmentGetDrawing.newInstance(room.getRoomID());
+                        fragmentResult = FragmentResult.newInstance("Activity");
 
                         ft.replace(R.id.holder_box_draw, FragmentDrawBox);
                         ft.replace(R.id.holder_list_player, FragmentListPlayer);
@@ -143,9 +146,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                 }
                             }
                         }
-                        // Nếu có sự thay đổi thì hàm này sẽ chạy
-                        // Có người mới vào thì hàm này cũng chạy ??
-                        // nó sẽ set drawer lại từ đầu ??
 
                     }
                 }
@@ -157,6 +157,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public void onMsgFromFragToMain(String sender, String strValue) {
         if (sender.equals("MESS-FLAG")) {
             FragmentBoxChat.onMsgFromMainToFragment(strValue);
+        }
+        else if(sender.equals("PLAYER-FLAG")){
+            FragmentDrawBox.onMsgFromMainToFragment(strValue);
         }
     }
 
@@ -203,6 +206,15 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 }
             }
             fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG"); // kill the getting draw thread
+            //result fragment
+            ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.holder_box_draw, fragmentResult);
+            ft.commitAllowingStateLoss();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             // let owner indicate the next drawer
             if(userName.equals(room.getOwnerUsername())){
                 Room newRoom = room.deepcopy();
