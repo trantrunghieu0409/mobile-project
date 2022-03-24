@@ -32,7 +32,7 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends Activity {
-    String[] languages = {"Vietnamese", "English"};
+    String[] languages = {"Tiếng Việt", "English"};
     Integer[] avatars = Config.Avatars;
 
     Button btnPlay;
@@ -99,20 +99,25 @@ public class HomeActivity extends Activity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             Random rand = new Random();
                             List<DocumentSnapshot> listRooms = task.getResult().getDocuments();
-                            DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
-                            Room room = documentSnapshot.toObject(Room.class);
-                            assert room != null;
-                            room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
-                            Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
-                            CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    playIntent.putExtra("RoomID", room.getRoomID());
-                                    playIntent.putExtra("UserName",edtName.getText().toString());
-                                    startActivity(playIntent);
-                                    finish();
-                                }
-                            });
+                            if (listRooms.size() == 0) {
+                                // do something here -> pop up notify that there is no room to play
+                            }
+                            else {
+                                DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
+                                Room room = documentSnapshot.toObject(Room.class);
+                                assert room != null;
+                                room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
+                                Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
+                                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        playIntent.putExtra("RoomID", room.getRoomID());
+                                        playIntent.putExtra("UserName",edtName.getText().toString());
+                                        startActivity(playIntent);
+                                        finish();
+                                    }
+                                });
+                            }
                         }
                     });
                 }

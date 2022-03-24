@@ -76,18 +76,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                // remove player from database
-                                if (userName != null)
-                                    room.removePlayer(userName);
-                                if(room.getPlayers().size() == 0){
-                                    // If the last person in room left
-                                    // Delete that room
-                                    CloudFirestore.deleteDoc("ListofRooms", roomID);
-                                }
-                                else {
-                                    CloudFirestore.sendData("ListofRooms", roomID, room);
-                                }
-
                                 Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -213,7 +201,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                     e.printStackTrace();
                 }
             }
-            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG"); // kill the getting draw thread
             // let owner indicate the next drawer
             if(userName.equals(room.getOwnerUsername())){
                 Room newRoom = room.deepcopy();
@@ -240,11 +228,11 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
     protected void onDestroy() {
+        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
         room.removePlayer(userName);
         if(room.getPlayers().size() == 0){
             // If the last person in room left
