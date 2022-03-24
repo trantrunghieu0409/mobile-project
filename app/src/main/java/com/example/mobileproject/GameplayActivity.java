@@ -93,7 +93,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             }
         });
         // Pop up invitation
-        popupInvitation();
+
         //end pop up invitation
 
 
@@ -268,30 +268,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         super.onDestroy();
     }
 
-    public void popupInvitation(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater layoutInflater = getLayoutInflater();
 
-        //this is custom dialog
-        //custom_popup_dialog contains textview only
-        View customView = layoutInflater.inflate(R.layout.popup_shareinvite, null);
-        // reference the textview of custom_popup_dialog
-        Button buttonDrawTurn = customView.findViewById(R.id.copyButton);
-        TextView txtInvitation = customView.findViewById(R.id.txtInvitation);
-        txtInvitation.setText(roomID);
-        builder.setView(customView);
-        AlertDialog alert = builder.create();
-        buttonDrawTurn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("invitation", txtInvitation.getText().toString());
-                clipboard.setPrimaryClip(clip);
-                alert.dismiss();
-                Toast.makeText(GameplayActivity.this, "Copied to clipboard", Toast.LENGTH_LONG);
-            }
-        });
-        alert.show();
-    }
 
 }
