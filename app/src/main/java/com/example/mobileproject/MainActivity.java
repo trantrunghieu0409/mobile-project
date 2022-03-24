@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.models.Account;
 import com.example.mobileproject.utils.FcmNotificationsSender;
-import com.example.mobileproject.utils.FirebaseMessagingService;
+import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -88,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        FirebaseMessagingService.getToken(getApplicationContext()),
-                        "Testing",
-                        "How are you",getApplicationContext(), MainActivity.this);
+                        FriendRequestFirebaseMessagingService.getToken(getApplicationContext()),
+                        "Friend request",
+                        "Accept friend request from User 01",getApplicationContext(), MainActivity.this);
                 notificationsSender.SendNotifications();
             }
         });

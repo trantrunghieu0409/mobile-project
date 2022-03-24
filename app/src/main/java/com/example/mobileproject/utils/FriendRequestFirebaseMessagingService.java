@@ -24,10 +24,15 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 
+import com.example.mobileproject.HomeActivity;
+import com.example.mobileproject.ProfileActivity;
 import com.example.mobileproject.R;
+import com.example.mobileproject.models.Account;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
+import java.io.Serializable;
+
+public class FriendRequestFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     NotificationManager mNotificationManager;
 
@@ -42,13 +47,13 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.S)
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
 
-// playing audio and vibration when user se reques
+// playing audio and vibration when user se request
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
@@ -75,15 +80,24 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             builder.setSmallIcon(R.drawable.icon);
         }
 
+        Intent intent1 = new Intent(this, ProfileActivity.class);
+        intent1.putExtra("yes",true);
+        intent1.putExtra("account", (Serializable) new Account("example@gmail.com", "password"));
+        intent1.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
+                |Intent. FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
 
-
-//        Intent resultIntent = new Intent(this, SplashScreen.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent2 = new Intent(this, HomeActivity.class);
+        intent2.putExtra("no",false);
+        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
+                |Intent. FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
 
 
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
-//        builder.setContentIntent(pendingIntent);
+        builder.addAction(R.drawable.ic_launcher_foreground,"Yes",pendingIntent1);
+        builder.addAction(R.drawable.ic_launcher_foreground,"No",pendingIntent2);
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
         builder.setAutoCancel(true);
         builder.setPriority(Notification.PRIORITY_MAX);
@@ -96,7 +110,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            String channelId = "Your_channel_id";
+            String channelId = "channel_id";
             NotificationChannel channel = new NotificationChannel(
                     channelId,
                     "Channel human readable title",
