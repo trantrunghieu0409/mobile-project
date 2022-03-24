@@ -1,6 +1,8 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,9 +20,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.utils.CloudFirestore;
 
@@ -99,12 +103,21 @@ public class DrawActivity extends Activity {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get back to MainActivity for now to debug
-                // change it later to HomeActivity
-                Intent intent = new Intent(DrawActivity.this, MainActivity.class);
+                Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
                 startActivity(intent);
-                // should be exit the game !!
-                // before that pop up the message "do you want to exit the game ?"
+
+                AlertDialog exitDialog = new AlertDialog.Builder(DrawActivity.this)
+                        .setTitle("Exit the game")
+                        .setMessage("Are you sure want to quit this game?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // remove player from database
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .setIcon(R.drawable.ic_baseline_sad_face_24)
+                        .show(); // do nothing
             }
         });
 
@@ -123,7 +136,6 @@ public class DrawActivity extends Activity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
-            finish();
         });
         killActivity.start();
     }
