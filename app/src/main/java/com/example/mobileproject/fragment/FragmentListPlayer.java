@@ -54,15 +54,19 @@ public class FragmentListPlayer extends Fragment{
 
         //Add Data list player from database if Room have new Player
         documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
+        if(documentReference != null){
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 Room room = value.toObject(Room.class);
-                list.clear();
-                list.addAll(room.getPlayers());
-                adapter.notifyDataSetChanged();
+                if(room != null){
+                    list.clear();
+                    list.addAll(room.getPlayers());
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
+        }
 
     }
 

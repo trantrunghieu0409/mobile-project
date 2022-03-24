@@ -106,7 +106,6 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("UserName",name);
                         startActivity(playIntent);
-                        finish();
                     }
                 });
             }

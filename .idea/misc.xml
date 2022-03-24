@@ -10,15 +10,19 @@
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/drawable/my_border.xml" value="0.2265" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_createroom.xml" value="0.13768115942028986" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.264" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_gameplay.xml" value="0.10663627152988855" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_homescreen.xml" value="0.13269927536231885" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/create_room.xml" value="0.22826086956521738" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/custom_item_chat.xml" value="0.25" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/custom_list_friend.xml" value="0.4" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/homescreen.xml" value="0.2" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/layout_answer.xml" value="0.10663627152988855" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/layout_getdrawing.xml" value="0.12158054711246201" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/layout_waiting.xml" value="0.25" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/layout_waitstart.xml" value="0.24728260869565216" />
         <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/popup_gameover.xml" value="0.264" />
+        <entry key="..\:/2021-2022 Semester II/Mobile Development/mobile-project/app/src/main/res/layout/popup_notidraw.xml" value="0.10663627152988855" />
         <entry key="..\:/Users/123/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/drawable/background_btn.xml" value="0.13425925925925927" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Project/mobile-project/app/src/main/res/drawable/background_btn2.xml" value="0.13425925925925927" />

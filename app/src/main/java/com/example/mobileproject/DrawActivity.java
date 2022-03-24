@@ -78,6 +78,8 @@ public class DrawActivity extends Activity {
                 // change it later to HomeActivity
                 Intent intent = new Intent(DrawActivity.this, MainActivity.class);
                 startActivity(intent);
+                // should be exit the game !!
+                // before that pop up the message "do you want to exit the game ?"
             }
         });
 
@@ -87,11 +89,14 @@ public class DrawActivity extends Activity {
                 for(int i = 0; i < timeout;i++){
                     try {
                         Thread.sleep(1000);
+                        roomState.setTimeLeft(timeout-i-1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                finish();
+                Intent intent = new Intent(DrawActivity.this, GameplayActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
         killActivity.start();

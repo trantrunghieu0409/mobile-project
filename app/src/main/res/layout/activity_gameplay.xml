@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:progress="25"
+        android:progress="0"
         android:progressBackgroundTint="@color/black"
         android:progressTint="@color/DodgerBlue"
         />
