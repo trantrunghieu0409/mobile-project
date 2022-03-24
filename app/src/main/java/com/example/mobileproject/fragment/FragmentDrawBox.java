@@ -22,6 +22,8 @@ import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.models.Topic;
 import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.mobileproject.models.Room;
+
 
 public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity;
@@ -51,37 +53,25 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LinearLayout layout_draw_box;
-        if(gameplayActivity.userName.equals(gameplayActivity.room.getOwnerUsername())){
-            layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waitstart,null);
-            buttonStart = (Button) layout_draw_box.findViewById(R.id.btnStart);
-            buttonStart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    gameplayActivity.beginProgressBar(gameplayActivity.MAX_PROGRESS);
-                    roomState = new RoomState(gameplayActivity.roomID,
-                            gameplayActivity.MAX_PROGRESS,
-                            null,
-                            Topic.generateVocab(gameplayActivity.room.getTopic()));
-                    CloudFirestore.sendData("RoomState", gameplayActivity.roomID, roomState)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Intent drawIntent = new Intent(gameplayActivity, DrawActivity.class);
-                            drawIntent.putExtra("Timeout", gameplayActivity.MAX_PROGRESS);
-                            drawIntent.putExtra("roomID", gameplayActivity.roomID);
-                            drawIntent.putExtra("vocab", roomState.getVocab());
-                            startActivity(drawIntent);
-                        }
-                    });
-
-
-                }
-            });
-        }
-        else {
-            layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waiting,null);
-        }
+        LinearLayout layout_draw_box = null;
+            if(gameplayActivity.userName.equals(gameplayActivity.room.getOwnerUsername())){
+                layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waitstart,null);
+                buttonStart = (Button) layout_draw_box.findViewById(R.id.btnStart);
+                buttonStart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        Intent drawIntent = new Intent(gameplayActivity, DrawActivity.class);
+//                        drawIntent.putExtra("Timeout", gameplayActivity.MAX_PROGRESS);
+//                        drawIntent.putExtra("roomID", gameplayActivity.roomID);
+                        Room newRoom = gameplayActivity.room.deepcopy();
+                        newRoom.setDrawer(0);
+                        CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, newRoom);
+                    }
+                });
+            }
+            else {
+                layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waiting,null);
+            }
         return layout_draw_box;
     }
 

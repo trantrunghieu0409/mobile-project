@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +25,14 @@ import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentListPlayer;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Room;
+import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.models.Topic;
 import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
@@ -120,6 +123,43 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
                 }
             });
+            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if(value != null){
+                        Room newRoom = value.toObject(Room.class);
+                        // Chỉ chạy nếu drawer thay đổi
+                        if(room != null && newRoom != null){
+                            if(newRoom.getDrawer() != room.getDrawer()){
+                                room = newRoom;
+                                beginProgressBar(MAX_PROGRESS);
+                                if (room.getPlayers().get(room.getDrawer()).getName().equals(userName)){
+                                    RoomState roomState = new RoomState(roomID,
+                                            MAX_PROGRESS,
+                                            null,
+                                            Topic.generateVocab(room.getTopic()));
+                                    CloudFirestore.sendData("RoomState", roomID, roomState)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
+                                                    drawIntent.putExtra("Timeout", MAX_PROGRESS);
+                                                    drawIntent.putExtra("roomID", roomID);
+                                                    drawIntent.putExtra("vocab", roomState.getVocab());
+
+                                                    startActivity(drawIntent);
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                        // Nếu có sự thay đổi thì hàm này sẽ chạy
+                        // Có người mới vào thì hàm này cũng chạy ??
+                        // nó sẽ set drawer lại từ đầu ??
+
+                    }
+                }
+            });
         }
     }
 
@@ -142,6 +182,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
         // start sync drawing fragment
         ft = getSupportFragmentManager().beginTransaction();
+        //fragmentGetDrawing = FragmentGetDrawing.newInstance(roomID);
         ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
         ft.commit();
 
@@ -172,21 +213,38 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 }
             }
             fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+            // let owner indicate the next drawer
+            if(userName.equals(room.getOwnerUsername())){
+                Room newRoom = room.deepcopy();
+                if(room.getDrawer() + 1 >= room.getPlayers().size()){
+                    newRoom.setDrawer(0);
+                }
+                else {
+                    newRoom.setDrawer(room.getDrawer() + 1);
+                }
+                CloudFirestore.sendData("ListofRooms", roomID, newRoom);
+            }
             // Replace this fragment with result fragment
 //            ft = getSupportFragmentManager().beginTransaction();
 //            ft.replace(R.id.holder_box_draw, FragmentDrawBox);
-//            ft.commit();
+//            ft.commit();s
             // current drawer will indicate the next drawer
 
             // Stop SyncDrawing
         }
     };
+    //Listen to the stream of room
+
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (userName != null)
-            room.removePlayer(userName);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        room.removePlayer(userName);
         if(room.getPlayers().size() == 0){
             // If the last person in room left
             // Delete that room
@@ -195,7 +253,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         else {
             CloudFirestore.sendData("ListofRooms", roomID, room);
         }
+        System.out.println("call onDestroy");
+        super.onDestroy();
     }
+
     public void notiDraw(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = getLayoutInflater();

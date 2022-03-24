@@ -12,7 +12,7 @@ public class Room {
     int maxPlayer;
     String roomID;
     boolean isPlaying = false;
-    int drawer = 0;
+    int drawer = -1;
 
 
     public Room(String roomID, int maxPoint, int maxPlayer, String topic, ArrayList<Player> players) {
@@ -129,6 +129,18 @@ public class Room {
     }
     public String getOwnerUsername(){
         return this.players.get(0).getName();
+    }
+
+    public Room deepcopy(){
+        Room newRoom = new Room();
+        newRoom.setDrawer(this.drawer);
+        newRoom.setRoomID(this.roomID);
+        newRoom.setPlaying(this.isPlaying);
+        newRoom.setPlayers((ArrayList<Player>) this.players.clone());
+        newRoom.setTopic(this.topic);
+        newRoom.setMaxPlayer(this.maxPlayer);
+        newRoom.setMaxPoint(this.maxPoint);
+        return newRoom;
     }
 
     @Override
