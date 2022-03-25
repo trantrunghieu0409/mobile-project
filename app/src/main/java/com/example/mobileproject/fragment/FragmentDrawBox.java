@@ -59,7 +59,7 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LinearLayout layout_draw_box = null;
-            if(gameplayActivity.userName.equals(gameplayActivity.room.getOwnerUsername()) && gameplayActivity.room.isPlaying() == false){
+            if(gameplayActivity.mainPlayer.getName().equals(gameplayActivity.room.getOwnerUsername()) && gameplayActivity.room.isPlaying() == false){
                 layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waitstart,null);
                 popupInvitation();
                 buttonStart = (Button) layout_draw_box.findViewById(R.id.btnStart);

@@ -7,6 +7,7 @@
     android:padding="5dp">
 
     <ImageView
+        android:id="@+id/icon_popup_chat"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/avatar_batman"
@@ -16,17 +17,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
-            android:id="@+id/item_icon_text_chat"
+            android:id="@+id/item_name_text_chat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="User"
             android:paddingStart="10dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
+            android:text="User"
             android:textColor="@color/Red"
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/item_text_chat"

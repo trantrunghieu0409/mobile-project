@@ -38,14 +38,42 @@
             android:padding="5dp"
             android:layout_marginEnd="5dp"
             />
-        <ImageButton
-            android:id="@+id/btnPopUpChat"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:padding="5dp"
-            android:src="@drawable/ic_baseline_question_answer_24"
-            />
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnPopUpChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="5dp"
+                android:src="@drawable/ic_baseline_question_answer_24" />
+
+            <ImageView
+                android:id="@+id/statusPopupChat"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignTop="@+id/btnPopUpChat"
+                android:layout_marginStart="-20dp"
+                android:layout_toEndOf="@+id/btnPopUpChat"
+                android:src="@drawable/icon_offline" />
+            <TextView
+                android:id="@+id/statusPopupChatText"
+                android:layout_width="17dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/btnPopUpChat"
+                android:layout_marginStart="-19dp"
+                android:layout_toEndOf="@+id/btnPopUpChat"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="1"
+                >
+            </TextView>
+
+        </RelativeLayout>
+
 
     </LinearLayout>
     <FrameLayout

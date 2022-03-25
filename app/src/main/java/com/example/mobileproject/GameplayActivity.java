@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,8 @@ import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentListPlayer;
 import com.example.mobileproject.fragment.FragmentResult;
 import com.example.mobileproject.fragment.MainCallbacks;
+import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.models.Topic;
@@ -52,7 +55,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     ImageButton btnClose;
     public String roomID;
     public Room room;
-    public String userName;
+    public Player mainPlayer;
     DocumentReference documentReference;
     ProgressBar barHorizontal;
     Handler myHandler = new Handler();
@@ -64,12 +67,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
         roomID = getIntent().getStringExtra("RoomID");
-        userName = getIntent().getStringExtra("UserName");
+        mainPlayer = (Player) getIntent().getSerializableExtra("Player");
         barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
-
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
-
-
         btnClose = (ImageButton) findViewById(R.id.btnClose);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +137,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         ft.replace(R.id.holder_chat_input, FragmentChatInput);
                         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
                         ft.commit();
+
+                        // notification user join for everyone in popup chat
+                        Chat chat = new Chat(mainPlayer.getName() + " joined");
+                        documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
                     }
 
                 }
@@ -152,7 +156,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             if(newRoom.getDrawer() != room.getDrawer()){
                                 room = newRoom;
                                 beginProgressBar(MAX_PROGRESS);
-                                if (room.getPlayers().get(room.getDrawer()).getName().equals(userName)){
+                                if (room.getPlayers().get(room.getDrawer()).getName().equals(mainPlayer.getName())){
                                     RoomState roomState = new RoomState(roomID,
                                             MAX_PROGRESS,
                                             null,
@@ -242,7 +246,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 e.printStackTrace();
             }
             // let owner indicate the next drawer
-            if(userName.equals(room.getOwnerUsername())){
+            if(mainPlayer.getName().equals(room.getOwnerUsername())){
                 Room newRoom = room.deepcopy();
                 if(room.getDrawer() + 1 >= room.getPlayers().size()){
                     newRoom.setDrawer(0);
@@ -272,7 +276,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     @Override
     protected void onDestroy() {
         fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
-        room.removePlayer(userName);
+        room.removePlayer(mainPlayer.getName());
         if(room.getPlayers().size() == 0){
             // If the last person in room left
             // Delete that room
