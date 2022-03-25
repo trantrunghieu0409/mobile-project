@@ -63,7 +63,7 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
                 layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waitstart,null);
                 popupInvitation();
                 buttonStart = (Button) layout_draw_box.findViewById(R.id.btnStart);
-                buttonStart.setEnabled(false);
+                //buttonStart.setEnabled(false);
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -71,6 +71,7 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
 //                        drawIntent.putExtra("Timeout", gameplayActivity.MAX_PROGRESS);
 //                        drawIntent.putExtra("roomID", gameplayActivity.roomID);
                         Room newRoom = gameplayActivity.room.deepcopy();
+                        newRoom.setPlaying(true);
                         newRoom.setDrawer(0);
                         CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, newRoom);
                     }

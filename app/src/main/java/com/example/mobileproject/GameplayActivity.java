@@ -114,7 +114,25 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         fragmentGetDrawing = FragmentGetDrawing.newInstance(room.getRoomID());
                         fragmentResult = FragmentResult.newInstance("Activity");
 
-                        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+                        if(room.isPlaying())
+                        {
+                            // get current progress bar
+                            final int[] current_progress_bar = {MAX_PROGRESS};
+                            DocumentReference docRef = CloudFirestore.getData("RoomState", roomID);
+                            if (docRef != null) {
+                                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        RoomState roomState = documentSnapshot.toObject(RoomState.class);
+                                        current_progress_bar[0] = roomState.getTimeLeft();
+                                    }
+                                });
+                            }
+                            beginProgressBar(current_progress_bar[0]);
+                        }
+                        else {
+                            ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+                        }
                         ft.replace(R.id.holder_list_player, FragmentListPlayer);
                         ft.replace(R.id.holder_chat_input, FragmentChatInput);
                         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
