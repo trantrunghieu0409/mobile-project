@@ -127,9 +127,6 @@ public class Room {
     public void addPlayer(Player player){
         this.players.add(player);
     }
-    public void addPlayer(int index, Player player){
-        this.players.add(index, player);
-    }
     public String getOwnerUsername(){
         return this.players.get(0).getName();
     }

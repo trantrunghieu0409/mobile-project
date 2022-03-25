@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 
 
-public class FragmentListPlayer extends Fragment implements FragmentCallbacks {
+public class FragmentListPlayer extends Fragment{
     GameplayActivity gameplayActivity;
     Context context = null;
     ArrayList<Player> list = new ArrayList<>();
@@ -89,14 +89,5 @@ public class FragmentListPlayer extends Fragment implements FragmentCallbacks {
 
 
         return layout_list_player;
-    }
-
-    @Override
-    public void onMsgFromMainToFragment(String strValue) {
-        for (Player player : list){
-            if(player.getName().equals(strValue)){
-                // set avatar as drawing
-            }
-        }
     }
 }

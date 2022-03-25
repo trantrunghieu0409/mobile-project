@@ -209,13 +209,7 @@ public class HomeActivity extends Activity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Room room = documentSnapshot.toObject(Room.class);
-                            Player newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
-                            if(room.getDrawer() > 0){
-                                room.addPlayer(room.getDrawer() -1,newPlayer);
-                            }
-                            else {
-                                room.addPlayer(room.getPlayers().size() -1,newPlayer);
-                            }
+                            room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
                             Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                             CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
