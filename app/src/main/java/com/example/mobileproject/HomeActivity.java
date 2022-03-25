@@ -34,6 +34,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -50,6 +51,7 @@ public class HomeActivity extends Activity {
     ImageView btnLogin;
     CircularImageView avatar;
     EditText edtName;
+    Player mainPlayer;
 
     int pos = 0;
     @Override
@@ -118,13 +120,14 @@ public class HomeActivity extends Activity {
                                                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                                                 Room room = documentSnapshot.toObject(Room.class);
                                                 assert room != null;
-                                                room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
+                                                mainPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                                                room.addPlayer(mainPlayer);
                                                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                                                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {
                                                         playIntent.putExtra("RoomID", room.getRoomID());
-                                                        playIntent.putExtra("UserName",edtName.getText().toString());
+                                                        playIntent.putExtra("Player", (Serializable) mainPlayer);
                                                         startActivity(playIntent);
                                                         finish();
                                                     }
@@ -181,14 +184,15 @@ public class HomeActivity extends Activity {
                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                 Room room = documentSnapshot.toObject(Room.class);
                 assert room != null;
-                room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
+                mainPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                room.addPlayer(mainPlayer);
                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                 // Join room
                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         playIntent.putExtra("RoomID", room.getRoomID());
-                        playIntent.putExtra("UserName",edtName.getText().toString());
+                        playIntent.putExtra("Player", (Serializable) mainPlayer);
                         startActivity(playIntent);
                         finish();
                     }
@@ -217,7 +221,7 @@ public class HomeActivity extends Activity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     playIntent.putExtra("RoomID", room.getRoomID());
-                                    playIntent.putExtra("UserName",edtName.getText().toString());
+                                    playIntent.putExtra("Player", (Serializable) newPlayer);
                                     startActivity(playIntent);
                                     finish();
                                 }
