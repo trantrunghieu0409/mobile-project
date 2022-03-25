@@ -2,9 +2,6 @@ package com.example.mobileproject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,8 +33,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class HomeActivity extends Activity {
     String[] languages = {"Tiếng Việt", "English"};
     Integer[] avatars = Config.Avatars;
@@ -51,7 +44,7 @@ public class HomeActivity extends Activity {
     ImageView btnLogin;
     CircularImageView avatar;
     EditText edtName;
-    Player mainPlayer;
+    Player newPlayer;
 
     int pos = 0;
     @Override
@@ -120,14 +113,14 @@ public class HomeActivity extends Activity {
                                                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                                                 Room room = documentSnapshot.toObject(Room.class);
                                                 assert room != null;
-                                                mainPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
-                                                room.addPlayer(mainPlayer);
+                                                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                                                room.addPlayer(newPlayer);
                                                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                                                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {
                                                         playIntent.putExtra("RoomID", room.getRoomID());
-                                                        playIntent.putExtra("Player", (Serializable) mainPlayer);
+                                                        playIntent.putExtra("Player", (Serializable) newPlayer);
                                                         startActivity(playIntent);
                                                         finish();
                                                     }
@@ -184,15 +177,15 @@ public class HomeActivity extends Activity {
                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                 Room room = documentSnapshot.toObject(Room.class);
                 assert room != null;
-                mainPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
-                room.addPlayer(mainPlayer);
+                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                room.addPlayer(newPlayer);
                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                 // Join room
                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         playIntent.putExtra("RoomID", room.getRoomID());
-                        playIntent.putExtra("Player", (Serializable) mainPlayer);
+                        playIntent.putExtra("Player", (Serializable) newPlayer);
                         startActivity(playIntent);
                         finish();
                     }
@@ -209,7 +202,8 @@ public class HomeActivity extends Activity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Room room = documentSnapshot.toObject(Room.class);
-                            room.addPlayer(new Player(edtName.getText().toString(), 0, avatars[pos]));
+                            newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                            room.addPlayer(newPlayer);
                             Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                             CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
