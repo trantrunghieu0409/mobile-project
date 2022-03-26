@@ -74,6 +74,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     private String Vocab;
     private RoomState roomState;
     public Player currentDrawing;
+    PopupWindow popupWindow;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +175,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft = getSupportFragmentManager().beginTransaction();
         String str = currentDrawing.getName()+"`"+String.valueOf(currentDrawing.getAvatar());
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
+        // Set result
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
+        fragmentResult.onMsgFromMainToFragment(Vocab);
         ft.commit();
         if(mainPlayer.getName().equals(currentDrawing.getName())){
             popupNotiDraw(vocab);
@@ -193,7 +196,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
                             drawIntent.putExtra("roomID", roomID);
                             drawIntent.putExtra("vocab", roomState.getVocab());
-
+                            popupWindow.dismiss();
                             startActivity(drawIntent);
                         }
                     });
@@ -209,11 +212,13 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     public void processResult(){
         beginProgressBar(MAX_PROGRESS_WAITING);
-        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG"); // kill the getting draw thread
+        if (!currentDrawing.getName().equals(mainPlayer.getName())){
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");// kill the getting draw thread
+        }
         //result fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentResult);
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     public void nextDrawer(){
@@ -238,7 +243,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
 
-    synchronized public void beginProgressBar(int max_process){
+    public void beginProgressBar(int max_process){
         accum = max_process;
         barHorizontal.setMax(max_process);
         barHorizontal.setProgress(accum);
@@ -252,21 +257,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         public void run() {
             accum--;
             barHorizontal.setProgress(accum);
-            if(accum <= 0){
+            if(accum <= 0) {
                 // Do something
-                flagNextActivity++;
-                if(flagNextActivity > 4){
-                    flagNextActivity = 1;
-                }
-                if(flagNextActivity == 2){
-                    processDrawing(currentDrawing,roomState);
-                }
-                if(flagNextActivity == 3){
-                    processResult();
-                }
-                if(flagNextActivity == 4){
-                    nextDrawer();
-                }
             }
         }
     };
@@ -286,6 +278,20 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+
+            flagNextActivity++;
+            if(flagNextActivity > 4){
+                flagNextActivity = 1;
+            }
+            if(flagNextActivity == 2){
+                processDrawing(currentDrawing,roomState);
+            }
+            if(flagNextActivity == 3){
+                processResult();
+            }
+            if(flagNextActivity == 4){
+                nextDrawer();
             }
 
         }
@@ -337,7 +343,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         View popup_notidraw = inflater.inflate(R.layout.popup_notidraw, null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        final PopupWindow popupWindow = new PopupWindow(popup_notidraw, width, height, true);
+        popupWindow = new PopupWindow(popup_notidraw, width, height, true);
 
         TextView Vocab = popup_notidraw.findViewById(R.id.txt_vocab_popup_notidraw);
         Vocab.setText(vocab);
