@@ -13,7 +13,7 @@ public class Room {
     String roomID;
     boolean isPlaying = false;
     int drawer = -1;
-
+    int flagCurrentActivity = 0;
 
     public Room(String roomID, int maxPoint, int maxPlayer, String topic, ArrayList<Player> players) {
         this.roomID = roomID;
@@ -121,6 +121,14 @@ public class Room {
 
     public void setDrawer(int drawer) {
         this.drawer = drawer;
+    }
+
+    public int getFlagCurrentActivity() {
+        return flagCurrentActivity;
+    }
+
+    public void setFlagCurrentActivity(int flagCurrentActivity) {
+        this.flagCurrentActivity = flagCurrentActivity;
     }
 
 

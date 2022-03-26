@@ -1,39 +1,27 @@
 package com.example.mobileproject;
 
-import android.accessibilityservice.AccessibilityService;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.mobileproject.constants.GlobalConstants;
-import com.example.mobileproject.fragment.FragmentDrawBox;
 import com.example.mobileproject.fragment.FragmentGetDrawing;
-import com.example.mobileproject.fragment.FragmentListPlayer;
 import com.example.mobileproject.fragment.FragmentNotiDrawer;
 import com.example.mobileproject.fragment.FragmentResult;
 import com.example.mobileproject.fragment.MainCallbacks;
@@ -69,10 +57,11 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public final int MAX_PROGRESS_DRAWING = GlobalConstants.TIME_FOR_A_GAME;
     public final int MAX_PROGRESS_WAITING = GlobalConstants.TIME_FOR_A_WAITING;
     int accum = 0;
-    int flagNextActivity = 1;
+    int flagCurrentActivity = 0;
 
     private String Vocab;
     private RoomState roomState;
+
     public Player currentDrawing;
     PopupWindow popupWindow;
     @Override
@@ -147,25 +136,63 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                     if(value != null){
                         // new room bị mất user ??
                         Room newRoom = value.toObject(Room.class);
-                        // Chỉ chạy nếu drawer thay đổi
                         if(room != null && newRoom != null){
+                            // Chỉ chạy nếu drawer thay đổi
                             if(newRoom.getDrawer() != room.getDrawer()){
                                 room = newRoom;
-                                Vocab = Topic.generateVocab(room.getTopic());
-                                roomState = new RoomState(roomID,
-                                        MAX_PROGRESS_DRAWING,
-                                        null,
-                                        Vocab);
                                 currentDrawing = room.getPlayers().get(room.getDrawer());
-                                flagNextActivity = 1;
-                                processNotiDrawer(currentDrawing,Vocab);
+                                // Just drawer can change
+                                if (currentDrawing.getName().equals(mainPlayer.getName())) {
+                                    RoomState roomState = new RoomState(roomID,
+                                            MAX_PROGRESS_DRAWING,
+                                            null,
+                                            Topic.generateVocab(room.getTopic()));
 
+                                    CloudFirestore.sendData("RoomState", roomID, roomState);
+                                    room.setFlagCurrentActivity(1);
+                                    CloudFirestore.sendData("ListofRooms", roomID, room);
+                                }
                             }
+
+
+                            // Receive activity's room
+                            if(newRoom.getFlagCurrentActivity() != room.getFlagCurrentActivity()){
+                                room = newRoom;
+                                flagCurrentActivity = room.getFlagCurrentActivity();
+                                CloudFirestore.getData("RoomState",roomID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        roomState = documentSnapshot.toObject(RoomState.class);
+                                        Vocab = roomState.getVocab();
+                                        currentDrawing = room.getPlayers().get(room.getDrawer());
+
+
+                                        if(flagCurrentActivity == 1){
+                                            System.out.println("HELLOOO----------------------------------");
+                                            processNotiDrawer(currentDrawing, Vocab);
+                                        }
+                                        if(flagCurrentActivity == 2){
+                                            System.out.println("Hi----------------------------------");
+                                            processDrawing(currentDrawing,roomState);
+                                        }
+                                        if(flagCurrentActivity == 3){
+                                            System.out.println("BAKA----------------------------------");
+                                            processResult();
+                                        }
+                                        if(flagCurrentActivity == 4){
+                                            nextDrawer();
+                                        }
+                                    }
+                                });
+                            }
+
                         }
+
 
                     }
                 }
             });
+
         }
     }
 
@@ -175,10 +202,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft = getSupportFragmentManager().beginTransaction();
         String str = currentDrawing.getName()+"`"+String.valueOf(currentDrawing.getAvatar());
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
-        // Set result
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
-        fragmentResult.onMsgFromMainToFragment(Vocab);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         if(mainPlayer.getName().equals(currentDrawing.getName())){
             popupNotiDraw(vocab);
         }
@@ -186,26 +211,20 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
     public void processDrawing(Player currentDrawing,RoomState roomState){
-        beginProgressBar(MAX_PROGRESS_DRAWING);
+        beginProgressBar(MAX_PROGRESS_DRAWING);;
         if (currentDrawing.getName().equals(mainPlayer.getName())){
-            CloudFirestore.sendData("RoomState", roomID, roomState)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
-                            drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
-                            drawIntent.putExtra("roomID", roomID);
-                            drawIntent.putExtra("vocab", roomState.getVocab());
-                            popupWindow.dismiss();
-                            startActivity(drawIntent);
-                        }
-                    });
+            Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
+            drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
+            drawIntent.putExtra("roomID", roomID);
+            drawIntent.putExtra("vocab", roomState.getVocab());
+            popupWindow.dismiss();
+            startActivity(drawIntent);
         }
         else{
             // start sync drawing fragment
             ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
-            ft.commit();
+            ft.commitAllowingStateLoss();
             fragmentGetDrawing.onMsgFromMainToFragment("START-FLAG");
         }
     }
@@ -218,6 +237,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         //result fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentResult);
+        fragmentResult.onMsgFromMainToFragment(Vocab);
         ft.commitAllowingStateLoss();
     }
 
@@ -267,8 +287,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         @Override
         public void run() {
             int max = 0;
-            if(flagNextActivity == 1 || flagNextActivity == 3) max = MAX_PROGRESS_WAITING;
-            else if(flagNextActivity == 2){
+            if(flagCurrentActivity == 1 || flagCurrentActivity == 3) max = MAX_PROGRESS_WAITING;
+            else if(flagCurrentActivity == 2){
                 max = MAX_PROGRESS_DRAWING;
             }
             for(int i = 0; i < max;i++){
@@ -279,21 +299,15 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                     e.printStackTrace();
                 }
             }
-
-            flagNextActivity++;
-            if(flagNextActivity > 4){
-                flagNextActivity = 1;
+            if (currentDrawing.getName().equals(mainPlayer.getName())) {
+                flagCurrentActivity++;
+                if(flagCurrentActivity > 4){
+                    flagCurrentActivity = 1;
+                }
+                room.setFlagCurrentActivity(flagCurrentActivity);
+                CloudFirestore.sendData("ListofRooms", roomID, room);
+                room.setFlagCurrentActivity(0);
             }
-            if(flagNextActivity == 2){
-                processDrawing(currentDrawing,roomState);
-            }
-            if(flagNextActivity == 3){
-                processResult();
-            }
-            if(flagNextActivity == 4){
-                nextDrawer();
-            }
-
         }
     };
     //Listen to the stream of room
