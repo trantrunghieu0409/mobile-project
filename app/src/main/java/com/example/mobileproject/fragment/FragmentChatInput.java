@@ -27,7 +27,9 @@ import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.adapter.CustomChatPopupApdater;
 import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -95,7 +97,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 List<DocumentSnapshot> listMessage = value.getDocuments();
                 // get latest message
-                if(value.size() > 0){
+                if(value.size() > 1){
                     Chat msg = listMessage.get(value.size()-1).toObject(Chat.class);
                     messages.add(msg);
                     popUpNoti++;
@@ -260,7 +262,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
             public void onClick(View view) {
                 String mess = String.valueOf(editTextAnswer.getText());
                 editTextAnswer.setText("");
-                gameplayActivity.onMsgFromFragToMain("MESS-FLAG", gameplayActivity.mainPlayer.getName() + ": " + mess);
+                gameplayActivity.onMsgFromFragToMain("MESS-FLAG",  mess);
             }
         });
 
@@ -280,7 +282,15 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
-        Chat chat = new Chat(strValue);
-        documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
+        if(strValue.contains("`Reset`")){
+            editTextAnswer.setEnabled(true);
+        }
+        else if(strValue.contains("`RIGHT`")){
+            editTextAnswer.setEnabled(false);
+        }
+        else{
+            Chat chat = new Chat(strValue);
+            documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
+        }
     }
 }

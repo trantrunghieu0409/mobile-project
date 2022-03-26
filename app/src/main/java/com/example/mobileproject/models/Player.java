@@ -4,12 +4,14 @@ package com.example.mobileproject.models;
 import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 public class Player implements Serializable {
     private String name;
     private int point;
     int avatar;
     String token;
+    int status; // 0: nothing , 1: RightAnswer , 2: Dawing
 
     public Player(String name, int point, int avatar) {
         this.name = name;
@@ -57,7 +59,10 @@ public class Player implements Serializable {
 
     public  String getToken(){return token;}
 
-    public int checkAnswer(String result, String answer) {
+    public static int checkAnswer(String result, String answer) {
+        result = result.toLowerCase();
+        answer = answer.toLowerCase();
+        System.out.println(result + "---------------------" + answer);
         if (answer.equals(result)) {
             return 2;
         }
@@ -67,13 +72,8 @@ public class Player implements Serializable {
         return 0;
     }
 
-    public boolean getPointGuessPlayer(String result, String answer) {
-        if (answer.equals(result)) {
-            this.point += 9;
-            return true;
-        } else {
-            return false;
-        }
+    public void getPointGuessPlayer() {
+        this.point += 9;
     }
 
     public void getPointDrawPlayer(Boolean checkFirstAnswerRight) {

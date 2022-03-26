@@ -168,15 +168,12 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
 
                                         if(flagCurrentActivity == 1){
-                                            System.out.println("HELLOOO----------------------------------");
                                             processNotiDrawer(currentDrawing, Vocab);
                                         }
                                         if(flagCurrentActivity == 2){
-                                            System.out.println("Hi----------------------------------");
                                             processDrawing(currentDrawing,roomState);
                                         }
                                         if(flagCurrentActivity == 3){
-                                            System.out.println("BAKA----------------------------------");
                                             processResult();
                                         }
                                         if(flagCurrentActivity == 4){
@@ -204,8 +201,13 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
         ft.commitAllowingStateLoss();
+
+        //Reset
+        FragmentBoxChat.onMsgFromMainToFragment("`Reset`");
+        FragmentChatInput.onMsgFromMainToFragment("`Reset`");
         if(mainPlayer.getName().equals(currentDrawing.getName())){
             popupNotiDraw(vocab);
+            FragmentBoxChat.onMsgFromMainToFragment("`TURNFOR`" + currentDrawing.getName());
         }
 
     }
@@ -233,6 +235,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         beginProgressBar(MAX_PROGRESS_WAITING);
         if (!currentDrawing.getName().equals(mainPlayer.getName())){
             fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");// kill the getting draw thread
+        }
+        else{
+            FragmentBoxChat.onMsgFromMainToFragment("`ANSWER`");
         }
         //result fragment
         ft = getSupportFragmentManager().beginTransaction();
@@ -320,6 +325,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
         else if(sender.equals("PLAYER-FLAG")){
             FragmentDrawBox.onMsgFromMainToFragment(strValue);
+        }
+        else if(sender.equals("RIGHT-FLAG")){
+            FragmentChatInput.onMsgFromMainToFragment(strValue);
         }
     }
 
