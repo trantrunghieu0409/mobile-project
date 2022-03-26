@@ -103,7 +103,7 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
             });
             syncThread.start();
         }
-        if (strValue.equals("END-FLAG") && syncThread.isAlive()) {
+        if (strValue.equals("END-FLAG") && syncThread != null &&syncThread.isAlive()) {
             syncThread.interrupt();
         }
     }

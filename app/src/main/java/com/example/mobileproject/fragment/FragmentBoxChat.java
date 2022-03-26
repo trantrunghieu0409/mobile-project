@@ -16,7 +16,9 @@ import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.adapter.CustomChatAdapter;
 import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -32,9 +34,11 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     ArrayList<String> message = new ArrayList<>();
     CustomChatAdapter apdater;
     ListView boxChatAnswer;
+    String vocal = "";
 
 
     DocumentReference documentReference;
+    DocumentReference documentReference2;
     public static FragmentBoxChat newInstance(boolean isBoxChat) {
         Bundle args = new Bundle();
         FragmentBoxChat fragment = new FragmentBoxChat();
@@ -86,7 +90,19 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
-        Chat chat = new Chat(strValue);
-        documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
+        if(strValue.contains("`Reset`")){
+            documentReference2 = CloudFirestore.getData("RoomState",gameplayActivity.roomID);
+            documentReference2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    RoomState roomState = documentSnapshot.toObject(RoomState.class);
+                    vocal = roomState.getVocab();
+                }
+            });
+        }else{
+            Chat chat = new Chat(strValue);
+            documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
+        }
+
     }
 }

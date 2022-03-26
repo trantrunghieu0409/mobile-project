@@ -13,7 +13,8 @@ public class Player implements Serializable {
         this.point = point;
         this.avatar = avatar;
     }
-    public Player(){
+
+    public Player() {
 
     }
 
@@ -39,6 +40,33 @@ public class Player implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public int checkAnswer(String result, String answer) {
+        if (answer.equals(result)) {
+            return 2;
+        }
+        else if(result.contains(answer) && (float)answer.length()/result.length() > 0.7){
+            return 1;
+        }
+        return 0;
+    }
+
+    public boolean getPointGuessPlayer(String result, String answer) {
+        if (answer.equals(result)) {
+            this.point += 9;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void getPointDrawPlayer(Boolean checkFirstAnswerRight) {
+        if (checkFirstAnswerRight) {
+            this.point += 11;
+        } else {
+            this.point += 2;
+        }
     }
 
 }

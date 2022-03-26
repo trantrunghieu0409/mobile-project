@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,21 +15,21 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.models.Room;
-import com.example.mobileproject.utils.CloudFirestore;
 
-public class FragmentResult extends Fragment implements FragmentCallbacks{
+
+public class FragmentNotiDrawer extends Fragment implements FragmentCallbacks{
 
     GameplayActivity gameplayActivity;
     Context context = null;
-    String result;
+    String Name = "";
+    int Img;
 
-    public static FragmentResult newInstance(String result){
+    public static FragmentNotiDrawer newInstance(boolean isNotiDrawer){
         Bundle args = new Bundle();
-        FragmentResult fragmentResult = new FragmentResult();
-        args.putString("Result", result);
-        fragmentResult.setArguments(args);
-        return fragmentResult;
+        FragmentNotiDrawer fragmentNotiDrawer = new FragmentNotiDrawer();
+        args.putBoolean("isNotiDrawer", isNotiDrawer);
+        fragmentNotiDrawer.setArguments(args);
+        return fragmentNotiDrawer;
     }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,15 +46,22 @@ public class FragmentResult extends Fragment implements FragmentCallbacks{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LinearLayout layout_result = null;
-        layout_result = (LinearLayout) inflater.inflate(R.layout.layout_result,null);
-        TextView result = (TextView) layout_result.findViewById(R.id.txt_result);
-        result.setText(this.result);
-        return layout_result;
+        LinearLayout layout_notiuserdraw = null;
+        layout_notiuserdraw = (LinearLayout) inflater.inflate(R.layout.layout_notiuserdraw,null);
+        ImageView avatar = (ImageView) layout_notiuserdraw.findViewById(R.id.imgAvatar);
+        TextView name = (TextView) layout_notiuserdraw.findViewById(R.id.name_drawing);
+
+        name.setText(Name);
+        avatar.setImageResource(Img);
+
+        return layout_notiuserdraw;
     }
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
-        this.result = strValue;
+        String[] component = strValue.split("`");
+        this.Name = component[0];
+        this.Img = Integer.parseInt(component[1]);
+
     }
 }

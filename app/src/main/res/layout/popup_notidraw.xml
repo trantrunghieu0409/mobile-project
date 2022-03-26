@@ -47,6 +47,7 @@
             />
 
         <TextView
+            android:id="@+id/txt_vocab_popup_notidraw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="APPLE"
@@ -56,13 +57,13 @@
             android:layout_marginBottom="20dp"
             />
 
-        <Button
-            android:id="@+id/buttonDrawTurn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/draw"
-            />
+<!--        <Button-->
+<!--            android:id="@+id/buttonDrawTurn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:text="OK"-->
+<!--            />-->
 
     </LinearLayout>
 
