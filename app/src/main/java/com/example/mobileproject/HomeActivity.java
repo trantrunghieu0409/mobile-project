@@ -187,6 +187,7 @@ public class HomeActivity extends Activity {
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("Player", (Serializable) newPlayer);
                         startActivity(playIntent);
+                        alert.dismiss();
                         finish();
                     }
                 });
@@ -211,6 +212,7 @@ public class HomeActivity extends Activity {
                                     playIntent.putExtra("RoomID", room.getRoomID());
                                     playIntent.putExtra("Player", (Serializable) newPlayer);
                                     startActivity(playIntent);
+                                    alert.dismiss();
                                     finish();
                                 }
                             });
