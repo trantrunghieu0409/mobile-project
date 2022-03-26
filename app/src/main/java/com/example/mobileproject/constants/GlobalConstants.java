@@ -7,6 +7,7 @@ public class GlobalConstants {
         Please declare global constants here.
      */
     public static final int TIME_FOR_A_GAME = 20; // 20 seconds
+    public static final int TIME_FOR_A_WAITING = 5; // 5 seconds
     public static final int MAX_HINT = 2;
 
     public static final Integer[] thumbnails = {R.drawable.avatar_batman,
