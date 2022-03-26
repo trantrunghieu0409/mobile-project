@@ -20,6 +20,8 @@ import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.Serializable;
+
 public class CreateRoomActivity extends Activity implements View.OnClickListener {
     String[] numPlayers = {"5 players", "10 players", "15 players", "20 players"};
     String[] maxPoints = {"120 Points", "200 Points", "300 Points", "400 Points"};
@@ -105,7 +107,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                     @Override
                     public void onSuccess(Void unused) {
                         playIntent.putExtra("RoomID", room.getRoomID());
-                        playIntent.putExtra("UserName",name);
+                        playIntent.putExtra("Player", (Serializable) host);
                         startActivity(playIntent);
                     }
                 });

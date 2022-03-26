@@ -50,10 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Invite your friend to the room!\nSend the link below:"
+            android:text="Invite your friend to the room!\nSend the code below:"
             android:textAlignment="center"
             />
         <TextView
+            android:id="@+id/txtInvitation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -85,10 +86,11 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/copyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Close"/>
+            android:text="Copy to clipboard"/>
     </LinearLayout>
 
 

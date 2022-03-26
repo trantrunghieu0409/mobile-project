@@ -18,6 +18,7 @@ public class Chat {
         this.msg = msg;
         setTimeStampAtTime();
     }
+
     public String getMsg() {
         return msg;
     }

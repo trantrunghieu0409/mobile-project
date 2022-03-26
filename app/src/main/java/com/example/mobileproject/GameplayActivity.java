@@ -1,14 +1,19 @@
 package com.example.mobileproject;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,7 +29,10 @@ import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.fragment.FragmentDrawBox;
 import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentListPlayer;
+import com.example.mobileproject.fragment.FragmentResult;
 import com.example.mobileproject.fragment.MainCallbacks;
+import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.models.Topic;
@@ -43,10 +51,11 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     com.example.mobileproject.fragment.FragmentChatInput FragmentChatInput;
     com.example.mobileproject.fragment.FragmentBoxChat FragmentBoxChat;
     FragmentGetDrawing fragmentGetDrawing;
+    FragmentResult fragmentResult;
     ImageButton btnClose;
     public String roomID;
     public Room room;
-    public String userName;
+    public Player mainPlayer;
     DocumentReference documentReference;
     ProgressBar barHorizontal;
     Handler myHandler = new Handler();
@@ -58,12 +67,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
         roomID = getIntent().getStringExtra("RoomID");
-        userName = getIntent().getStringExtra("UserName");
+        mainPlayer = (Player) getIntent().getSerializableExtra("Player");
         barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
-
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
-
-
         btnClose = (ImageButton) findViewById(R.id.btnClose);
 
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +92,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         .show(); // do nothing
             }
         });
+        // Pop up invitation
+
+        //end pop up invitation
+
 
         if(documentReference != null){
             documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -102,12 +112,17 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         FragmentChatInput = FragmentChatInput.newInstance(true);
                         FragmentBoxChat = FragmentBoxChat.newInstance(true);
                         fragmentGetDrawing = FragmentGetDrawing.newInstance(room.getRoomID());
+                        fragmentResult = FragmentResult.newInstance("Activity");
 
                         ft.replace(R.id.holder_box_draw, FragmentDrawBox);
                         ft.replace(R.id.holder_list_player, FragmentListPlayer);
                         ft.replace(R.id.holder_chat_input, FragmentChatInput);
                         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
                         ft.commit();
+
+                        // notification user join for everyone in popup chat
+                        Chat chat = new Chat(mainPlayer.getName() + " joined");
+                        documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
                     }
 
                 }
@@ -116,13 +131,14 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     if(value != null){
+                        // new room bị mất user ??
                         Room newRoom = value.toObject(Room.class);
                         // Chỉ chạy nếu drawer thay đổi
                         if(room != null && newRoom != null){
                             if(newRoom.getDrawer() != room.getDrawer()){
                                 room = newRoom;
                                 beginProgressBar(MAX_PROGRESS);
-                                if (room.getPlayers().get(room.getDrawer()).getName().equals(userName)){
+                                if (room.getPlayers().get(room.getDrawer()).getName().equals(mainPlayer.getName())){
                                     RoomState roomState = new RoomState(roomID,
                                             MAX_PROGRESS,
                                             null,
@@ -142,9 +158,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                 }
                             }
                         }
-                        // Nếu có sự thay đổi thì hàm này sẽ chạy
-                        // Có người mới vào thì hàm này cũng chạy ??
-                        // nó sẽ set drawer lại từ đầu ??
 
                     }
                 }
@@ -156,6 +169,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public void onMsgFromFragToMain(String sender, String strValue) {
         if (sender.equals("MESS-FLAG")) {
             FragmentBoxChat.onMsgFromMainToFragment(strValue);
+        }
+        else if(sender.equals("PLAYER-FLAG")){
+            FragmentDrawBox.onMsgFromMainToFragment(strValue);
         }
     }
 
@@ -171,9 +187,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
         // start sync drawing fragment
         ft = getSupportFragmentManager().beginTransaction();
-        //fragmentGetDrawing = FragmentGetDrawing.newInstance(roomID);
         ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
-        ft.commit();
+        ft.commitAllowingStateLoss();
+        fragmentGetDrawing.onMsgFromMainToFragment("START-FLAG");
 
         Thread backgroundThread = new Thread(backgroundTime,"isBarTime");
         backgroundThread.start();
@@ -202,8 +218,17 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 }
             }
             fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG"); // kill the getting draw thread
+            //result fragment
+            ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.holder_box_draw, fragmentResult);
+            ft.commitAllowingStateLoss();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             // let owner indicate the next drawer
-            if(userName.equals(room.getOwnerUsername())){
+            if(mainPlayer.getName().equals(room.getOwnerUsername())){
                 Room newRoom = room.deepcopy();
                 if(room.getDrawer() + 1 >= room.getPlayers().size()){
                     newRoom.setDrawer(0);
@@ -233,11 +258,12 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     @Override
     protected void onDestroy() {
         fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
-        room.removePlayer(userName);
+        room.removePlayer(mainPlayer.getName());
         if(room.getPlayers().size() == 0){
             // If the last person in room left
             // Delete that room
             CloudFirestore.deleteDoc("ListofRooms", roomID);
+            CloudFirestore.deleteDoc("RoomState", roomID);
         }
         else {
             CloudFirestore.sendData("ListofRooms", roomID, room);
@@ -246,31 +272,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         super.onDestroy();
     }
 
-    public void notiDraw(View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        //this is custom dialog
-        //custom_popup_dialog contains textview only
-        View customView = layoutInflater.inflate(R.layout.popup_notidraw, null);
-        // reference the textview of custom_popup_dialog
-        Button buttonDrawTurn = customView.findViewById(R.id.buttonDrawTurn);
 
 
-        buttonDrawTurn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
-                drawIntent.putExtra("Timeout", MAX_PROGRESS);
-                drawIntent.putExtra("roomID", roomID);
-                drawIntent.putExtra("vocab", Topic.generateVocab(room.getTopic()));
-                startActivity(drawIntent);
-                System.out.println("End draw");
-            }
-        });
-
-        builder.setView(customView);
-        builder.create();
-        builder.show();
-    }
 }

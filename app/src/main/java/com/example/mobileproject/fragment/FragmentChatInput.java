@@ -1,10 +1,13 @@
 package com.example.mobileproject.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -34,13 +38,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentChatInput extends Fragment {
+public class FragmentChatInput extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity;
     Context context = null;
+    ImageButton btnReport;
+    ImageButton btnAudio;
+    ImageButton btnPopUpInfo;
+    ImageButton btnPopUpChat;
+    ImageButton btnSendAnswer;
+    EditText editTextAnswer;
+    ImageView popUpChat;
+    TextView popUpChatText;
+
     boolean audio;
     boolean report;
+    int popUpNoti = 0;
+
     DocumentReference documentReference;
-    ArrayList<String> messages = new ArrayList<>();
+    ArrayList<Chat> messages = new ArrayList<>();
     CustomChatPopupApdater customChatPopupApdater;
 
     public static FragmentChatInput newInstance(boolean isChatInput) {
@@ -49,6 +64,17 @@ public class FragmentChatInput extends Fragment {
         args.putBoolean("isChatInput", isChatInput);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void updatePopupNoti(){
+        if(this.popUpNoti < 1){
+            popUpChat.setImageResource(0);
+            popUpChatText.setText("");
+        }
+        else{
+            popUpChat.setImageResource(R.drawable.icon_offline);
+            popUpChatText.setText(String.valueOf(popUpNoti));
+        }
     }
 
     @Override
@@ -62,8 +88,8 @@ public class FragmentChatInput extends Fragment {
             throw new IllegalStateException("Activity must implement callbacks");
         }
         documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
+        customChatPopupApdater = new CustomChatPopupApdater(messages,gameplayActivity.mainPlayer);
         if(documentReference != null){
-
         documentReference.collection("ChatPopUp").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -71,15 +97,14 @@ public class FragmentChatInput extends Fragment {
                 // get latest message
                 if(value.size() > 0){
                     Chat msg = listMessage.get(value.size()-1).toObject(Chat.class);
-                    messages.add(msg.getMsg());
+                    messages.add(msg);
+                    popUpNoti++;
                     customChatPopupApdater.notifyDataSetChanged();
+                    updatePopupNoti();
                 }
             }
         });
         }
-        messages.add("Hello");
-        messages.add("Hi");
-        messages.add("HiHi");
     }
 
     @Nullable
@@ -88,13 +113,15 @@ public class FragmentChatInput extends Fragment {
         LinearLayout layout_chat_input = (LinearLayout) inflater.inflate(R.layout.layout_chat_input, null);
 
 
-        final ImageButton btnReport = (ImageButton) layout_chat_input.findViewById(R.id.btnReport);
-        final ImageButton btnAudio = (ImageButton) layout_chat_input.findViewById(R.id.btnAudio);
-        final ImageButton btnPopUpInfo = (ImageButton) layout_chat_input.findViewById(R.id.btnPopUpInfo);
-        final ImageButton btnPopUpChat = (ImageButton) layout_chat_input.findViewById(R.id.btnPopUpChat);
-        final ImageButton btnSendAnswer = (ImageButton) layout_chat_input.findViewById(R.id.btnSendAnswer);
+        btnReport = (ImageButton) layout_chat_input.findViewById(R.id.btnReport);
+        btnAudio = (ImageButton) layout_chat_input.findViewById(R.id.btnAudio);
+        btnPopUpInfo = (ImageButton) layout_chat_input.findViewById(R.id.btnPopUpInfo);
+        btnPopUpChat = (ImageButton) layout_chat_input.findViewById(R.id.btnPopUpChat);
+        btnSendAnswer = (ImageButton) layout_chat_input.findViewById(R.id.btnSendAnswer);
+        popUpChat = (ImageView) layout_chat_input.findViewById(R.id.statusPopupChat);
+        popUpChatText = (TextView) layout_chat_input.findViewById(R.id.statusPopupChatText);
 
-        final EditText editTextAnswer = (EditText) layout_chat_input.findViewById(R.id.editTextAnswer);
+        editTextAnswer = (EditText) layout_chat_input.findViewById(R.id.editTextAnswer);
 
 
         audio = true;
@@ -173,7 +200,7 @@ public class FragmentChatInput extends Fragment {
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 final PopupWindow popupWindow = new PopupWindow(popupChat, width, height, true);
-
+                popupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
 
                 ListView boxchat = popupChat.findViewById(R.id.box_chat_popup);
@@ -183,8 +210,6 @@ public class FragmentChatInput extends Fragment {
                 final EditText editTextChat = (EditText) popupChat.findViewById(R.id.editTextChat);
 
                 editTextChat.requestFocus();
-
-                customChatPopupApdater = new CustomChatPopupApdater(messages);
                 boxchat.setAdapter(customChatPopupApdater);
 
 
@@ -192,6 +217,8 @@ public class FragmentChatInput extends Fragment {
                     @Override
                     public void onClick(View view) {
                         popupWindow.dismiss();
+                        popUpNoti = 0;
+                        updatePopupNoti();
                     }
                 });
 
@@ -200,10 +227,9 @@ public class FragmentChatInput extends Fragment {
                     public void onClick(View view) {
                         String mess = String.valueOf(editTextChat.getText());
                         editTextChat.setText("");
-//                        messages.add(mess);
-//                        customChatPopupApdater.notifyDataSetChanged();
-                        Chat chat = new Chat(mess);
-                        documentReference.collection("Chat2").document(chat.getTimestamp()).set(chat);
+                        customChatPopupApdater.notifyDataSetChanged();
+                        Chat chat = new Chat(gameplayActivity.mainPlayer.getName(),mess);
+                        documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
                     }
                 });
 
@@ -217,10 +243,15 @@ public class FragmentChatInput extends Fragment {
                         return false;
                     }
                 });
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        popUpNoti = 0;
+                        updatePopupNoti();
+                    }
+                });
 
                 popupWindow.showAtLocation(view,Gravity.CENTER, 0 , 0);
-
-
             }
         });
 
@@ -229,7 +260,7 @@ public class FragmentChatInput extends Fragment {
             public void onClick(View view) {
                 String mess = String.valueOf(editTextAnswer.getText());
                 editTextAnswer.setText("");
-                gameplayActivity.onMsgFromFragToMain("MESS-FLAG", gameplayActivity.userName + ": " + mess);
+                gameplayActivity.onMsgFromFragToMain("MESS-FLAG", gameplayActivity.mainPlayer.getName() + ": " + mess);
             }
         });
 
@@ -245,5 +276,11 @@ public class FragmentChatInput extends Fragment {
         });
 
         return layout_chat_input;
+    }
+
+    @Override
+    public void onMsgFromMainToFragment(String strValue) {
+        Chat chat = new Chat(strValue);
+        documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
     }
 }

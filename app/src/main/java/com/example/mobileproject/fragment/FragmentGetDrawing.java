@@ -68,40 +68,41 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
             b = Bitmap.createBitmap(i.getWidth(), i.getHeight(), Bitmap.Config.ARGB_8888);
             i.setImageBitmap(b);
         });
-
-        syncThread = new Thread(() -> {
-            try {
-                while (true) {
-                    DocumentReference docRef = CloudFirestore.getData("RoomState", roomID);
-                    if (docRef != null) {
-                        docRef.get().addOnSuccessListener(documentSnapshot -> {
-                            room = documentSnapshot.toObject(RoomState.class);
-
-                            if (room != null) {
-                                if (room.getImgBitmap() != null) { // if not draw anything
-                                    // show drawing
-                                    b = CloudFirestore.decodeBitmap(room.getImgBitmap());
-                                    i.setImageBitmap(b);
-                                }
-
-                                // show hint
-                                if (room.isShowHint())
-                                    txtHint.setText(room.getHint());
-                            }
-                        });
-                    }
-                    Thread.sleep(100);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        syncThread.start();
         return layout_getdrawing;
     }
 
     @Override
     public void onMsgFromMainToFragment(String strValue) {
+        if(strValue.equals("START-FLAG")){
+            syncThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        DocumentReference docRef = CloudFirestore.getData("RoomState", roomID);
+                        if (docRef != null) {
+                            docRef.get().addOnSuccessListener(documentSnapshot -> {
+                                room = documentSnapshot.toObject(RoomState.class);
+
+                                if (room != null) {
+                                    if (room.getImgBitmap() != null) { // if not draw anything
+                                        // show drawing
+                                        b = CloudFirestore.decodeBitmap(room.getImgBitmap());
+                                        i.setImageBitmap(b);
+                                    }
+
+                                    // show hint
+                                    if (room.isShowHint())
+                                        txtHint.setText(room.getHint());
+                                }
+                            });
+                        }
+                        Thread.sleep(100);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            syncThread.start();
+        }
         if (strValue.equals("END-FLAG") && syncThread.isAlive()) {
             syncThread.interrupt();
         }
