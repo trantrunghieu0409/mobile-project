@@ -28,6 +28,8 @@ import com.example.mobileproject.HomeActivity;
 import com.example.mobileproject.ProfileActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.models.Account;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.Serializable;
@@ -35,17 +37,37 @@ import java.io.Serializable;
 public class FriendRequestFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     NotificationManager mNotificationManager;
+    static private FirebaseAuth mAuth;
 
     public static String getToken(Context context) {
         return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
     }
 
-    @Override
-    public void onNewToken(String s) {
-        super.onNewToken(s);
-        Log.e("newToken", s);
-        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
+    public static void createToken(Context context) {
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            Log.e("newToken", task.getResult());
+                            context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", task.getResult()).apply();
+                        }
+                    });
+        }
+        else{
+            Log.e("newToken","empty");
+            context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", "empty").apply();
+        }
     }
+
+
+//    @Override
+//    public void onNewToken(String s) {
+//        super.onNewToken(s);
+//        Log.e("newToken", s);
+//        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
+//    }
+
 
 
     @Override

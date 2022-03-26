@@ -17,6 +17,7 @@ import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
+import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -85,7 +86,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(View view) {
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
-                Player host = new Player(name, 0, avatar);
+                Player host = new Player(name, 0, avatar, FriendRequestFirebaseMessagingService.getToken(getApplicationContext()));
                 Room room = new Room(GlobalConstants.nPoints[maxPointSpinner.getSelectedItemPosition()],
                         GlobalConstants.nPlayers[numPlayerSpinner.getSelectedItemPosition()],
                         GlobalConstants.topics[pos], host);

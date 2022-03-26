@@ -16,6 +16,7 @@ import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.Serializable;
 
@@ -86,8 +87,11 @@ public class MainActivity extends AppCompatActivity {
         buttonNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FriendRequestFirebaseMessagingService.createToken(getApplicationContext());
+                String token=FriendRequestFirebaseMessagingService.getToken(getApplicationContext());
+
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        FriendRequestFirebaseMessagingService.getToken(getApplicationContext()),
+                        token,
                         "Friend request",
                         "Accept friend request from User 01",getApplicationContext(), MainActivity.this);
                 notificationsSender.SendNotifications();

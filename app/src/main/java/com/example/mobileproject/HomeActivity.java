@@ -21,6 +21,7 @@ import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
+import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -51,6 +52,9 @@ public class HomeActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
+
+        FriendRequestFirebaseMessagingService.createToken(getApplicationContext());
+
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnCreateRoom = (Button) findViewById(R.id.btnCreateRoom);
         Spinner spinner = (Spinner) findViewById(R.id.languages_spinner);
@@ -113,7 +117,7 @@ public class HomeActivity extends Activity {
                                                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                                                 Room room = documentSnapshot.toObject(Room.class);
                                                 assert room != null;
-                                                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                                                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestFirebaseMessagingService.getToken(getApplicationContext()));
                                                 room.addPlayer(newPlayer);
                                                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                                                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -177,7 +181,7 @@ public class HomeActivity extends Activity {
                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                 Room room = documentSnapshot.toObject(Room.class);
                 assert room != null;
-                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestFirebaseMessagingService.getToken(getApplicationContext()));
                 room.addPlayer(newPlayer);
                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                 // Join room
@@ -203,7 +207,7 @@ public class HomeActivity extends Activity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Room room = documentSnapshot.toObject(Room.class);
-                            newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos]);
+                            newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestFirebaseMessagingService.getToken(getApplicationContext()));
                             room.addPlayer(newPlayer);
                             Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                             CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
