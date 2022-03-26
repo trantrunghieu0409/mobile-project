@@ -26,6 +26,7 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
         return fragment;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

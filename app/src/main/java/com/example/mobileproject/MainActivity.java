@@ -12,11 +12,10 @@ import android.widget.Toast;
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.models.Account;
 import com.example.mobileproject.utils.FcmNotificationsSender;
-import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
+import com.example.mobileproject.utils.FriendRequestService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.Serializable;
 
@@ -87,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         buttonNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendRequestFirebaseMessagingService.createToken(getApplicationContext());
-                String token=FriendRequestFirebaseMessagingService.getToken(getApplicationContext());
+                FriendRequestService.createToken(getApplicationContext());
+                String token= FriendRequestService.getToken(getApplicationContext());
 
                 FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                         token,

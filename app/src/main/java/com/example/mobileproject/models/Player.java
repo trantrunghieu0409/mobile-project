@@ -1,8 +1,6 @@
 package com.example.mobileproject.models;
 
 
-import com.example.mobileproject.utils.FriendRequestFirebaseMessagingService;
-
 import java.io.Serializable;
 
 public class Player implements Serializable {

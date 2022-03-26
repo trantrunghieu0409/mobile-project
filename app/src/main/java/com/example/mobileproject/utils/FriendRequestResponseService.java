@@ -1,11 +1,14 @@
 package com.example.mobileproject.utils;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +19,10 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.window.SplashScreen;
 
@@ -31,34 +38,37 @@ import com.example.mobileproject.models.Account;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
+import android.app.Activity;
 
 import java.io.Serializable;
 
-public class FriendRequestFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
+import java.io.Serializable;
+
+public class FriendRequestResponseService extends com.google.firebase.messaging.FirebaseMessagingService {
     NotificationManager mNotificationManager;
     static private FirebaseAuth mAuth;
-
-    public static String getToken(Context context) {
-        return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
-    }
-
-    public static void createToken(Context context) {
-        mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            Log.e("newToken", task.getResult());
-                            context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", task.getResult()).apply();
-                        }
-                    });
-        }
-        else{
-            Log.e("newToken","empty");
-            context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", "empty").apply();
-        }
-    }
+//
+//    public static String getToken(Context context) {
+//        return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
+//    }
+//
+//    public static void createToken(Context context) {
+//        mAuth = FirebaseAuth.getInstance();
+//        if (mAuth.getCurrentUser() != null) {
+//            FirebaseMessaging.getInstance().getToken()
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful() && task.getResult() != null) {
+//                            Log.e("newToken", task.getResult());
+//                            context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", task.getResult()).apply();
+//                        }
+//                    });
+//        }
+//        else{
+//            Log.e("newToken","empty");
+//            context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", "empty").apply();
+//        }
+//    }
 
 
 //    @Override
@@ -102,24 +112,15 @@ public class FriendRequestFirebaseMessagingService extends com.google.firebase.m
             builder.setSmallIcon(R.drawable.icon);
         }
 
-        Intent intent1 = new Intent(this, ProfileActivity.class);
-        intent1.putExtra("yes",true);
-        intent1.putExtra("account", (Serializable) new Account("example@gmail.com", "password"));
-        intent1.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
-                |Intent. FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
 
-        Intent intent2 = new Intent(this, HomeActivity.class);
-        intent2.putExtra("no",false);
-        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
-                |Intent. FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
+
+//        Intent resultIntent = new Intent(this, SplashScreen.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
-        builder.addAction(R.drawable.ic_launcher_foreground,"Yes",pendingIntent1);
-        builder.addAction(R.drawable.ic_launcher_foreground,"No",pendingIntent2);
+//        builder.setContentIntent(pendingIntent);
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
         builder.setAutoCancel(true);
         builder.setPriority(Notification.PRIORITY_MAX);
@@ -148,5 +149,4 @@ public class FriendRequestFirebaseMessagingService extends com.google.firebase.m
 
 
     }
-
 }

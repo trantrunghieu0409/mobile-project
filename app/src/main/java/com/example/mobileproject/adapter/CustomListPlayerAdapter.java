@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.models.Player;
+import com.example.mobileproject.utils.FcmNotificationsSender;
 
 import java.util.ArrayList;
 
@@ -109,6 +111,18 @@ public class CustomListPlayerAdapter extends BaseAdapter {
                 btnFriendRequest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        String token=player.getToken();
+                        if(token.equals("empty")){
+                            Toast.makeText((GameplayActivity) context,"Can not send request to guest player",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                                    token,
+                                    "Friend request",
+                                    "A friend request is sent from "+player.getName()+"\nDo you want to accept it",(GameplayActivity)context,(GameplayActivity) context );
+                            notificationsSender.SendNotifications();
+                        }
 
                     }
                 });
