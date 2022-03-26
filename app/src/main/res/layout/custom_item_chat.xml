@@ -9,9 +9,7 @@
         android:id="@+id/item_messengerAnswer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Hi"
-        android:textStyle="bold"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:paddingBottom="5dp"
         />
 </LinearLayout>

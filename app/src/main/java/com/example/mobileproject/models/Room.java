@@ -13,7 +13,9 @@ public class Room {
     String roomID;
     boolean isPlaying = false;
     int drawer = -1;
+    int flagCurrentActivity = 0;
 
+    boolean firstAnswer = true;
 
     public Room(String roomID, int maxPoint, int maxPlayer, String topic, ArrayList<Player> players) {
         this.roomID = roomID;
@@ -123,6 +125,37 @@ public class Room {
         this.drawer = drawer;
     }
 
+    public int getFlagCurrentActivity() {
+        return flagCurrentActivity;
+    }
+
+    public void setFlagCurrentActivity(int flagCurrentActivity) {
+        this.flagCurrentActivity = flagCurrentActivity;
+    }
+
+    public void setFirstAnswer(boolean firstAnswer) {
+        this.firstAnswer = firstAnswer;
+    }
+
+    public boolean isFirstAnswer() {
+        return firstAnswer;
+    }
+
+    public boolean findPlayerAndSetPoint(String name,boolean isDrawer,boolean isFirst){
+        for(int i = 0; i < players.size();i++){
+            if(players.get(i).getName().equals(name)){
+                if(isDrawer){
+                    players.get(i).getPointDrawPlayer(isFirst);
+                }
+                else{
+                    players.get(i).getPointGuessPlayer();
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
 
     public void addPlayer(Player player){
         this.players.add(player);

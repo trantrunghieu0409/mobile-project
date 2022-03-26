@@ -16,6 +16,8 @@ import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.adapter.CustomChatAdapter;
 import com.example.mobileproject.models.Chat;
+import com.example.mobileproject.models.Player;
+import com.example.mobileproject.models.Room;
 import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,10 +37,9 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     CustomChatAdapter apdater;
     ListView boxChatAnswer;
     String vocal = "";
-
+    boolean isFirst;
 
     DocumentReference documentReference;
-    DocumentReference documentReference2;
     public static FragmentBoxChat newInstance(boolean isBoxChat) {
         Bundle args = new Bundle();
         FragmentBoxChat fragment = new FragmentBoxChat();
@@ -91,7 +92,7 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     @Override
     public void onMsgFromMainToFragment(String strValue) {
         if(strValue.contains("`Reset`")){
-            documentReference2 = CloudFirestore.getData("RoomState",gameplayActivity.roomID);
+            DocumentReference documentReference2 = CloudFirestore.getData("RoomState",gameplayActivity.roomID);
             documentReference2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -99,9 +100,29 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
                     vocal = roomState.getVocab();
                 }
             });
-        }else{
-            Chat chat = new Chat(strValue);
+        }else if(strValue.contains("`TURNFOR`")){
+            String name = strValue.replace("`TURNFOR`","");
+            Chat chat = new Chat("<font color=\"#0000FF\">Turn of <b>"+ name +"</b> </font>");
             documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
+        }else if(strValue.contains("`ANSWER`")){
+            Chat chat = new Chat("<font color=\"#0000FF\">The answer was: <b>"+ vocal +"</b></font>");
+            documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
+            gameplayActivity.onMsgFromFragToMain("RIGHT-FLAG", "`RIGHT`");
+        }
+        else{
+            if(Player.checkAnswer(vocal,strValue) == 2){
+                Chat chat = new Chat("<font color=\"#008000\"><b>"+ gameplayActivity.mainPlayer.getName()+"</b> hit!</font>");
+                documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
+
+                gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.mainPlayer.getName(),false,false);
+
+                gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.currentDrawing.getName(),true,gameplayActivity.room.isFirstAnswer());
+                gameplayActivity.room.setFirstAnswer(false);
+                //Update
+                CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, gameplayActivity.room);
+            }
+//            Chat chat = new Chat(strValue);
+//            documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
         }
 
     }
