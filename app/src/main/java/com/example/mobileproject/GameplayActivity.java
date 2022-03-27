@@ -141,8 +141,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             if(newRoom.getDrawer() != room.getDrawer()){
                                 room = newRoom;
                                 currentDrawing = room.getPlayers().get(room.getDrawer());
-                                // Just drawer can change
-                                if (currentDrawing.getName().equals(mainPlayer.getName())) {
+                                // Just ownerRoom can change
+                                if (room.getOwnerUsername().equals(mainPlayer.getName())) {
                                     RoomState roomState = new RoomState(roomID,
                                             MAX_PROGRESS_DRAWING,
                                             null,
@@ -150,6 +150,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
                                     CloudFirestore.sendData("RoomState", roomID, roomState);
                                     room.setFlagCurrentActivity(1);
+                                    room.setFirstAnswer(true);
                                     CloudFirestore.sendData("ListofRooms", roomID, room);
                                 }
                             }
@@ -308,7 +309,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 flagCurrentActivity++;
                 if(flagCurrentActivity > 4){
                     flagCurrentActivity = 1;
-                }
+                }dispatchGenericMotionEvent()
                 room.setFlagCurrentActivity(flagCurrentActivity);
                 CloudFirestore.sendData("ListofRooms", roomID, room);
                 room.setFlagCurrentActivity(0);
