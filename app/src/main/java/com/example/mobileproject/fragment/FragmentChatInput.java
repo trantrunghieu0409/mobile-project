@@ -283,9 +283,11 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
     @Override
     public void onMsgFromMainToFragment(String strValue) {
         if(strValue.contains("`Reset`")){
+//            editTextAnswer.setFocusableInTouchMode(true);
             editTextAnswer.setEnabled(true);
         }
         else if(strValue.contains("`RIGHT`")){
+//            editTextAnswer.setFocusable(false);
             editTextAnswer.setEnabled(false);
         }
         else{

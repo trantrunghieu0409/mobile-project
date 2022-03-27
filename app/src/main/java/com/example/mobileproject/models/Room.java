@@ -1,7 +1,8 @@
 package com.example.mobileproject.models;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 
@@ -155,6 +156,33 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public boolean findPlayerAndSetStatus(String name,int status){
+        for(int i = 0; i < players.size();i++){
+            if(players.get(i).getName().equals(name)){
+                players.get(i).setStatus(status);
+            }
+        }
+        return false;
+    }
+
+    public void resetAllStatusPlayer(){
+        for(int i = 0; i < players.size();i++){
+            players.get(i).setStatus(0);
+        }
+    }
+
+
+    public ArrayList<Player> sortDescendingPoint() {
+        ArrayList<Player> list = this.players;
+        Collections.sort(list, new Comparator<Player>() {
+            @Override
+            public int compare(Player player, Player player2) {
+                return Integer.compare(player2.getPoint(), player.getPoint());
+            }
+        });
+        return list;
     }
 
     public void addPlayer(Player player){

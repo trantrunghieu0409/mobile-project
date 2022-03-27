@@ -1,6 +1,7 @@
 package com.example.mobileproject.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,11 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 
     ArrayList<Player> list;
     Context context;
-    public CustomListPlayerAdapter(ArrayList<Player> listPlayer,Context context){
+    String username;
+    public CustomListPlayerAdapter(ArrayList<Player> listPlayer,Context context,String username){
         this.list = listPlayer;
         this.context = context;
+        this.username = username;
     }
 
     @Override
@@ -47,21 +50,33 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row;
+        View row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
         Context context=parent.getContext();
 
         Player player = (Player) getItem(position);
-        if (convertView == null) {
-            row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
-        }
-        else row = convertView;
 
+//        if (convertView == null) {
+//            row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
+//        }
+//        else row = convertView;
 
+        ImageView iconStatus = (ImageView) row.findViewById(R.id.turnStatus);
         ImageView iconTopScore = (ImageView) row.findViewById(R.id.iconTopScore);
         ImageView PlayerIcon=(ImageView) row.findViewById(R.id.icon);
         TextView name = (TextView) row.findViewById(R.id.name_player);
         TextView point = (TextView) row.findViewById(R.id.point_player);
 
+        switch (player.getStatus()){
+            case 1:
+                iconStatus.setImageResource(R.drawable.check);
+                break;
+            case 2:
+                iconStatus.setImageResource(R.drawable.pencil2);
+                break;
+            default:
+                iconStatus.setImageResource(0);
+                break;
+        }
         switch (position){
             case 0:
                 iconTopScore.setImageResource(R.drawable.icon_winner1);
@@ -75,7 +90,6 @@ public class CustomListPlayerAdapter extends BaseAdapter {
             default:
                 iconTopScore.setImageResource(0);
                 break;
-
         }
 
         PlayerIcon.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +154,9 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 
         PlayerIcon.setImageResource(player.getAvatar());
         name.setText(player.getName());
+        if(player.getName().equals(username)){
+            name.setTextColor(Color.RED);
+        }
         point.setText(player.getPoint() + "pts");
         return row;
     }

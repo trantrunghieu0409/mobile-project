@@ -9,7 +9,7 @@ public class Player implements Serializable {
     private int point;
     int avatar;
     String token;
-    int status; // 0: nothing , 1: RightAnswer , 2: Dawing
+    int status; // 0: nothing , 1: RightAnswer , 2: Drawing
 
     public Player(String name, int point, int avatar) {
         this.name = name;
@@ -82,4 +82,11 @@ public class Player implements Serializable {
         }
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

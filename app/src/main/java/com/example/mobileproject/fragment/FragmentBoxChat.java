@@ -107,14 +107,15 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
         }else if(strValue.contains("`ANSWER`")){
             Chat chat = new Chat("<font color=\"#0000FF\">The answer was: <b>"+ vocal +"</b></font>");
             documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
-            gameplayActivity.onMsgFromFragToMain("RIGHT-FLAG", "`RIGHT`");
+
         }
         else{
             if(Player.checkAnswer(vocal,strValue) == 2){
                 Chat chat = new Chat("<font color=\"#008000\"><b>"+ gameplayActivity.mainPlayer.getName()+"</b> hit!</font>");
                 documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
-
+                gameplayActivity.onMsgFromFragToMain("RIGHT-FLAG", "`RIGHT`");
                 gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.mainPlayer.getName(),false,false);
+                gameplayActivity.room.findPlayerAndSetStatus(gameplayActivity.mainPlayer.getName(),1);
 
                 gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.currentDrawing.getName(),true,gameplayActivity.room.isFirstAnswer());
                 gameplayActivity.room.setFirstAnswer(false);

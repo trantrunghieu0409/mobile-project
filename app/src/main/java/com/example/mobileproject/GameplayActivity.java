@@ -151,6 +151,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                     CloudFirestore.sendData("RoomState", roomID, roomState);
                                     room.setFlagCurrentActivity(1);
                                     room.setFirstAnswer(true);
+                                    room.resetAllStatusPlayer();
+                                    room.findPlayerAndSetStatus(currentDrawing.getName(),2);
                                     CloudFirestore.sendData("ListofRooms", roomID, room);
                                 }
                             }
@@ -309,7 +311,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 flagCurrentActivity++;
                 if(flagCurrentActivity > 4){
                     flagCurrentActivity = 1;
-                }dispatchGenericMotionEvent()
+                }
                 room.setFlagCurrentActivity(flagCurrentActivity);
                 CloudFirestore.sendData("ListofRooms", roomID, room);
                 room.setFlagCurrentActivity(0);

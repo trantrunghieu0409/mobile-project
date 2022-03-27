@@ -69,7 +69,7 @@ public class FragmentListPlayer extends Fragment{
                     }
                     gameplayActivity.room = room;
                     list.clear();
-                    list.addAll(room.getPlayers());
+                    list.addAll(room.sortDescendingPoint());
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -84,7 +84,7 @@ public class FragmentListPlayer extends Fragment{
         LinearLayout layout_list_player = (LinearLayout) inflater.inflate(R.layout.layout_list_player, null);
         final ListView listViewPlayer = (ListView) layout_list_player.findViewById(R.id.list_player);
 
-        adapter = new CustomListPlayerAdapter(list,getContext());
+        adapter = new CustomListPlayerAdapter(list,getContext(),gameplayActivity.mainPlayer.getName());
         listViewPlayer.setAdapter(adapter);
 
 
