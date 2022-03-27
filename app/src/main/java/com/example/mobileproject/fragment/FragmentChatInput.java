@@ -230,7 +230,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                         String mess = String.valueOf(editTextChat.getText());
                         editTextChat.setText("");
                         customChatPopupApdater.notifyDataSetChanged();
-                        Chat chat = new Chat(gameplayActivity.mainPlayer.getName(),mess);
+                        Chat chat = new Chat(gameplayActivity.mainPlayer.getName(),mess,gameplayActivity.mainPlayer.getAvatar());
                         documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
                     }
                 });

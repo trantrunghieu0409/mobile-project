@@ -57,7 +57,7 @@ public class CustomChatPopupApdater extends BaseAdapter {
             name.setText(list.get(position).getNameUser());
         }
         if(icon != null){
-            icon.setImageResource(player.getAvatar());
+            icon.setImageResource(list.get(position).getAvatar());
         }
         mess.setText(list.get(position).getMsg());
         return row;
