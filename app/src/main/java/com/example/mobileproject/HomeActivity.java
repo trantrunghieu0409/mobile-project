@@ -2,9 +2,11 @@ package com.example.mobileproject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -98,12 +101,19 @@ public class HomeActivity extends Activity {
                 if(edtName.getText().length() == 0){
                     // Pop up Error message
                     edtName.requestFocus();
+                    Toast.makeText(HomeActivity.this, "Please give us an username first", Toast.LENGTH_LONG).show();
                 }
                 else {
+                    ProgressDialog dialog = new ProgressDialog(HomeActivity.this);
+                    dialog.setMessage("Please wait a moment...");
+                    dialog.setCancelable(false);
+                    dialog.show();
+
                     //go to play screen here
                     CloudFirestore.getListofRooms().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            dialog.dismiss();
                             Random rand = new Random();
                             List<DocumentSnapshot> listRooms = task.getResult().getDocuments();
                             if (listRooms.size() == 0) {
@@ -150,6 +160,7 @@ public class HomeActivity extends Activity {
                 if(edtName.getText().length() == 0){
                     // Pop up Error message
                     edtName.requestFocus();
+                    Toast.makeText(HomeActivity.this, "Please give us an username first", Toast.LENGTH_LONG).show();
                 }
                 else {
                     Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
@@ -174,9 +185,13 @@ public class HomeActivity extends Activity {
         Button playButton = customView.findViewById(R.id.playButton);
         builder.setView(customView);
         AlertDialog alert = builder.create();
+        alert.show();
+
+
         randomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // what if listRooms.size() == 0 ????
                 Random rand = new Random();
                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                 Room room = documentSnapshot.toObject(Room.class);
@@ -200,6 +215,11 @@ public class HomeActivity extends Activity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog dialog = new ProgressDialog(HomeActivity.this);
+                dialog.setMessage("Please wait\nWe're searching rooms for you...");
+                dialog.setCancelable(false);
+                dialog.show();
+
                 // Join room
                 DocumentReference documentReference = CloudFirestore.getData("ListofRooms", edtCode.getText().toString());
                 if (documentReference != null) {
@@ -207,19 +227,32 @@ public class HomeActivity extends Activity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Room room = documentSnapshot.toObject(Room.class);
-                            newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
-                            room.addPlayer(newPlayer);
-                            Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
-                            CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    playIntent.putExtra("RoomID", room.getRoomID());
-                                    playIntent.putExtra("Player", (Serializable) newPlayer);
-                                    startActivity(playIntent);
-                                    alert.dismiss();
-                                    finish();
-                                }
-                            });
+                            if (room != null) {
+                                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
+                                room.addPlayer(newPlayer);
+                                Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
+                                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        playIntent.putExtra("RoomID", room.getRoomID());
+                                        playIntent.putExtra("Player", (Serializable) newPlayer);
+                                        startActivity(playIntent);
+                                        finish();
+                                    }
+                                });
+                            }
+                            else {
+                                // pop up room not found
+                                AlertDialog notfoundDialog = new AlertDialog.Builder(HomeActivity.this)
+                                        .setTitle("Room not found")
+                                        .setMessage("Room not found")
+                                        .setNegativeButton("OK", null)
+                                        .setIcon(R.drawable.ic_baseline_sad_face_24)
+                                        .show();
+
+                                dialog.dismiss();
+                            }
+
                         }
                     });
                 }
@@ -231,9 +264,10 @@ public class HomeActivity extends Activity {
                             .setNegativeButton("OK", null)
                             .setIcon(R.drawable.ic_baseline_sad_face_24)
                             .show(); // do nothing
+
+                    dialog.dismiss();
                 }
             }
         });
-        alert.show();
     }
 }

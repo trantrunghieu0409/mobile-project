@@ -103,7 +103,7 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_drawscreen.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_editprofile.xml" value="0.4" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_friendlist.xml" value="0.264" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_gameplay.xml" value="0.4311594202898551" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_gameplay.xml" value="0.176" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_homescreen.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_login.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
@@ -113,13 +113,16 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_item_chat.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_item_chat_popup.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_item_chat_popup2.xml" value="0.2234375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_item_chat_popup3.xml" value="0.15520833333333334" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_country.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_friend.xml" value="0.536" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/custom_list_player.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/draw_screen.xml" value="0.2234375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/friend_request_popup.xml" value="0.19166666666666668" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/homescreen.xml" value="0.536" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_answer.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_box_chat.xml" value="0.2234375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_changepassword.xml" value="0.19166666666666668" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_chat_input.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_getdrawing.xml" value="0.264" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_inactive.xml" value="0.2234375" />
@@ -131,6 +134,7 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/layout_waitstart.xml" value="0.16302083333333334" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_answer.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_avatarlist.xml" value="0.2234375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_changepassword.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_chat.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_countrylist.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_gameover.xml" value="0.2234375" />

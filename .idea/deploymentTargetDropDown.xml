@@ -20,16 +20,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\hovan\.android\avd\Phone2_2.avd" />
-          </Key>
-        </deviceKey>
-      </Target>
-      <Target>
-        <type value="QUICK_BOOT_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\hovan\.android\avd\Phone_1.avd" />
+            <value value="C:\Users\ASUS\.android\avd\Pixel_2_API_28.avd" />
           </Key>
         </deviceKey>
       </Target>
