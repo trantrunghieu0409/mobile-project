@@ -35,7 +35,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft; FragmentProfile profileFragment; FragmentListFriends listFriendsFragment;
-    LinearLayout btnChangeAvatar, btnChangePassword;
+    LinearLayout btnChangeAvatar, btnChangePassword, mainProfile;
     ImageView imgAvatar;
     TextView txtUsername, txtAchievements;
     LinearLayout btnEditProfile;
@@ -58,6 +58,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         radioRight = (RadioButton) findViewById(R.id.radioRight);
         btnSignOut=(Button)findViewById(R.id.btnSignOut) ;
         btnChangePassword = (LinearLayout) findViewById(R.id.btnChangePassword);
+        mainProfile = (LinearLayout) findViewById(R.id.mainProfile);
 
         Intent intent = getIntent();
         Bundle myBundle = intent.getExtras();
@@ -139,11 +140,11 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
             }
         });
 
-
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
+                mainProfile.setAlpha(0.5F); // 50% transparent background
                 // create a pop up
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupAvatarList = inflater.inflate(R.layout.popup_avatarlist, null);
@@ -183,6 +184,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                         // do nothing
                     }
                     popupWindow.dismiss();
+                    mainProfile.setAlpha(1.0F); // return to normal state
                 });
             }
         });
@@ -198,6 +200,8 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mainProfile.setAlpha(0.5F); // 50% transparent background
+
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View popupChangePassword = inflater.inflate(R.layout.popup_changepassword, null);
 
@@ -210,6 +214,12 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
 
                 // get information
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        mainProfile.setAlpha(1.0F); // return to normal state
+                    }
+                });
             }
         });
     }
