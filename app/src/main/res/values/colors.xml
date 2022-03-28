@@ -18,4 +18,5 @@
     <color name="Orange">#ffFF9900</color>
     <color name="Brown">#ff996600</color>
     <color name="light_red">#EF5E5E</color>
+    <color name="white50_background">#80FFFFFF</color>
 </resources>

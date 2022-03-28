@@ -1,6 +1,7 @@
 package com.example.mobileproject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -85,6 +86,12 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Waiting progress
+                ProgressDialog dialog = new ProgressDialog(CreateRoomActivity.this);
+                dialog.setMessage("Please wait\nThe room is being setup :)");
+                dialog.setCancelable(false);
+                dialog.show();
+
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
                 Player host = new Player(name, 0, avatar, FriendRequestService.getToken(getApplicationContext()));
                 Room room = new Room(GlobalConstants.nPoints[maxPointSpinner.getSelectedItemPosition()],
@@ -107,6 +114,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        dialog.dismiss();
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("Player", (Serializable) host);
                         startActivity(playIntent);
