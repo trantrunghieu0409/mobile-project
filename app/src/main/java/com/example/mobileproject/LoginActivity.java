@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.io.Serializable;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,7 +36,18 @@ public class LoginActivity extends AppCompatActivity {
 
         if(account != null){
             Toast.makeText(this,"You login successfully",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this,MainActivity.class));
+            Intent intent = new Intent(this, HomeActivity.class);
+            String accountName = account.getEmail();
+            final Account[] accountList = {new Account("example@gmail.com", "password")};
+            DocumentReference documentReference = Account.getDataFromFirebase(accountName);
+            if (documentReference != null) {
+                documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                    accountList[0] = documentSnapshot.toObject(Account.class);
+                    intent.putExtra("account", (Serializable) accountList[0]);
+                    startActivity(intent);
+                    finish();
+                });
+            }
 
         }else {
             Toast.makeText(this,"Login failed",Toast.LENGTH_LONG).show();
