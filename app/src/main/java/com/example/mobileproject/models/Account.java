@@ -105,7 +105,7 @@ public class Account extends Player implements Serializable {
         this.hashPassword = hashPassword;
     }
 
-    public void getFriendList(){ return friendList}
+    public ArrayList<Account> getFriendList(){ return friendList;}
 
     public static void sendDataToFirebase(Account account) {
         CloudFirestore.sendData("Account", account.getName(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
