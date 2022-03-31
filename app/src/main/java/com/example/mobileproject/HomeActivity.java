@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.Account;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
@@ -28,6 +29,7 @@ import com.example.mobileproject.utils.FriendRequestService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,9 +48,10 @@ public class HomeActivity extends Activity {
     ImageButton btnNext;
     ImageButton btnPrev;
     ImageView btnLogin;
-    CircularImageView avatar;
+    ImageView avatar;
     EditText edtName;
     Player newPlayer;
+    
 
     int pos = 0;
     @Override
@@ -65,36 +68,64 @@ public class HomeActivity extends Activity {
         spinner.setAdapter(adapter);
         btnNext = (ImageButton) findViewById(R.id.btnNext);
         btnPrev = (ImageButton) findViewById(R.id.btnPrev);
-        avatar = (CircularImageView) findViewById(R.id.circle_avatar);
+        avatar = (ImageView) findViewById(R.id.circle_avatar);
         edtName = (EditText) findViewById(R.id.edtName);
         btnLogin = (ImageView) findViewById(R.id.btnLogin);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //go to login here
-            }
-        });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(++pos >= avatars.length){
-                    pos = 0;
+        Intent logged = getIntent();
+        Bundle bundle = logged.getExtras();
+        if (bundle != null) {
+            Account account = (Account) bundle.getSerializable("account");
+            avatar.setImageResource(account.getAvatar());
+            edtName.setText(account.getName());
+            edtName.setEnabled(false);
+            btnNext.setVisibility(View.GONE);
+            btnPrev.setVisibility(View.GONE);
+            btnLogin.setImageResource(R.drawable.logout);
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // logout here
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    mAuth.signOut();
+                    Intent intent=new Intent(HomeActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
-                avatar.setImageResource(avatars[pos]);
-            }
-        });
-
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(--pos < 0){
-                    pos = avatars.length -1;
+            });
+        }
+        else {
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //go to login here
+                    Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivity(loginIntent);
+                    finish();
                 }
-                avatar.setImageResource(avatars[pos]);
-            }
-        });
+            });
+
+            btnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(++pos >= avatars.length){
+                        pos = 0;
+                    }
+                    avatar.setImageResource(avatars[pos]);
+                }
+            });
+
+            btnPrev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(--pos < 0){
+                        pos = avatars.length -1;
+                    }
+                    avatar.setImageResource(avatars[pos]);
+                }
+            });
+        }
+
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
