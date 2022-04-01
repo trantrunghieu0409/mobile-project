@@ -70,6 +70,14 @@ public class Room {
             }
         }
     }
+    public boolean existedUser(String name){
+        for (Player player: players){
+            if (player.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void setMaxPlayer(int maxPlayer) {
         this.maxPlayer = maxPlayer;
