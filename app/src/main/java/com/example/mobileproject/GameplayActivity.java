@@ -58,6 +58,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public final int MAX_PROGRESS_WAITING = GlobalConstants.TIME_FOR_A_WAITING;
     int accum = 0;
     int flagCurrentActivity = 0;
+    boolean stillPlaying = false;
 
     private String Vocab;
     private RoomState roomState;
@@ -223,6 +224,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             drawIntent.putExtra("roomID", roomID);
             drawIntent.putExtra("vocab", roomState.getVocab());
             popupWindow.dismiss();
+            stillPlaying = true;
             startActivity(drawIntent);
         }
         else{
@@ -343,6 +345,23 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     @Override
     protected void onStop() {
         super.onStop();
+        if(stillPlaying){
+            stillPlaying = false;
+        }
+        else {
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+            room.removePlayer(mainPlayer.getName());
+            if(room.getPlayers().size() == 0){
+                // If the last person in room left
+                // Delete that room
+                CloudFirestore.deleteDoc("ListofRooms", roomID);
+                CloudFirestore.deleteDoc("RoomState", roomID);
+            }
+            else {
+                CloudFirestore.sendData("ListofRooms", roomID, room);
+            }
+            System.out.println("call onStop");
+        }
     }
 
     @Override
