@@ -45,7 +45,7 @@ public class DrawActivity extends Activity {
     private RoomState roomState;
     private ImageButton btnClose;
     private ImageButton btnHint;
-
+    boolean isRunning = false;
     TextView txtVocab;
 
     int timeout;
@@ -131,7 +131,8 @@ public class DrawActivity extends Activity {
             }
         });
 
-        Thread killActivity = new Thread(new Runnable() {
+
+        Thread timeCountActivity = new Thread(new Runnable() {
             @Override
             public void run() {
                 for(int i = 0; i < timeout;i++){
@@ -153,7 +154,34 @@ public class DrawActivity extends Activity {
                 finish();
             }
         });
-        killActivity.start();
+        timeCountActivity.start();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Thread drawActivity = new Thread(() -> {
+            isRunning = true;
+            while (isRunning) {
+                try {
+                    Thread.sleep(200);
+
+                    // send current drawing to firebase
+                    roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
+                    CloudFirestore.updateField("RoomState", roomState.getRoomID(),
+                            "imgBitmap",
+                            roomState.getImgBitmap());
+
+                } catch (InterruptedException ignored) {
+                }
+            }
+        });
+        drawActivity.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop(); isRunning = false;
     }
 
     @Override
@@ -211,18 +239,7 @@ public class DrawActivity extends Activity {
             returnShape = new Thread() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(100);
-                        prevX = 0;
-
-                        // send current drawing to firebase
-                        roomState.setImgBitmap(CloudFirestore.encodeBitmap(b.copy(b.getConfig(), false)));
-                        CloudFirestore.updateField("RoomState", roomState.getRoomID(),
-                                "imgBitmap",
-                                roomState.getImgBitmap());
-
-                    } catch (InterruptedException ignored) {
-                    }
+                    prevX = 0;
                 }
             };
             returnShape.start();
