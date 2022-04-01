@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.models.Account;
+import com.example.mobileproject.utils.CloudFirestore;
 import com.example.mobileproject.utils.FcmNotificationsSender;
 import com.example.mobileproject.utils.FriendRequestService;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,8 @@ import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonDraw, buttonWatch, buttonProfile,buttonNotification;
+    Button buttonDraw, buttonWatch, buttonProfile,buttonNotification,
+    buttonDeleteListRooms, buttonDeleteRoomsState;
     private FirebaseAuth mAuth;
 
     @Override
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         buttonWatch = (Button) findViewById(R.id.buttonWatch);
         buttonProfile = (Button) findViewById(R.id.buttonProfile);
         buttonNotification=(Button)findViewById(R.id.ButtonNotification);
+        buttonDeleteListRooms=(Button)findViewById(R.id.buttonDeleteListRooms);
+        buttonDeleteRoomsState=(Button)findViewById(R.id.buttonDeleteRoomState);
 
 
         buttonDraw.setOnClickListener(new View.OnClickListener() {
@@ -96,5 +100,21 @@ public class MainActivity extends AppCompatActivity {
                 notificationsSender.SendNotifications();
             }
         });
+
+        buttonDeleteListRooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CloudFirestore.deleteAllDocuments("ListofRooms");
+            }
+        });
+
+
+        buttonDeleteRoomsState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CloudFirestore.deleteAllDocuments("RoomState");
+            }
+        });
+
     }
 }

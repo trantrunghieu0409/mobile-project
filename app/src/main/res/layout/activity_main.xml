@@ -35,4 +35,18 @@
         android:layout_height="wrap_content"
         android:text="Notification"
         android:layout_margin="40dp"/>
+
+    <Button
+        android:id="@+id/buttonDeleteListRooms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Firebase - ListofRooms" />
+
+    <Button
+        android:id="@+id/buttonDeleteRoomState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Firebase - RoomState"/>
+
+
 </LinearLayout>
