@@ -45,7 +45,7 @@ public class DrawActivity extends Activity {
     private RoomState roomState;
     private ImageButton btnClose;
     private ImageButton btnHint;
-    boolean isRunning = false;
+    boolean isRunning = true;
     TextView txtVocab;
 
     int timeout;
@@ -161,7 +161,6 @@ public class DrawActivity extends Activity {
     protected void onStart() {
         super.onStart();
         Thread drawActivity = new Thread(() -> {
-            isRunning = true;
             while (isRunning) {
                 try {
                     Thread.sleep(200);
@@ -239,7 +238,12 @@ public class DrawActivity extends Activity {
             returnShape = new Thread() {
                 @Override
                 public void run() {
-                    prevX = 0;
+                    try {
+                        Thread.sleep(100);
+                        prevX = 0;
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
                 }
             };
             returnShape.start();
