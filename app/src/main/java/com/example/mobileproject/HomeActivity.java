@@ -159,6 +159,7 @@ public class HomeActivity extends Activity {
                                                 Room room = documentSnapshot.toObject(Room.class);
                                                 assert room != null;
                                                 newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
+                                                newPlayer.setAccountId(Account.getCurrertAccountId());
                                                 room.addPlayer(newPlayer);
                                                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                                                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -228,6 +229,7 @@ public class HomeActivity extends Activity {
                 Room room = documentSnapshot.toObject(Room.class);
                 assert room != null;
                 newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
+                newPlayer.setAccountId(Account.getCurrertAccountId());
                 room.addPlayer(newPlayer);
                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                 // Join room
@@ -260,6 +262,7 @@ public class HomeActivity extends Activity {
                             Room room = documentSnapshot.toObject(Room.class);
                             if (room != null) {
                                 newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
+                                newPlayer.setAccountId(Account.getCurrertAccountId());
                                 // Player's name has already existed
                                 if(room.existedUser(newPlayer.getName())){
                                     dialog.dismiss();

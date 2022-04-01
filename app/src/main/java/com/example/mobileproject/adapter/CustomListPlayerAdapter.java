@@ -14,12 +14,21 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.mobileproject.GameplayActivity;
 import com.example.mobileproject.R;
+import com.example.mobileproject.models.Account;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.utils.FcmNotificationsSender;
+import com.example.mobileproject.utils.FriendRequestService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class CustomListPlayerAdapter extends BaseAdapter {
@@ -27,6 +36,8 @@ public class CustomListPlayerAdapter extends BaseAdapter {
     ArrayList<Player> list;
     Context context;
     String username;
+    String currentState;
+    DatabaseReference requestRef;
     public CustomListPlayerAdapter(ArrayList<Player> listPlayer,Context context,String username){
         this.list = listPlayer;
         this.context = context;
@@ -54,7 +65,8 @@ public class CustomListPlayerAdapter extends BaseAdapter {
         Context context=parent.getContext();
 
         Player player = (Player) getItem(position);
-
+        requestRef= FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference().child("Requests").child(player.getAccountId());
+        currentState="nothing_happend";
 //        if (convertView == null) {
 //            row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
 //        }
@@ -126,20 +138,43 @@ public class CustomListPlayerAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
 
-                        String token=player.getToken();
-                        if(token.equals("empty")){
-                            Toast.makeText((GameplayActivity) context,"Can not send request to guest player",Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                    token,
-                                    "Friend request",
-                                    "A friend request is sent from "+player.getName()+"\nDo you want to accept it",(GameplayActivity)context,(GameplayActivity) context );
-                            notificationsSender.SendNotifications();
-                        }
+//                        String token=player.getToken();
+//                        if(token.equals("empty")){
+//                            Toast.makeText((GameplayActivity) context,"Can not send request to guest player",Toast.LENGTH_LONG).show();
+//                        }
+//                        else{
+//                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+//                                    token,
+//                                    "Friend request",
+//                                    "A friend request is sent from "+player.getName()+"\nDo you want to accept it",(GameplayActivity)context,(GameplayActivity) context );
+//                            notificationsSender.SendNotifications();
+//                        }
 
-                    }
-                });
+
+
+                        if(Account.getcurrentAccount()==null)
+                        {
+                            Toast.makeText((GameplayActivity)context,"Only logged in user can send friend request",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(player.getAccountId().equals("empty")){
+                            Toast.makeText((GameplayActivity)context,"Can not send request to guest user",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(currentState.equals("nothing_happend"))
+                        {
+                            HashMap hashMap=new HashMap();
+                            hashMap.put("status","pending");
+                            requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText((GameplayActivity)context,"You have sent Friend request",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+                }});
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override

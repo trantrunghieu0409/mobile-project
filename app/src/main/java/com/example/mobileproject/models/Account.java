@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.io.Serializable;
@@ -119,6 +121,24 @@ public class Account extends Player implements Serializable {
     public static DocumentReference getDataFromFirebase(String name) {
         DocumentReference documentReference = CloudFirestore.getData("Account", name);
         return documentReference;
+    }
+
+    public static String getCurrertAccountId() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        return currentUser.getUid();
+    }
+
+    public static String getcurrentAccountEmail() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        return currentUser.getEmail();
+    }
+
+    public static FirebaseUser getcurrentAccount() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        return currentUser;
     }
 }
 

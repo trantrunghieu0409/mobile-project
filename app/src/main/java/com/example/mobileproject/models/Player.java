@@ -9,12 +9,14 @@ public class Player implements Serializable {
     private int point;
     int avatar;
     String token;
+    String accountId;
     int status; // 0: nothing , 1: RightAnswer , 2: Drawing
 
     public Player(String name, int point, int avatar) {
         this.name = name;
         this.point = point;
         this.avatar = avatar;
+        accountId="empty";
 
     }
 
@@ -23,6 +25,7 @@ public class Player implements Serializable {
         this.point = point;
         this.avatar = avatar;
         this.token=token;
+        accountId="empty";
     }
 
     public Player(){
@@ -88,5 +91,14 @@ public class Player implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public void setAccountId(String accountId) {
+        if(accountId==null) this.accountId = "empty";
+        else
+            this.accountId=accountId;
+    }
+    public String getAccountId(){
+        return this.accountId;
     }
 }

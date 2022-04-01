@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.draw_config.Config;
+import com.example.mobileproject.models.Account;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
 import com.example.mobileproject.utils.CloudFirestore;
@@ -94,6 +95,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
 
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
                 Player host = new Player(name, 0, avatar, FriendRequestService.getToken(getApplicationContext()));
+                host.setAccountId(Account.getCurrertAccountId());
                 Room room = new Room(GlobalConstants.nPoints[maxPointSpinner.getSelectedItemPosition()],
                         GlobalConstants.nPlayers[numPlayerSpinner.getSelectedItemPosition()],
                         GlobalConstants.topics[pos], host);
