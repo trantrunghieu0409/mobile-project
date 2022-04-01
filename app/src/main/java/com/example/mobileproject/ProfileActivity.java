@@ -227,24 +227,6 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                 // show a pop up
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
 
-                // get information
-                EditText txtPassword = (EditText) popupChangePassword.findViewById(R.id.editTextPassword);
-                EditText txtNewPassword = (EditText) popupChangePassword.findViewById(R.id.editTextNewPassword);
-                EditText txtRetypePassword = (EditText) popupChangePassword.findViewById(R.id.editTextPasswordRetype);
-
-                String oldPassword = txtPassword.getText().toString();
-                String newPassword = txtNewPassword.getText().toString();
-                String retypePassword = txtRetypePassword.getText().toString();
-
-                if (txtNewPassword != txtRetypePassword) {
-                    // do something here
-                }
-                else {
-                    // check old password is correct?
-
-                    // if yes, change into the new password
-                }
-
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
