@@ -1,5 +1,7 @@
 package com.example.mobileproject;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +20,9 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -31,7 +35,13 @@ import com.example.mobileproject.fragment.FragmentListFriends;
 import com.example.mobileproject.fragment.FragmentProfile;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Account;
+import com.example.mobileproject.utils.CloudFirestore;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 
 public class ProfileActivity extends FragmentActivity implements MainCallbacks {
@@ -46,6 +56,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     RadioButton radioLeft, radioRight;
     Button btnSignOut;
     private FirebaseAuth mAuth;
+    DocumentReference documentReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +98,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
 
         FrameLayout frame = (FrameLayout) findViewById(R.id.profile_holder);
 
+
         radioLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +115,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         radioRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ft = getSupportFragmentManager().beginTransaction();
                 listFriendsFragment = FragmentListFriends.newInstance(accountName);
                 ft.replace(R.id.profile_holder, listFriendsFragment);
@@ -238,6 +251,45 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                         mainProfile.setAlpha(1.0F); // return to normal state
                     }
                 });
+
+                final Button changePasswordButton = (Button) popupChangePassword.findViewById(R.id.changePasswordBtn);
+                final EditText registerPassword=(EditText) popupChangePassword.findViewById(R.id.EditTextChangeNewPassword);
+                final EditText registerRetypePassword=(EditText) popupChangePassword.findViewById((R.id.editTextChangePasswordRetype));
+                final EditText currentPassword=(EditText) popupChangePassword.findViewById((R.id.currentPassword));
+                changePasswordButton.setOnClickListener(view1 -> {
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword.getText().toString());
+
+                    user.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d(TAG, "User re-authenticated.");
+                                    if (registerPassword.getText().toString().equals(registerRetypePassword.getText().toString())) {
+                                        user.updatePassword(registerPassword.getText().toString())
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Log.d(TAG, "User password updated.");
+                                                        }
+                                                        Toast.makeText(ProfileActivity.this, "User password updated", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
+                                    else{
+                                        Toast.makeText(ProfileActivity.this, "Retype password do not match", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+
+                    popupWindow.dismiss();
+                    mainProfile.setAlpha(1.0F); // return to normal state
+                });
+
+
             }
         });
     }

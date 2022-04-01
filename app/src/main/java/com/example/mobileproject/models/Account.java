@@ -19,7 +19,7 @@ public class Account extends Player implements Serializable {
     int third_place;
     int nGames;
     String acountId;
-    ArrayList<String>friendListId;
+    ArrayList<Account>friendList;
 
     public Account() {
 
@@ -54,7 +54,7 @@ public class Account extends Player implements Serializable {
         this.third_place = 0;
         this.nGames = 0;
         this.acountId=accountId;
-        friendListId=new ArrayList<String>();
+        friendList=new ArrayList<Account>();
     }
 
     public int getFirst_place() {
@@ -104,6 +104,8 @@ public class Account extends Player implements Serializable {
     public void setHashPassword(String hashPassword) {
         this.hashPassword = hashPassword;
     }
+
+    public ArrayList<Account> getFriendList(){ return friendList;}
 
     public static void sendDataToFirebase(Account account) {
         CloudFirestore.sendData("Account", account.getName(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
