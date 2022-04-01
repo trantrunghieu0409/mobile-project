@@ -260,6 +260,12 @@ public class HomeActivity extends Activity {
                             Room room = documentSnapshot.toObject(Room.class);
                             if (room != null) {
                                 newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
+                                // Player's name has already existed
+                                if(room.existedUser(newPlayer.getName())){
+                                    dialog.dismiss();
+                                    edtName.requestFocus();
+                                    return;
+                                }
                                 room.addPlayer(newPlayer);
                                 Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {

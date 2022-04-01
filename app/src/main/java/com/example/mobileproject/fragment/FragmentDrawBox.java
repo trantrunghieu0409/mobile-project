@@ -84,7 +84,7 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
 
         @Override
     public void onMsgFromMainToFragment(String strValue) {
-        if(strValue.equals("NEW_PLAYER")){
+        if(strValue.equals("NEW_PLAYER") && gameplayActivity.mainPlayer.getName().equals(gameplayActivity.room.getOwnerUsername())){
             buttonStart.setEnabled(true);
         }
     }
