@@ -45,6 +45,12 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
         catch (IllegalStateException e) {
             throw new IllegalStateException("Activity must implement callbacks");
         }
+
+        // get friends info from firebase here
+        listFriends = new ArrayList<>(1);
+        Account acc = new Account("user", 0, R.drawable.avatar_batman, "email@gmail.com", "password");
+
+        listFriends.add(acc);
     }
 
     @Nullable
