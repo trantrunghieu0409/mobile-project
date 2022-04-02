@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/name_player"
+            android:id="@+id/txtUsername"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="User01"
@@ -44,7 +44,7 @@
             android:textColor="@color/Blue"
             />
         <TextView
-            android:id="@+id/point_player"
+            android:id="@+id/txtStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Active now"
@@ -55,20 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/btnUnfriend"
-            android:background="@drawable/background_btn2"
-            android:padding="5dp"
-            android:src="@drawable/ic_baseline_person_add_alt_1_24" />
-
-        <ImageView
+        <ImageButton
             android:id="@+id/btnUnfriend"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -76,9 +63,12 @@
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="5dp"
-            android:src="@drawable/ic_baseline_block_24" />
+            android:background="@drawable/red_background_border"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_person_remove_24" />
+
     </RelativeLayout>
 
 </LinearLayout>

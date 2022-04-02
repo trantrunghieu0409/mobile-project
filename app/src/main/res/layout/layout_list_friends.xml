@@ -16,27 +16,23 @@
             android:text="@string/friends_title"
             android:textAlignment="center" />
 
-        <ScrollView
+        <LinearLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/list_border"> <!-- Need to specify height later! -->
-            <LinearLayout
+            android:background="@drawable/list_border">
+            <ListView
+                android:id="@+id/list_friends"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ListView
-                    android:id="@android:id/list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                android:layout_height="match_parent"/>
             </LinearLayout>
-        </ScrollView>
         <TextView
             android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="You haven't had any friends yet! :("
-            />
+        />
 
     </LinearLayout>
 </LinearLayout>
