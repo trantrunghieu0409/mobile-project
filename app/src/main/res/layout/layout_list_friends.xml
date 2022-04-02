@@ -27,10 +27,11 @@
                 android:layout_height="match_parent"/>
             </LinearLayout>
         <TextView
-            android:id="@android:id/empty"
+            android:id="@+id/list_friends_empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:visibility="gone"
             android:text="You haven't had any friends yet! :("
         />
 
