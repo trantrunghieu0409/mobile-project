@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -81,16 +82,25 @@ public class HomeActivity extends Activity {
             edtName.setEnabled(false);
             btnNext.setVisibility(View.GONE);
             btnPrev.setVisibility(View.GONE);
-            btnLogin.setImageResource(R.drawable.logout);
+            btnLogin.setImageResource(account.getAvatar());
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // logout here
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    mAuth.signOut();
-                    Intent intent=new Intent(HomeActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    String accountName = currentUser.getEmail();
+                    final Account[] accountList = {new Account("example@gmail.com", "password")};
+
+                    DocumentReference documentReference = Account.getDataFromFirebase(accountName);
+                    if (documentReference != null) {
+                        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                            accountList[0] = documentSnapshot.toObject(Account.class);
+                            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                            intent.putExtra("account", (Serializable) accountList[0]);
+                            startActivity(intent);
+
+                        });
+                    }
                 }
             });
         }
