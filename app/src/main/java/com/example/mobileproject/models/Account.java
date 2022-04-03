@@ -2,25 +2,52 @@ package com.example.mobileproject.models;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.mobileproject.adapter.CustomListFriendAdapter;
 import com.example.mobileproject.utils.CloudFirestore;
+import com.example.mobileproject.utils.FriendRequestService;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import kotlin.text.UStringsKt;
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Account extends Player implements Serializable {
+
     String email;
     String hashPassword;
     int first_place;
     int second_place;
     int third_place;
     int nGames;
-    String acountId;
+    String accountId;
+    String token;
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String acountId) {
+        this.accountId = acountId;
+    }
+
     ArrayList<Account>friendList;
 
     public Account() {
@@ -35,6 +62,7 @@ public class Account extends Player implements Serializable {
         this.second_place = 0;
         this.third_place = 0;
         this.nGames = 0;
+
     }
 
     public Account(String email, String hashPassword) {
@@ -44,9 +72,10 @@ public class Account extends Player implements Serializable {
         this.second_place = 0;
         this.third_place = 0;
         this.nGames = 0;
+
     }
 
-    public Account(String name,String email,String hashPassword,String accountId)
+    public Account(String name,String email,String hashPassword,String accountId,String token)
     {
         super(name, 0, 2131230807);
         this.email = email;
@@ -55,7 +84,8 @@ public class Account extends Player implements Serializable {
         this.second_place = 0;
         this.third_place = 0;
         this.nGames = 0;
-        this.acountId=accountId;
+        this.accountId=accountId;
+        this.token= token;
         friendList=new ArrayList<Account>();
     }
 
@@ -109,8 +139,9 @@ public class Account extends Player implements Serializable {
 
     public ArrayList<Account> getFriendList(){ return friendList;}
 
+
     public static void sendDataToFirebase(Account account) {
-        CloudFirestore.sendData("Account", account.getName(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
+        CloudFirestore.sendData("Account", account.getAccountId(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.e("Firebase Error", "Success");
@@ -140,6 +171,63 @@ public class Account extends Player implements Serializable {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return currentUser;
     }
+
+    public static void signOut() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+    }
+
+    public static void saveAccount(Account acc) {
+        DatabaseReference AccRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("Account");
+//        HashMap<String,Account> hashMap=new HashMap<>();
+//        hashMap.put(acc.getAccountId(),acc);
+        AccRef.child(acc.getAccountId()).setValue(acc);
+    }
+
+    public static void getPendingList(String id, CustomListFriendAdapter adapter,ArrayList<Account> listFriends) {
+
+
+        DatabaseReference reqRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("Requests").child(id);
+        DatabaseReference accRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("Account");
+//        ArrayList<Account> pendingList=new ArrayList<>(100);
+        reqRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String status=dataSnapshot.child("status").getValue(String.class);
+                    String reqId=dataSnapshot.getKey();
+                    if (status.equals("pending")) {
+                        accRef.child(reqId).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Account a = snapshot.getValue(Account.class);
+                                listFriends.add(a);
+
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+
+
 }
 
 

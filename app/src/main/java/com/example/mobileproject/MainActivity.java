@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.example.mobileproject.utils.FriendRequestService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.Serializable;
 
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         buttonProfile.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-
              mAuth = FirebaseAuth.getInstance();
              FirebaseUser currentUser = mAuth.getCurrentUser();
              if (currentUser == null) {
@@ -69,15 +70,16 @@ public class MainActivity extends AppCompatActivity {
                  startActivity(LoginIntent);
              } else {
 
-                 String accountName = currentUser.getEmail();
-                 final Account[] accountList = {new Account("example@gmail.com", "password")};
+                 String accountId = currentUser.getUid();
+//                 FirebaseUser acc=Account.getcurrentAccount();
+//                 final Account[] accountList = { new Account(acc.getEmail(),acc.getEmail(),"password",acc.getUid())};
 
-                 DocumentReference documentReference = Account.getDataFromFirebase(accountName);
+                 DocumentReference documentReference = Account.getDataFromFirebase(accountId);
                  if (documentReference != null) {
                      documentReference.get().addOnSuccessListener(documentSnapshot -> {
-                         accountList[0] = documentSnapshot.toObject(Account.class);
+                         Account acc = documentSnapshot.toObject(Account.class);
                          Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                         intent.putExtra("account", (Serializable) accountList[0]);
+                         intent.putExtra("account", (Serializable) acc);
                          startActivity(intent);
 
 
@@ -90,14 +92,26 @@ public class MainActivity extends AppCompatActivity {
         buttonNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendRequestService.createToken(getApplicationContext());
-                String token= FriendRequestService.getToken(getApplicationContext());
+//                FriendRequestService.createToken(getApplicationContext());
 
-                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                        token,
-                        "Friend request",
-                        "Accept friend request from User 01",getApplicationContext(), MainActivity.this);
-                notificationsSender.SendNotifications();
+//                String token= FriendRequestService.getToken(getApplicationContext());
+//                FirebaseMessaging.getInstance().getToken()
+//                        .addOnCompleteListener(task -> {
+//                            if (task.isSuccessful() && task.getResult() != null) {
+//                                Log.e("newToken", task.getResult());
+//                                FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+//                                        task.getResult(),
+//                                        "Friend request",
+//                                        "Accept friend request from User 01",getApplicationContext(), MainActivity.this);
+//                                notificationsSender.SendNotifications();
+//                            }
+//                            else{
+//                                Log.e("newToken","empty");
+//
+//                            }
+//                        });
+                FriendRequestService.sendMessage(getApplicationContext(),MainActivity.this,"alo","123");
+
             }
         });
 

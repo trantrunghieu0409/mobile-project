@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +34,6 @@ import com.example.mobileproject.fragment.FragmentListFriends;
 import com.example.mobileproject.fragment.FragmentProfile;
 import com.example.mobileproject.fragment.MainCallbacks;
 import com.example.mobileproject.models.Account;
-import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -43,6 +41,8 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+
+import java.util.ArrayList;
 
 public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft; FragmentProfile profileFragment; FragmentListFriends listFriendsFragment;
@@ -52,11 +52,10 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     LinearLayout btnEditProfile;
     ImageButton btnClose;
     Account account;
-    String accountName;
+    String accountId;
     RadioButton radioLeft, radioRight;
     Button btnSignOut;
     private FirebaseAuth mAuth;
-    DocumentReference documentReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,12 +74,21 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         Intent intent = getIntent();
         Bundle myBundle = intent.getExtras();
         account = (Account) myBundle.getSerializable("account");
-        accountName = account.getName();
+        if(account==null){
+            startActivity(new Intent(ProfileActivity.this,LoginActivity.class));
+        }
+        else{
+            accountId = account.getAccountId();
+        }
+
+
+
 
 
         imgAvatar.setImageResource(account.getAvatar());
         txtUsername.setText(account.getName());
         txtAchievements.setText(String.valueOf(account.getnGames()));
+
 
 //        btnEditProfile = (LinearLayout) findViewById(R.id.btnEditProfile);
 //        btnEditProfile.setOnClickListener(view -> {
@@ -117,7 +125,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
             public void onClick(View view) {
 
                 ft = getSupportFragmentManager().beginTransaction();
-                listFriendsFragment = FragmentListFriends.newInstance(accountName);
+                listFriendsFragment = FragmentListFriends.newInstance(accountId);
                 ft.replace(R.id.profile_holder, listFriendsFragment);
                 ft.commit();
 
@@ -132,7 +140,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                 super.onSwipeRight();
 
                 ft = getSupportFragmentManager().beginTransaction();
-                listFriendsFragment = FragmentListFriends.newInstance(accountName);
+                listFriendsFragment = FragmentListFriends.newInstance(accountId);
                 ft.replace(R.id.profile_holder, listFriendsFragment);
                 ft.commit();
 

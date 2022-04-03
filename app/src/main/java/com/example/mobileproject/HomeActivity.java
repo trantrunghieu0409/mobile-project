@@ -60,7 +60,7 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
 
-        FriendRequestService.createToken(getApplicationContext());
+//        FriendRequestService.createToken(getApplicationContext());
 
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnCreateRoom = (Button) findViewById(R.id.btnCreateRoom);

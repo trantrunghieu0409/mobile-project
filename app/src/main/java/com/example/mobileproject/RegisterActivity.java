@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobileproject.models.Account;
+import com.example.mobileproject.utils.FriendRequestService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -74,8 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
                                             Log.d(TAG, "createUserWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             System.out.println("createUserWithEmail:success");
-                                            Account newAcc=new Account(user.getEmail(),user.getEmail(),"password",user.getUid());
+                                            Account newAcc=new Account(user.getEmail(),user.getEmail(),"password",user.getUid(), FriendRequestService.getToken(getApplicationContext()));
                                             newAcc.sendDataToFirebase(newAcc);
+                                            Account.saveAccount(newAcc);
                                             updateUI(user);
                                         } else {
 

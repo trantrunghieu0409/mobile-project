@@ -32,10 +32,12 @@ import androidx.core.app.NotificationManagerCompat;
 
 
 import com.example.mobileproject.HomeActivity;
+import com.example.mobileproject.MainActivity;
 import com.example.mobileproject.ProfileActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.models.Account;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 import android.app.Activity;
@@ -46,6 +48,7 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
 
     NotificationManager mNotificationManager;
     static private FirebaseAuth mAuth;
+    PendingIntent pendingIntent;
 
     public static String getToken(Context context) {
         return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
@@ -61,11 +64,43 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
                             context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", task.getResult()).apply();
                         }
                     });
-        }
-        else{
-            Log.e("newToken","empty");
+        } else {
+            Log.e("newToken", "empty");
             context.getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", "empty").apply();
         }
+    }
+
+    public static String generateAndGetToken() {
+        final String[] t = new String[1];
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        Log.e("newToken", task.getResult());
+                        t[0] = task.getResult();
+                    } else {
+                        Log.e("newToken", "empty");
+
+                    }
+                });
+        return t[0];
+    }
+
+    public static void sendMessage(Context context, Activity mCurrentActivity, String title, String body) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        Log.e("newToken", task.getResult());
+                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                                task.getResult(),
+                                title,
+                                body, context, mCurrentActivity);
+                        notificationsSender.SendNotifications();
+                    } else {
+                        Log.e("newToken", "empty");
+
+                    }
+                });
     }
 
 
@@ -75,7 +110,6 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
 //        Log.e("newToken", s);
 //        getSharedPreferences("_", MODE_PRIVATE).edit().putString("fb", s).apply();
 //    }
-
 
 
     @Override
@@ -100,7 +134,6 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
 
 
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            builder.setSmallIcon(R.drawable.icontrans);
@@ -110,53 +143,62 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
             builder.setSmallIcon(R.drawable.icon);
         }
 
-        Intent intent1 = new Intent(this, ProfileActivity.class);
-        intent1.putExtra("yes",true);
-        intent1.putExtra("account", (Serializable) new Account("example@gmail.com", "password"));
-        intent1.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
-                |Intent. FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
+//        Intent intent1 = new Intent(this, ProfileActivity.class);
+//        intent1.putExtra("yes",true);
+//        intent1.putExtra("account", (Serializable) new Account("example@gmail.com", "password"));
+//        intent1.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                |Intent. FLAG_ACTIVITY_NEW_TASK);
+//        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
+//
+//        Intent intent2 = new Intent(this, HomeActivity.class);
+//        intent2.putExtra("no",false);
+//        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                |Intent. FLAG_ACTIVITY_NEW_TASK);
+//        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
 
-        Intent intent2 = new Intent(this, HomeActivity.class);
-        intent2.putExtra("no",false);
-        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
-                |Intent. FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
-
-
-        builder.setContentTitle(remoteMessage.getNotification().getTitle());
-        builder.setContentText(remoteMessage.getNotification().getBody());
-        builder.addAction(R.drawable.ic_launcher_foreground,"Yes",pendingIntent1);
-        builder.addAction(R.drawable.ic_launcher_foreground,"No",pendingIntent2);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
-        builder.setAutoCancel(true);
-        builder.setPriority(Notification.PRIORITY_MAX);
-
-        mNotificationManager =
-                (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            String channelId = "channel_id";
-            NotificationChannel channel = new NotificationChannel(
-                    channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_HIGH);
-            mNotificationManager.createNotificationChannel(channel);
-            builder.setChannelId(channelId);
+        Intent intent = new Intent(this, HomeActivity.class);
+        String accountId = Account.getCurrertAccountId();
+        final Account[] accountList = {new Account("example@gmail.com", "password")};
+        DocumentReference documentReference = Account.getDataFromFirebase(accountId);
+        if (documentReference != null) {
+            documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                accountList[0] = documentSnapshot.toObject(Account.class);
+                intent.putExtra("account", (Serializable) accountList[0]);
+                pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_ONE_SHOT);
+            });
         }
 
 
+            builder.setContentTitle(remoteMessage.getNotification().getTitle());
+            builder.setContentText(remoteMessage.getNotification().getBody());
+//        builder.addAction(R.drawable.ic_launcher_foreground,"Yes",pendingIntent);
+//        builder.addAction(R.drawable.ic_launcher_foreground,"No",pendingIntent);
+            builder.setContentIntent(pendingIntent);
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
+            builder.setAutoCancel(true);
+            builder.setPriority(Notification.PRIORITY_MAX);
+
+            mNotificationManager =
+                    (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String channelId = "channel_id";
+                NotificationChannel channel = new NotificationChannel(
+                        channelId,
+                        "Channel human readable title",
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+                builder.setChannelId(channelId);
+            }
+
 
 // notificationId is a unique int for each notification that you must define
-        mNotificationManager.notify(100, builder.build());
+            mNotificationManager.notify(100, builder.build());
+
+
+        }
 
 
     }
 
-
-
-}
