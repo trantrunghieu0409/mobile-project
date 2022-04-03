@@ -150,7 +150,7 @@ public class Room {
         return firstAnswer;
     }
 
-    public boolean findPlayerAndSetPoint(String name,boolean isDrawer,boolean isFirst){
+    public void findPlayerAndSetPoint(String name, boolean isDrawer, boolean isFirst){
         for(int i = 0; i < players.size();i++){
             if(players.get(i).getName().equals(name)){
                 if(isDrawer){
@@ -158,21 +158,33 @@ public class Room {
                 }
                 else{
                     players.get(i).getPointGuessPlayer();
-                    return true;
+                    return;
                 }
 
             }
         }
-        return false;
     }
 
-    public boolean findPlayerAndSetStatus(String name,int status){
+    public void findPlayerAndSetStatus(String name, int status){
         for(int i = 0; i < players.size();i++){
             if(players.get(i).getName().equals(name)){
                 players.get(i).setStatus(status);
             }
         }
-        return false;
+    }
+
+    public ArrayList<Player> Top3Player(){
+        ArrayList<Player> result = new ArrayList<>();
+        if(players.size()< 3){
+            result.add(sortDescendingPoint().get(0));
+        }
+        else{
+            ArrayList<Player> list = sortDescendingPoint();
+            for(int i = 0 ; i < 3 ;i ++){
+                result.add(list.get(i));
+            }
+        }
+        return result;
     }
 
     public void resetAllStatusPlayer(){
