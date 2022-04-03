@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,6 +36,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,37 +135,42 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(!report){
-//                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View popupVoteKick = inflater.inflate(R.layout.popup_votekick, null);
-//                    int width = LinearLayout.LayoutParams.MATCH_PARENT;
-//                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//                    boolean focusable = true; // tap outside to dismiss this pop up
-//                    final PopupWindow popupWindow = new PopupWindow(popupVoteKick, width, height, focusable);
-//
-//                    // show a pop up
-//                    popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
-//
-//                    final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
-//                    final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
-//
-//                    btnVoteKick.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            String mess = "<font color=\"#FF0000\"> <b> User </b> reported </font>";
-//                            gameplayActivity.onMsgFromFragToMain("MESS-FLAG", mess);
-//                            btnReport.setEnabled(false);
-//                            popupWindow.dismiss();
-//                        }
-//                    });
-//                    btnCancel.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            popupWindow.dismiss();
-//                        }
-//                    });
-//
-//                }
+                if(!report){
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View popupVoteKick = inflater.inflate(R.layout.popup_votekick, null);
+                    int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                    boolean focusable = true; // tap outside to dismiss this pop up
+                    final PopupWindow popupWindow = new PopupWindow(popupVoteKick, width, height, focusable);
+
+                    // show a pop up
+                    popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
+
+                    final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
+                    final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
+                    final TextView nameUser = popupVoteKick.findViewById(R.id.usernameTxt);
+                    final ImageView avatarUser = popupVoteKick.findViewById(R.id.imgAvatar);
+
+                    nameUser.setText(gameplayActivity.currentDrawing.getName());
+                    avatarUser.setImageResource(gameplayActivity.currentDrawing.getAvatar());
+
+                    btnVoteKick.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String mess = "<font color=\"#FF0000\"> <b>"+ gameplayActivity.mainPlayer.getName() +"</b> reported </font>";
+                            gameplayActivity.onMsgFromFragToMain("REPORT-FLAG", mess);
+                            btnReport.setEnabled(false);
+                            popupWindow.dismiss();
+                        }
+                    });
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popupWindow.dismiss();
+                        }
+                    });
+
+                }
             }
         });
 

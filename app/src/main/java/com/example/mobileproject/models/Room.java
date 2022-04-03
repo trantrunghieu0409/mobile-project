@@ -15,6 +15,7 @@ public class Room {
     boolean isPlaying = false;
     int drawer = -1;
     int flagCurrentActivity = 0;
+    int vote = 0;
 
     boolean firstAnswer = true;
 
@@ -192,6 +193,17 @@ public class Room {
             }
         }
         return result;
+    }
+    public void addVote(){
+        this.vote++;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
+
+    public boolean checkVote(){
+        return this.vote >= Math.round((float) this.players.size() / 2);
     }
 
     public void resetAllStatusPlayer(){

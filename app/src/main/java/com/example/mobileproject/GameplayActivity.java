@@ -38,6 +38,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Objects;
+
 
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft;
@@ -166,39 +168,48 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             if(newRoom.getFlagCurrentActivity() != room.getFlagCurrentActivity()){
                                 room = newRoom;
                                 flagCurrentActivity = room.getFlagCurrentActivity();
-                                CloudFirestore.getData("RoomState",roomID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                Objects.requireNonNull(CloudFirestore.getData("RoomState", roomID)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         roomState = documentSnapshot.toObject(RoomState.class);
-                                        Vocab = roomState.getVocab();
-                                        currentDrawing = room.getPlayers().get(room.getDrawer());
+                                        if(roomState != null){
+                                            Vocab = roomState.getVocab();
+                                            currentDrawing = room.getPlayers().get(room.getDrawer());
 
-
-                                        if(flagCurrentActivity == 1){
-                                            processNotiDrawer(currentDrawing, Vocab);
-                                        }
-                                        if(flagCurrentActivity == 2){
-                                            processDrawing(currentDrawing,roomState);
-                                        }
-                                        if(flagCurrentActivity == 3){
-                                            processResult();
-                                        }
-                                        if(flagCurrentActivity == 4){
-                                            nextDrawer();
-                                        }
-                                        if(flagCurrentActivity == 5){
-                                            processGameOver();
-                                        }
-                                        if(flagCurrentActivity == 6){
-                                            processOutRoom();
+                                            if(flagCurrentActivity == 1){
+                                                processNotiDrawer(currentDrawing, Vocab);
+                                            }
+                                            if(flagCurrentActivity == 2){
+                                                processDrawing(currentDrawing,roomState);
+                                            }
+                                            if(flagCurrentActivity == 3){
+                                                processResult();
+                                            }
+                                            if(flagCurrentActivity == 4){
+                                                nextDrawer();
+                                            }
+                                            if(flagCurrentActivity == 5){
+                                                processGameOver();
+                                            }
+                                            if(flagCurrentActivity == 6){
+                                                processOutRoom();
+                                            }
                                         }
                                     }
                                 });
                             }
 
+                            // Check kick
+                            if(newRoom.checkVote()){
+                                room = newRoom;
+                                room.setVote(0);
+                                nextDrawer();
+                                if(currentDrawing.getName().equals(mainPlayer.getName())){
+                                    processOutRoom();
+                                }
+                            }
+
                         }
-
-
                     }
                 }
             });
@@ -210,7 +221,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public void processNotiDrawer(Player currentDrawing,String vocab){
         beginProgressBar(MAX_PROGRESS_WAITING);
         ft = getSupportFragmentManager().beginTransaction();
-        String str = currentDrawing.getName()+"`"+String.valueOf(currentDrawing.getAvatar());
+        String str = currentDrawing.getName()+"`"+ currentDrawing.getAvatar();
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
         ft.commitAllowingStateLoss();
@@ -226,7 +237,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
     public void processDrawing(Player currentDrawing,RoomState roomState){
-        beginProgressBar(MAX_PROGRESS_DRAWING);;
+        beginProgressBar(MAX_PROGRESS_DRAWING);
         if (currentDrawing.getName().equals(mainPlayer.getName())){
             Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
             drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
@@ -330,18 +341,16 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
     }
 
-    private Runnable foregroundRunnable = new Runnable() {
+    private final Runnable foregroundRunnable = new Runnable() {
         @Override
         public void run() {
             accum--;
             barHorizontal.setProgress(accum);
-            if(accum <= 0) {
-                // Do something
-            }
+            // Do something
         }
     };
 
-    private Runnable backgroundTime = new Runnable() {
+    private final Runnable backgroundTime = new Runnable() {
         @Override
         public void run() {
             int max = 0;
@@ -376,14 +385,19 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     @Override
     public void onMsgFromFragToMain(String sender, String strValue) {
-        if (sender.equals("MESS-FLAG")) {
-            FragmentBoxChat.onMsgFromMainToFragment(strValue);
-        }
-        else if(sender.equals("PLAYER-FLAG")){
-            FragmentDrawBox.onMsgFromMainToFragment(strValue);
-        }
-        else if(sender.equals("RIGHT-FLAG")){
-            FragmentChatInput.onMsgFromMainToFragment(strValue);
+        switch (sender) {
+            case "MESS-FLAG":
+                FragmentBoxChat.onMsgFromMainToFragment(strValue);
+                break;
+            case "PLAYER-FLAG":
+                FragmentDrawBox.onMsgFromMainToFragment(strValue);
+                break;
+            case "RIGHT-FLAG":
+                FragmentChatInput.onMsgFromMainToFragment(strValue);
+                break;
+            case "REPORT-FLAG":
+                FragmentBoxChat.onMsgFromMainToFragment("`REPORT`" + strValue);
+                break;
         }
     }
 
@@ -406,7 +420,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
     public void popupNotiDraw(String vocab){
-
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popup_notidraw = inflater.inflate(R.layout.popup_notidraw, null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;

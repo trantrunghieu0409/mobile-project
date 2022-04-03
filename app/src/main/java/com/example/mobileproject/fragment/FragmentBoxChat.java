@@ -37,7 +37,6 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     CustomChatAdapter apdater;
     ListView boxChatAnswer;
     String vocal = "";
-    boolean isFirst;
 
     DocumentReference documentReference;
     public static FragmentBoxChat newInstance(boolean isBoxChat) {
@@ -107,7 +106,10 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
         }else if(strValue.contains("`ANSWER`")){
             Chat chat = new Chat("<font color=\"#0000FF\">The answer was: <b>"+ vocal +"</b></font>");
             documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
-
+        } else if(strValue.contains("`REPORT`")){
+            String mess = strValue.replace("`REPORT`","");
+            Chat chat = new Chat(mess);
+            documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
         }
         else{
             if(Player.checkAnswer(vocal,strValue) == 2){
@@ -121,6 +123,12 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
                 gameplayActivity.room.setFirstAnswer(false);
                 //Update
                 CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, gameplayActivity.room);
+            }
+            else if (Player.checkAnswer(vocal,strValue) == 1){
+                message.add("<font color=\"#000000\"><b>"+ strValue +"</b>is close!</font>");
+            }
+            else{
+                message.add("<font color=\"#CC3300\"><b>"+ strValue +"</b>is not correct!</font>");
             }
 //            Chat chat = new Chat(strValue);
 //            documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
