@@ -63,7 +63,6 @@ public class Player implements Serializable {
     public static int checkAnswer(String result, String answer) {
         result = result.toLowerCase();
         answer = answer.toLowerCase();
-        System.out.println(result + "---------------------" + answer);
         if (answer.equals(result)) {
             return 2;
         }
@@ -73,8 +72,14 @@ public class Player implements Serializable {
         return 0;
     }
 
-    public void getPointGuessPlayer() {
-        this.point += 9;
+    public void getPointGuessPlayer(int time) {
+        if(time > 5){
+            int point = Math.round((float) time / 5);
+            this.point += (point + 6);
+        }
+        else{
+            this.point += 6;
+        }
     }
 
     public void getPointDrawPlayer(Boolean checkFirstAnswerRight) {

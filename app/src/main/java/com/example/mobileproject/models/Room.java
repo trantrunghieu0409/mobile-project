@@ -15,6 +15,7 @@ public class Room {
     boolean isPlaying = false;
     int drawer = -1;
     int flagCurrentActivity = 0;
+    int vote = 0;
 
     boolean firstAnswer = true;
 
@@ -150,29 +151,59 @@ public class Room {
         return firstAnswer;
     }
 
-    public boolean findPlayerAndSetPoint(String name,boolean isDrawer,boolean isFirst){
+    public void findPlayerAndSetPoint(String name, boolean isDrawer, boolean isFirst, int time){
         for(int i = 0; i < players.size();i++){
             if(players.get(i).getName().equals(name)){
                 if(isDrawer){
                     players.get(i).getPointDrawPlayer(isFirst);
                 }
                 else{
-                    players.get(i).getPointGuessPlayer();
-                    return true;
+                    players.get(i).getPointGuessPlayer(time);
+                    return;
                 }
 
             }
         }
-        return false;
     }
 
-    public boolean findPlayerAndSetStatus(String name,int status){
+    public void findPlayerAndSetStatus(String name, int status){
         for(int i = 0; i < players.size();i++){
             if(players.get(i).getName().equals(name)){
                 players.get(i).setStatus(status);
             }
         }
+    }
+    public boolean checkPlayerReachMaxScore(){
+        ArrayList<Player> list = sortDescendingPoint();
+        if(players.get(0).getPoint() >= maxPoint){
+            return true;
+        }
         return false;
+    }
+
+    public ArrayList<Player> Top3Player(){
+        ArrayList<Player> result = new ArrayList<>();
+        if(players.size()< 3){
+            result.add(sortDescendingPoint().get(0));
+        }
+        else{
+            ArrayList<Player> list = sortDescendingPoint();
+            for(int i = 0 ; i < 3 ;i ++){
+                result.add(list.get(i));
+            }
+        }
+        return result;
+    }
+    public void addVote(){
+        this.vote++;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
+
+    public boolean checkVote(){
+        return this.vote >= Math.round((float) this.players.size() / 2);
     }
 
     public void resetAllStatusPlayer(){

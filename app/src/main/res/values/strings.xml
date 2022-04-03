@@ -21,6 +21,7 @@
     <string name="take_a_while_to_relax">Take a while to relax</string>
     <string name="waiting_for_player">Waiting for owner to start</string>
     <string name="waiting">Waiting</string>
+    <string name="the_winner_is">The winner is</string>
     <string-array name="languages_array">
         <item>Mercury</item>
         <item>Venus</item>

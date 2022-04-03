@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.mobileproject.constants.GlobalConstants;
+import com.example.mobileproject.fragment.FragmentGameOver;
 import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentNotiDrawer;
 import com.example.mobileproject.fragment.FragmentResult;
@@ -37,6 +38,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Objects;
+
 
 public class GameplayActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft;
@@ -47,6 +50,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     FragmentGetDrawing fragmentGetDrawing;
     FragmentResult fragmentResult;
     FragmentNotiDrawer fragmentNotiDrawer;
+    FragmentGameOver fragmentGameOver;
     ImageButton btnClose;
     public String roomID;
     public Room room;
@@ -56,7 +60,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     Handler myHandler = new Handler();
     public final int MAX_PROGRESS_DRAWING = GlobalConstants.TIME_FOR_A_GAME;
     public final int MAX_PROGRESS_WAITING = GlobalConstants.TIME_FOR_A_WAITING;
-    int accum = 0;
+    public int accum = 0;
     int flagCurrentActivity = 0;
     boolean stillPlaying = false;
 
@@ -117,6 +121,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         fragmentGetDrawing = FragmentGetDrawing.newInstance(room.getRoomID());
                         fragmentResult = FragmentResult.newInstance("Activity");
                         fragmentNotiDrawer = FragmentNotiDrawer.newInstance(true);
+                        fragmentGameOver = FragmentGameOver.newInstance(true);
 
                         ft.replace(R.id.holder_box_draw, FragmentDrawBox);
                         ft.replace(R.id.holder_list_player, FragmentListPlayer);
@@ -163,33 +168,48 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             if(newRoom.getFlagCurrentActivity() != room.getFlagCurrentActivity()){
                                 room = newRoom;
                                 flagCurrentActivity = room.getFlagCurrentActivity();
-                                CloudFirestore.getData("RoomState",roomID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                Objects.requireNonNull(CloudFirestore.getData("RoomState", roomID)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         roomState = documentSnapshot.toObject(RoomState.class);
-                                        Vocab = roomState.getVocab();
-                                        currentDrawing = room.getPlayers().get(room.getDrawer());
+                                        if(roomState != null){
+                                            Vocab = roomState.getVocab();
+                                            currentDrawing = room.getPlayers().get(room.getDrawer());
 
-
-                                        if(flagCurrentActivity == 1){
-                                            processNotiDrawer(currentDrawing, Vocab);
-                                        }
-                                        if(flagCurrentActivity == 2){
-                                            processDrawing(currentDrawing,roomState);
-                                        }
-                                        if(flagCurrentActivity == 3){
-                                            processResult();
-                                        }
-                                        if(flagCurrentActivity == 4){
-                                            nextDrawer();
+                                            if(flagCurrentActivity == 1){
+                                                processNotiDrawer(currentDrawing, Vocab);
+                                            }
+                                            if(flagCurrentActivity == 2){
+                                                processDrawing(currentDrawing,roomState);
+                                            }
+                                            if(flagCurrentActivity == 3){
+                                                processResult();
+                                            }
+                                            if(flagCurrentActivity == 4){
+                                                nextDrawer();
+                                            }
+                                            if(flagCurrentActivity == 5){
+                                                processGameOver();
+                                            }
+                                            if(flagCurrentActivity == 6){
+                                                processOutRoom();
+                                            }
                                         }
                                     }
                                 });
                             }
 
+                            // Check kick
+                            if(newRoom.checkVote()){
+                                room = newRoom;
+                                room.setVote(0);
+                                nextDrawer();
+                                if(currentDrawing.getName().equals(mainPlayer.getName())){
+                                    processOutRoom();
+                                }
+                            }
+
                         }
-
-
                     }
                 }
             });
@@ -201,7 +221,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     public void processNotiDrawer(Player currentDrawing,String vocab){
         beginProgressBar(MAX_PROGRESS_WAITING);
         ft = getSupportFragmentManager().beginTransaction();
-        String str = currentDrawing.getName()+"`"+String.valueOf(currentDrawing.getAvatar());
+        String str = currentDrawing.getName()+"`"+ currentDrawing.getAvatar();
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
         ft.commitAllowingStateLoss();
@@ -217,7 +237,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
     public void processDrawing(Player currentDrawing,RoomState roomState){
-        beginProgressBar(MAX_PROGRESS_DRAWING);;
+        beginProgressBar(MAX_PROGRESS_DRAWING);
         if (currentDrawing.getName().equals(mainPlayer.getName())){
             Intent drawIntent = new Intent(GameplayActivity.this, DrawActivity.class);
             drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
@@ -272,6 +292,21 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         // Stop SyncDrawing
     }
 
+    public void processGameOver(){
+        beginProgressBar(MAX_PROGRESS_WAITING);
+
+        //Gameover fragment
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.holder_box_draw, fragmentGameOver);
+        ft.commitAllowingStateLoss();
+    }
+
+    public void processOutRoom(){
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
 
     public void beginProgressBar(int max_process){
         accum = max_process;
@@ -282,18 +317,40 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         backgroundThread.start();
     }
 
-    private Runnable foregroundRunnable = new Runnable() {
+    public void handleExitPlayer(){
+        // Handle change drawer
+        if(currentDrawing.getName().equals(mainPlayer.getName())){
+            nextDrawer();
+        }
+        //Remove
+        if(stillPlaying){
+            stillPlaying = false;
+        }
+        else {
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+            room.removePlayer(mainPlayer.getName());
+            if(room.getPlayers().size() == 0){
+                // If the last person in room left
+                // Delete that room
+                CloudFirestore.deleteDoc("ListofRooms", roomID);
+                CloudFirestore.deleteDoc("RoomState", roomID);
+            }
+            else {
+                CloudFirestore.sendData("ListofRooms", roomID, room);
+            }
+        }
+    }
+
+    private final Runnable foregroundRunnable = new Runnable() {
         @Override
         public void run() {
             accum--;
             barHorizontal.setProgress(accum);
-            if(accum <= 0) {
-                // Do something
-            }
+            // Do something
         }
     };
 
-    private Runnable backgroundTime = new Runnable() {
+    private final Runnable backgroundTime = new Runnable() {
         @Override
         public void run() {
             int max = 0;
@@ -311,7 +368,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             }
             if (currentDrawing.getName().equals(mainPlayer.getName())) {
                 flagCurrentActivity++;
-                if(flagCurrentActivity > 4){
+                if(room.checkPlayerReachMaxScore() && flagCurrentActivity != 5){
+                    flagCurrentActivity = 5;
+                }
+                else if(flagCurrentActivity > 6){
                     flagCurrentActivity = 1;
                 }
                 room.setFlagCurrentActivity(flagCurrentActivity);
@@ -325,14 +385,19 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     @Override
     public void onMsgFromFragToMain(String sender, String strValue) {
-        if (sender.equals("MESS-FLAG")) {
-            FragmentBoxChat.onMsgFromMainToFragment(strValue);
-        }
-        else if(sender.equals("PLAYER-FLAG")){
-            FragmentDrawBox.onMsgFromMainToFragment(strValue);
-        }
-        else if(sender.equals("RIGHT-FLAG")){
-            FragmentChatInput.onMsgFromMainToFragment(strValue);
+        switch (sender) {
+            case "MESS-FLAG":
+                FragmentBoxChat.onMsgFromMainToFragment(strValue);
+                break;
+            case "PLAYER-FLAG":
+                FragmentDrawBox.onMsgFromMainToFragment(strValue);
+                break;
+            case "RIGHT-FLAG":
+                FragmentChatInput.onMsgFromMainToFragment(strValue);
+                break;
+            case "REPORT-FLAG":
+                FragmentBoxChat.onMsgFromMainToFragment("`REPORT`" + strValue);
+                break;
         }
     }
 
@@ -344,45 +409,17 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     @Override
     protected void onStop() {
+        handleExitPlayer();
         super.onStop();
-        if(stillPlaying){
-            stillPlaying = false;
-        }
-        else {
-            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
-            room.removePlayer(mainPlayer.getName());
-            if(room.getPlayers().size() == 0){
-                // If the last person in room left
-                // Delete that room
-                CloudFirestore.deleteDoc("ListofRooms", roomID);
-                CloudFirestore.deleteDoc("RoomState", roomID);
-            }
-            else {
-                CloudFirestore.sendData("ListofRooms", roomID, room);
-            }
-            System.out.println("call onStop");
-        }
     }
 
     @Override
     protected void onDestroy() {
-        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
-        room.removePlayer(mainPlayer.getName());
-        if(room.getPlayers().size() == 0){
-            // If the last person in room left
-            // Delete that room
-            CloudFirestore.deleteDoc("ListofRooms", roomID);
-            CloudFirestore.deleteDoc("RoomState", roomID);
-        }
-        else {
-            CloudFirestore.sendData("ListofRooms", roomID, room);
-        }
-        System.out.println("call onDestroy");
+        handleExitPlayer();
         super.onDestroy();
     }
 
     public void popupNotiDraw(String vocab){
-
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popup_notidraw = inflater.inflate(R.layout.popup_notidraw, null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
