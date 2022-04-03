@@ -172,6 +172,13 @@ public class Room {
             }
         }
     }
+    public boolean checkPlayerReachMaxScore(){
+        ArrayList<Player> list = sortDescendingPoint();
+        if(players.get(0).getPoint() >= maxPoint){
+            return true;
+        }
+        return false;
+    }
 
     public ArrayList<Player> Top3Player(){
         ArrayList<Player> result = new ArrayList<>();

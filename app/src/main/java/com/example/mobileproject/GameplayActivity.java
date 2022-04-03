@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.mobileproject.constants.GlobalConstants;
+import com.example.mobileproject.fragment.FragmentGameOver;
 import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentNotiDrawer;
 import com.example.mobileproject.fragment.FragmentResult;
@@ -47,6 +48,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     FragmentGetDrawing fragmentGetDrawing;
     FragmentResult fragmentResult;
     FragmentNotiDrawer fragmentNotiDrawer;
+    FragmentGameOver fragmentGameOver;
     ImageButton btnClose;
     public String roomID;
     public Room room;
@@ -117,6 +119,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         fragmentGetDrawing = FragmentGetDrawing.newInstance(room.getRoomID());
                         fragmentResult = FragmentResult.newInstance("Activity");
                         fragmentNotiDrawer = FragmentNotiDrawer.newInstance(true);
+                        fragmentGameOver = FragmentGameOver.newInstance(true);
 
                         ft.replace(R.id.holder_box_draw, FragmentDrawBox);
                         ft.replace(R.id.holder_list_player, FragmentListPlayer);
@@ -182,6 +185,12 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                         }
                                         if(flagCurrentActivity == 4){
                                             nextDrawer();
+                                        }
+                                        if(flagCurrentActivity == 5){
+                                            processGameOver();
+                                        }
+                                        if(flagCurrentActivity == 6){
+                                            processOutRoom();
                                         }
                                     }
                                 });
@@ -272,6 +281,21 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         // Stop SyncDrawing
     }
 
+    public void processGameOver(){
+        beginProgressBar(MAX_PROGRESS_WAITING);
+
+        //Gameover fragment
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.holder_box_draw, fragmentGameOver);
+        ft.commitAllowingStateLoss();
+    }
+
+    public void processOutRoom(){
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
 
     public void beginProgressBar(int max_process){
         accum = max_process;
@@ -280,6 +304,30 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
         Thread backgroundThread = new Thread(backgroundTime,"isBarTime");
         backgroundThread.start();
+    }
+
+    public void handleExitPlayer(){
+        // Handle change drawer
+        if(currentDrawing.getName().equals(mainPlayer.getName())){
+            nextDrawer();
+        }
+        //Remove
+        if(stillPlaying){
+            stillPlaying = false;
+        }
+        else {
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+            room.removePlayer(mainPlayer.getName());
+            if(room.getPlayers().size() == 0){
+                // If the last person in room left
+                // Delete that room
+                CloudFirestore.deleteDoc("ListofRooms", roomID);
+                CloudFirestore.deleteDoc("RoomState", roomID);
+            }
+            else {
+                CloudFirestore.sendData("ListofRooms", roomID, room);
+            }
+        }
     }
 
     private Runnable foregroundRunnable = new Runnable() {
@@ -311,7 +359,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             }
             if (currentDrawing.getName().equals(mainPlayer.getName())) {
                 flagCurrentActivity++;
-                if(flagCurrentActivity > 4){
+                if(room.checkPlayerReachMaxScore() && flagCurrentActivity != 5){
+                    flagCurrentActivity = 5;
+                }
+                else if(flagCurrentActivity > 6){
                     flagCurrentActivity = 1;
                 }
                 room.setFlagCurrentActivity(flagCurrentActivity);
@@ -344,40 +395,13 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     @Override
     protected void onStop() {
+        handleExitPlayer();
         super.onStop();
-        if(stillPlaying){
-            stillPlaying = false;
-        }
-        else {
-            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
-            room.removePlayer(mainPlayer.getName());
-            if(room.getPlayers().size() == 0){
-                // If the last person in room left
-                // Delete that room
-                CloudFirestore.deleteDoc("ListofRooms", roomID);
-                CloudFirestore.deleteDoc("RoomState", roomID);
-            }
-            else {
-                CloudFirestore.sendData("ListofRooms", roomID, room);
-            }
-            System.out.println("call onStop");
-        }
     }
 
     @Override
     protected void onDestroy() {
-        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
-        room.removePlayer(mainPlayer.getName());
-        if(room.getPlayers().size() == 0){
-            // If the last person in room left
-            // Delete that room
-            CloudFirestore.deleteDoc("ListofRooms", roomID);
-            CloudFirestore.deleteDoc("RoomState", roomID);
-        }
-        else {
-            CloudFirestore.sendData("ListofRooms", roomID, room);
-        }
-        System.out.println("call onDestroy");
+        handleExitPlayer();
         super.onDestroy();
     }
 

@@ -63,7 +63,6 @@ public class Player implements Serializable {
     public static int checkAnswer(String result, String answer) {
         result = result.toLowerCase();
         answer = answer.toLowerCase();
-        System.out.println(result + "---------------------" + answer);
         if (answer.equals(result)) {
             return 2;
         }
