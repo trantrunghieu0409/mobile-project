@@ -150,14 +150,14 @@ public class Room {
         return firstAnswer;
     }
 
-    public void findPlayerAndSetPoint(String name, boolean isDrawer, boolean isFirst){
+    public void findPlayerAndSetPoint(String name, boolean isDrawer, boolean isFirst, int time){
         for(int i = 0; i < players.size();i++){
             if(players.get(i).getName().equals(name)){
                 if(isDrawer){
                     players.get(i).getPointDrawPlayer(isFirst);
                 }
                 else{
-                    players.get(i).getPointGuessPlayer();
+                    players.get(i).getPointGuessPlayer(time);
                     return;
                 }
 

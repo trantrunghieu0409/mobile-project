@@ -58,7 +58,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     Handler myHandler = new Handler();
     public final int MAX_PROGRESS_DRAWING = GlobalConstants.TIME_FOR_A_GAME;
     public final int MAX_PROGRESS_WAITING = GlobalConstants.TIME_FOR_A_WAITING;
-    int accum = 0;
+    public int accum = 0;
     int flagCurrentActivity = 0;
     boolean stillPlaying = false;
 

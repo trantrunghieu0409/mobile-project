@@ -72,8 +72,14 @@ public class Player implements Serializable {
         return 0;
     }
 
-    public void getPointGuessPlayer() {
-        this.point += 9;
+    public void getPointGuessPlayer(int time) {
+        if(time > 5){
+            int point = Math.round((float) time / 5);
+            this.point += (point + 6);
+        }
+        else{
+            this.point += 6;
+        }
     }
 
     public void getPointDrawPlayer(Boolean checkFirstAnswerRight) {

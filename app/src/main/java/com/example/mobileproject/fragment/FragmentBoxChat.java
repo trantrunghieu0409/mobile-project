@@ -114,10 +114,10 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
                 Chat chat = new Chat("<font color=\"#008000\"><b>"+ gameplayActivity.mainPlayer.getName()+"</b> hit!</font>");
                 documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
                 gameplayActivity.onMsgFromFragToMain("RIGHT-FLAG", "`RIGHT`");
-                gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.mainPlayer.getName(),false,false);
+                gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.mainPlayer.getName(),false,false,gameplayActivity.accum);
                 gameplayActivity.room.findPlayerAndSetStatus(gameplayActivity.mainPlayer.getName(),1);
 
-                gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.currentDrawing.getName(),true,gameplayActivity.room.isFirstAnswer());
+                gameplayActivity.room.findPlayerAndSetPoint(gameplayActivity.currentDrawing.getName(),true,gameplayActivity.room.isFirstAnswer(),gameplayActivity.accum);
                 gameplayActivity.room.setFirstAnswer(false);
                 //Update
                 CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, gameplayActivity.room);
