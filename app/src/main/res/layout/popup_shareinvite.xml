@@ -78,10 +78,11 @@
                 android:minWidth="0dp"/>
 
             <RadioButton
+                android:id="@+id/shareRadioRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="0dp"
-                android:minWidth="0dp"/>
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
         </LinearLayout>
 

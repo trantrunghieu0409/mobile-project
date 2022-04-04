@@ -42,7 +42,7 @@ public class CustomListPlayerAdapter extends BaseAdapter {
     Context context;
     String username;
     String currentState;
-    DatabaseReference requestRef,friendRef;
+    DatabaseReference requestRef,friendRef,receiveRef;
 
     public CustomListPlayerAdapter(ArrayList<Player> listPlayer, Context context, String username) {
         this.list = listPlayer;
@@ -70,9 +70,15 @@ public class CustomListPlayerAdapter extends BaseAdapter {
         View row = View.inflate(parent.getContext(), R.layout.custom_list_player, null);
         Context context = parent.getContext();
 
+
         Player player = (Player) getItem(position);
+
         requestRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference().child("Requests").child(player.getAccountId());
+                .getReference("Requests").child(player.getAccountId());
+
+        receiveRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("Requests").child(Account.getCurrertAccountId());
+
         friendRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference().child("Friends");
         currentState = "nothing_happend";
@@ -117,6 +123,7 @@ public class CustomListPlayerAdapter extends BaseAdapter {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 currentState=snapshot.child("status").getValue(String.class);
                 if (currentState == null) currentState = "nothing_happen";
+
             }
 
             @Override
@@ -128,37 +135,42 @@ public class CustomListPlayerAdapter extends BaseAdapter {
         PlayerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(player.getAccountId().equals(Account.getCurrertAccountId()))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View popupVoteKick = inflater.inflate(R.layout.popup_votekick, null);
+                    int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                    boolean focusable = true; // tap outside to dismiss this pop up
+                    final PopupWindow popupWindow = new PopupWindow(popupVoteKick, width, height, focusable);
 
-                LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View popupVoteKick = inflater.inflate(R.layout.popup_votekick, null);
-                int width = LinearLayout.LayoutParams.MATCH_PARENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                boolean focusable = true; // tap outside to dismiss this pop up
-                final PopupWindow popupWindow = new PopupWindow(popupVoteKick, width, height, focusable);
+                    // show a pop up
+                    popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-                // show a pop up
-                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                    final Button btnVoteKick = popupVoteKick.findViewById(R.id.votekickBtn);
+                    final Button btnCancel = popupVoteKick.findViewById((R.id.votekickCancelBtn));
+                    final Button btnFriendRequest = popupVoteKick.findViewById(R.id.friendRequestBtn);
+                    final TextView userTxt = popupVoteKick.findViewById(R.id.usernameTxt);
 
-                final Button btnVoteKick = popupVoteKick.findViewById(R.id.votekickBtn);
-                final Button btnCancel = popupVoteKick.findViewById((R.id.votekickCancelBtn));
-                final Button btnFriendRequest = popupVoteKick.findViewById(R.id.friendRequestBtn);
-                final TextView userTxt = popupVoteKick.findViewById(R.id.usernameTxt);
-
-                userTxt.setText(player.getName());
+                    userTxt.setText(player.getName());
 
 
-                btnVoteKick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((GameplayActivity) context).onMsgFromFragToMain("MESS-FLAG", player.getName() + " reported`RED`");
-                        popupWindow.dismiss();
-                    }
-                });
+                    btnVoteKick.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ((GameplayActivity) context).onMsgFromFragToMain("MESS-FLAG", player.getName() + " reported`RED`");
+                            popupWindow.dismiss();
+                        }
+                    });
 
-                Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
-                btnFriendRequest.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
+                    btnFriendRequest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
 //                        String token=player.getToken();
 //                        if(token.equals("empty")){
@@ -172,50 +184,51 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 //                            notificationsSender.SendNotifications();
 //                        }
 
-                        Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
+                            Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
 
-                        if (Account.getcurrentAccount() == null || player.getAccountId() == null) {
-                            Toast.makeText((GameplayActivity) context, "Only logged in user can send friend request", Toast.LENGTH_SHORT).show();
-                        } else if (player.getAccountId().equals("empty")) {
-                            Toast.makeText((GameplayActivity) context, "Can not send request to guest user", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            if (currentState.equals("nothing_happen")) {
-                                HashMap hashMap = new HashMap();
-                                hashMap.put("status", "pending");
-                                requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
-                                    @Override
-                                    public void onComplete(@NonNull Task task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText((GameplayActivity) context, "You have sent Friend request", Toast.LENGTH_SHORT).show();
-                                            currentState = "pending";
-                                            btnFriendRequest.setText("Cancel request");
+                            if (Account.getcurrentAccount() == null || player.getAccountId() == null) {
+                                Toast.makeText((GameplayActivity) context, "Only logged in user can send friend request", Toast.LENGTH_SHORT).show();
+                            } else if (player.getAccountId().equals("empty")) {
+                                Toast.makeText((GameplayActivity) context, "Can not send request to guest user", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (currentState.equals("nothing_happen")) {
+                                    HashMap hashMap = new HashMap();
+                                    hashMap.put("status", "pending");
+                                    requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(@NonNull Task task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText((GameplayActivity) context, "You have sent Friend request", Toast.LENGTH_SHORT).show();
+                                                currentState = "pending";
+                                                btnFriendRequest.setText("Cancel request");
+                                                receiveRef.child(player.getAccountId()).updateChildren(hashMap);
 
-                                        } else {
-                                            Toast.makeText((GameplayActivity) context, "" + task.getException().toString(), Toast.LENGTH_SHORT).show();
 
+                                            } else {
+                                                Toast.makeText((GameplayActivity) context, "" + task.getException().toString(), Toast.LENGTH_SHORT).show();
+
+                                            }
                                         }
-                                    }
-                                });
+                                    });
 
-                            }
-                            if (currentState.equals("pending") || currentState.equals("I_sent_decline")) {
-                                HashMap hashMap = new HashMap();
-                                hashMap.put("status", "nothing_happen");
-                                requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
-                                    @Override
-                                    public void onComplete(@NonNull Task task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText((GameplayActivity) context, "You have cancelled Friend Request", Toast.LENGTH_SHORT).show();
-                                            btnFriendRequest.setText("Send Friend Request");
-                                            currentState = "nothing_happen";
-                                        } else {
-                                            Toast.makeText((GameplayActivity) context, "" + task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                                if (currentState.equals("pending") || currentState.equals("I_sent_decline")) {
+                                    HashMap hashMap = new HashMap();
+                                    hashMap.put("status", "nothing_happen");
+                                    requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(@NonNull Task task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText((GameplayActivity) context, "You have cancelled friend request", Toast.LENGTH_SHORT).show();
+                                                btnFriendRequest.setText("Send Friend Request");
+                                                currentState = "nothing_happen";
+                                                receiveRef.child(player.getAccountId()).updateChildren(hashMap);
+                                            } else {
+                                                Toast.makeText((GameplayActivity) context, "" + task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                });
-                            }
+                                    });
+                                }
 
 //                        if (currentState.equals("receive_decline") ){
 //                            HashMap hashMap = new HashMap();
@@ -234,35 +247,37 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 //                            });
 //                        }
 
-                            if (currentState.equals("friend")) {
-                                HashMap hashMap = new HashMap();
-                                hashMap.put("status", "nothing_happen");
-                                requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
-                                    @Override
-                                    public void onComplete(@NonNull Task task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText((GameplayActivity) context, "Your request has been accepted", Toast.LENGTH_SHORT).show();
-                                            btnFriendRequest.setText("Cancel Friend Request");
-                                            currentState = "nothing_happen";
+                                if (currentState.equals("friend")) {
+                                    HashMap hashMap = new HashMap();
+                                    hashMap.put("status", "nothing_happen");
+                                    requestRef.child(Account.getCurrertAccountId()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(@NonNull Task task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText((GameplayActivity) context, "Your request has been accepted", Toast.LENGTH_SHORT).show();
+                                                btnFriendRequest.setText("Cancel Friend Request");
+                                                currentState = "nothing_happen";
+                                                receiveRef.child(player.getAccountId()).updateChildren(hashMap);
 
-                                        } else {
-                                            Toast.makeText((GameplayActivity) context, "" + task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText((GameplayActivity) context, "" + task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
+
                             }
-
                         }
-                    }
-                });
-                btnCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popupWindow.dismiss();
-                    }
-                });
+                    });
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popupWindow.dismiss();
+                        }
+                    });
 
 
+                }
             }
         });
         PlayerIcon.setImageResource(player.getAvatar());

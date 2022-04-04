@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/friendAccept"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
@@ -72,11 +72,11 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="150dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="26dp"
             android:layout_toStartOf="@+id/btnUnfriend"
             android:text="Button" />
 

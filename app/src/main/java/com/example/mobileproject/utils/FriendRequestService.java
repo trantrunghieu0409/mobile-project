@@ -86,21 +86,34 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
         return t[0];
     }
 
-    public static void sendMessage(Context context, Activity mCurrentActivity, String title, String body) {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        Log.e("newToken", task.getResult());
-                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                                task.getResult(),
-                                title,
-                                body, context, mCurrentActivity);
-                        notificationsSender.SendNotifications();
-                    } else {
-                        Log.e("newToken", "empty");
+    public static void sendMessage(Context context, Activity mCurrentActivity, String title, String body,String token) {
+        if(token==null)
+        {
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            Log.e("newToken", task.getResult());
+                            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                                    task.getResult(),
+                                    title,
+                                    body, context, mCurrentActivity);
+                            notificationsSender.SendNotifications();
 
-                    }
-                });
+
+                        } else {
+                            Log.e("newToken", "empty");
+
+                        }
+                    });
+        }
+        else{
+            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                    token,
+                    title,
+                    body, context, mCurrentActivity);
+            notificationsSender.SendNotifications();
+        }
+
     }
 
 

@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //                            }
 //                        });
-                FriendRequestService.sendMessage(getApplicationContext(),MainActivity.this,"alo","123");
+                FriendRequestService.sendMessage(getApplicationContext(),MainActivity.this,"alo","123",null);
 
             }
         });
