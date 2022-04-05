@@ -21,7 +21,7 @@ public class GlobalConstants {
             "plane", "truck"};
 
     public static final int[] nPlayers = {5, 10, 15, 20};
-    public static final int[] nPoints = {120, 200, 300, 400};
+    public static final int[] nPoints = {10, 200, 300, 400};
 
 
 

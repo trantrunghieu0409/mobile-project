@@ -100,7 +100,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 List<DocumentSnapshot> listMessage = value.getDocuments();
                 // get latest message
-                if(value.size() > 1){
+                if(value.size() >= 1){
                     Chat msg = listMessage.get(value.size()-1).toObject(Chat.class);
                     messages.add(msg);
                     popUpNoti++;

@@ -125,13 +125,11 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
                 CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, gameplayActivity.room);
             }
             else if (Player.checkAnswer(vocal,strValue) == 1){
-                message.add("<font color=\"#000000\"><b>"+ strValue +"</b>is close!</font>");
+                message.add("<font color=\"#000000\"><b>"+ strValue +"</b> is close!</font>");
             }
             else{
-                message.add("<font color=\"#CC3300\"><b>"+ strValue +"</b>is not correct!</font>");
+                message.add("<font color=\"#CC3300\"><b>"+ strValue +"</b> is not correct!</font>");
             }
-//            Chat chat = new Chat(strValue);
-//            documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
         }
 
     }

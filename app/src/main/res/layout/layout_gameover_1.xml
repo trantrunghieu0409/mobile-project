@@ -21,24 +21,25 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/imgWinner1"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_below="@+id/txtWinner"
         android:layout_centerHorizontal="true"
         android:src="@drawable/avatar1" />
+
     <TextView
         android:id="@+id/ic_winner1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imgWinner1"
-        android:layout_toEndOf="@+id/imgWinner1"
-        android:layout_marginStart="-67dp"
+        android:layout_marginStart="-55dp"
         android:layout_marginBottom="-20dp"
+        android:layout_toEndOf="@+id/imgWinner1"
+        android:background="@drawable/icon_winner1"
         android:text="1"
         android:textColor="#000"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:background="@drawable/icon_winner1"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/nameWinner1"
