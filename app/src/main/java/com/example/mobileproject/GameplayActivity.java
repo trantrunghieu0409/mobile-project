@@ -128,6 +128,11 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         ft.replace(R.id.holder_chat_input, FragmentChatInput);
                         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
                         ft.commit();
+                        System.out.println(room.getPlayers().size() + " "+  room.getRoomID() + " " + room.getOwnerUsername());
+                        if(room.getDrawer() != -1){
+                            flagCurrentActivity = room.getFlagCurrentActivity();
+                            currentDrawing = room.getPlayers().get(room.getDrawer());
+                        }
 
                         // notification user join for everyone in popup chat
                         if(room.getPlayers().size() > 1){
@@ -181,6 +186,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         roomState = documentSnapshot.toObject(RoomState.class);
+                                        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
                                         if(roomState != null){
                                             Vocab = roomState.getVocab();
                                             currentDrawing = room.getPlayers().get(room.getDrawer());
@@ -236,7 +242,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
         ft.commitAllowingStateLoss();
         //Reset
-        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
         FragmentBoxChat.onMsgFromMainToFragment("`Reset`");
         FragmentChatInput.onMsgFromMainToFragment("`Reset`");
         if(mainPlayer.getName().equals(currentDrawing.getName())){
@@ -344,6 +349,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         else if(currentDrawing != null){
             if(currentDrawing.getName().equals(mainPlayer.getName())){
                 nextDrawer();
+                stillPlaying = false;
             }
         }
         RemovePlayer();
@@ -468,14 +474,15 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
     public void popupNotiDraw(String vocab){
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View popup_notidraw = inflater.inflate(R.layout.popup_notidraw, null);
+        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(GameplayActivity.this);
+        View popup_notidraw = inflater.inflate(R.layout.popup_notidraw,null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         popupWindow = new PopupWindow(popup_notidraw, width, height, true);
 
         TextView Vocab = popup_notidraw.findViewById(R.id.txt_vocab_popup_notidraw);
         Vocab.setText(vocab);
+
 
         popupWindow.showAtLocation(popup_notidraw,Gravity.CENTER, 0 , 0);
     }

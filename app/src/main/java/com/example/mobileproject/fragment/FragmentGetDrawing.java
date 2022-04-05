@@ -1,14 +1,11 @@
 package com.example.mobileproject.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,16 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mobileproject.DrawActivity;
 import com.example.mobileproject.GameplayActivity;
-import com.example.mobileproject.MainActivity;
 import com.example.mobileproject.R;
-import com.example.mobileproject.models.Room;
 import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.utils.CloudFirestore;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
     GameplayActivity gameplayActivity; TextView txtHint;
