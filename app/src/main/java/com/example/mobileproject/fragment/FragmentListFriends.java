@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,8 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
     static ArrayList<Account> listFriends;
     static String roomId;
     DocumentReference documentReference;
+
+    TextView txtListFriendEmpty;
 
 
 
@@ -88,6 +91,8 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
 
         LinearLayout layout_list_friends = (LinearLayout) inflater.inflate(R.layout.layout_list_friends, null);
         listViewFriends = (ListView)  layout_list_friends.findViewById(R.id.list_friends);
+        txtListFriendEmpty = (TextView) layout_list_friends.findViewById(R.id.list_friends_empty);
+
         listFriends=new ArrayList<>();
         adapter = new CustomListFriendAdapter(listFriends, getContext());
         listViewFriends.setAdapter(adapter);
@@ -107,6 +112,10 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 Account a = snapshot.getValue(Account.class);
+
+                                if (txtListFriendEmpty.getVisibility() == View.VISIBLE)
+                                    txtListFriendEmpty.setVisibility(View.GONE);
+
                                 listFriends.add(a);
                                 adapter.notifyDataSetChanged();
                             }
