@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -208,9 +209,9 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View popupChat = inflater.inflate(R.layout.popup_chat, null);
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int height = LinearLayout.LayoutParams.MATCH_PARENT;
                 final PopupWindow popupWindow = new PopupWindow(popupChat, width, height, true);
-                popupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
 
 
                 ListView boxchat = popupChat.findViewById(R.id.box_chat_popup);

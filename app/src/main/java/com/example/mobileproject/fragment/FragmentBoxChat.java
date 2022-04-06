@@ -1,5 +1,6 @@
 package com.example.mobileproject.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,16 +58,19 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
         catch (IllegalStateException e) {
             throw new IllegalStateException("Activity must implement callbacks");
         }
+        assert gameplayActivity != null;
         documentReference = CloudFirestore.getData("ListofRooms",gameplayActivity.roomID);
         if(documentReference != null){
 
         documentReference.collection("Chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                assert value != null;
                 List<DocumentSnapshot> listMessage = value.getDocuments();
                 // get latest message
                 if(value.size() > 0){
                     Chat msg = listMessage.get(value.size()-1).toObject(Chat.class);
+                    assert msg != null;
                     message.add(msg.getMsg());
                     apdater.notifyDataSetChanged();
 
@@ -79,9 +83,9 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LinearLayout layout_box_chat = (LinearLayout) inflater.inflate(R.layout.layout_box_chat, null);
+        @SuppressLint("InflateParams") LinearLayout layout_box_chat = (LinearLayout) inflater.inflate(R.layout.layout_box_chat, null);
 
-        boxChatAnswer = (ListView) layout_box_chat.findViewById(R.id.BoxChatAnswer);
+        boxChatAnswer = layout_box_chat.findViewById(R.id.BoxChatAnswer);
         apdater = new CustomChatAdapter(message);
         boxChatAnswer.setAdapter(apdater);
 
@@ -92,12 +96,11 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
     public void onMsgFromMainToFragment(String strValue) {
         if(strValue.contains("`Reset`")){
             DocumentReference documentReference2 = CloudFirestore.getData("RoomState",gameplayActivity.roomID);
-            documentReference2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    RoomState roomState = documentSnapshot.toObject(RoomState.class);
-                    vocal = roomState.getVocab();
-                }
+            assert documentReference2 != null;
+            documentReference2.get().addOnSuccessListener(documentSnapshot -> {
+                RoomState roomState = documentSnapshot.toObject(RoomState.class);
+                assert roomState != null;
+                vocal = roomState.getVocab();
             });
         }else if(strValue.contains("`TURNFOR`")){
             String name = strValue.replace("`TURNFOR`","");

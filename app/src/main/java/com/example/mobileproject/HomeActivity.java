@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -238,21 +242,27 @@ public class HomeActivity extends Activity {
                 DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
                 Room room = documentSnapshot.toObject(Room.class);
                 assert room != null;
-                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
-                newPlayer.setAccountId(Account.getCurrertAccountId());
-                room.addPlayer(newPlayer);
-                Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
-                // Join room
-                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        playIntent.putExtra("RoomID", room.getRoomID());
-                        playIntent.putExtra("Player", (Serializable) newPlayer);
-                        startActivity(playIntent);
-                        alert.dismiss();
-                        finish();
-                    }
-                });
+                if(room.existedUser(edtName.getText().toString())){
+                    alert.dismiss();
+                    popupNotiSameName();
+                }
+                else{
+                    newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
+                    newPlayer.setAccountId(Account.getCurrertAccountId());
+                    room.addPlayer(newPlayer);
+                    Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
+                    // Join room
+                    CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            playIntent.putExtra("RoomID", room.getRoomID());
+                            playIntent.putExtra("Player", (Serializable) newPlayer);
+                            startActivity(playIntent);
+                            alert.dismiss();
+                            finish();
+                        }
+                    });
+                }
             }
         });
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -276,7 +286,8 @@ public class HomeActivity extends Activity {
                                 // Player's name has already existed
                                 if(room.existedUser(newPlayer.getName())){
                                     dialog.dismiss();
-                                    edtName.requestFocus();
+                                    popupNotiSameName();
+//                                    edtName.requestFocus();
                                     return;
                                 }
                                 room.addPlayer(newPlayer);
@@ -317,6 +328,23 @@ public class HomeActivity extends Activity {
 
                     dialog.dismiss();
                 }
+            }
+        });
+    }
+
+    public void popupNotiSameName(){
+        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(HomeActivity.this);
+        View popup_notiSameName = inflater.inflate(R.layout.popup_error_same_name,null);
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        PopupWindow popupWindow = new PopupWindow(popup_notiSameName, width, height, true);
+        popupWindow.showAtLocation(popup_notiSameName, Gravity.CENTER, 0 , 0);
+        Button btnOk = popup_notiSameName.findViewById(R.id.btnOKErrorSameName);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                edtName.requestFocus();
             }
         });
     }
