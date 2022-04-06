@@ -13,8 +13,9 @@
         >
         <ImageButton
             android:id="@+id/btnReport"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_baseline_campaign_24"
             android:background="@null"
             android:padding="5dp"
@@ -22,8 +23,9 @@
             />
         <ImageButton
             android:id="@+id/btnAudio"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:background="@null"
             android:src="@drawable/ic_baseline_volume_up_24"
             android:padding="5dp"
@@ -31,21 +33,25 @@
             />
         <ImageButton
             android:id="@+id/btnPopUpInfo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:background="@null"
             android:src="@drawable/ic_baseline_report_24"
             android:padding="5dp"
             android:layout_marginEnd="5dp"
             />
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
 
             <ImageButton
                 android:id="@+id/btnPopUpChat"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@null"
                 android:padding="5dp"
                 android:src="@drawable/ic_baseline_question_answer_24" />

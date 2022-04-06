@@ -145,6 +145,8 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_shareinvite.xml" value="0.3333333333333333" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_sharestreamer.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/popup_votekick.xml" value="0.2234375" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/background_beautiful_textview.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/background_btn.xml" value="0.239" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_block_24.xml" value="0.3175" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_border_color_24.xml" value="0.3175" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.3335" />
@@ -155,7 +157,17 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_person_add_alt_1_24.xml" value="0.3335" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_question_answer_24.xml" value="0.3335" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_report_24.xml" value="0.3335" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_volume_up_24.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_baseline_warning_24.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_google.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/icon.xml" value="0.239" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/icon_winner1.xml" value="0.3335" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/list_border.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/profile_border.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/red_background_border.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/drawable/white_background_border.xml" value="0.239" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_createroom.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_drawscreen.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/activity_editprofile.xml" value="0.28125" />
@@ -174,7 +186,7 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_list_player.xml" value="0.75" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_answer.xml" value="0.17831813576494426" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_box_chat.xml" value="0.36666666666666664" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_chat_input.xml" value="0.5" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_chat_input.xml" value="0.33" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_gameover.xml" value="0.5" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_gameover2.xml" value="0.25" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_gameover_1.xml" value="0.5" />
@@ -190,6 +202,7 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_changepassword.xml" value="0.12817028985507245" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_chat.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_countrylist.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_error_same_name.xml" value="0.27853260869565216" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_gameover.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_inactive.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_info.xml" value="0.36666666666666664" />
@@ -198,6 +211,8 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_shareinvite.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_sharestreamer.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_votekick.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.239" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.239" />
       </map>
     </option>
   </component>
