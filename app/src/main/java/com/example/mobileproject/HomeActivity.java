@@ -105,7 +105,7 @@ public class HomeActivity extends Activity {
                             documentReference.get().addOnSuccessListener(documentSnapshot -> {
                                 accountList[0] = documentSnapshot.toObject(Account.class);
                                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                                intent.putExtras(bundle);
+                                if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
 
                             });
@@ -187,7 +187,7 @@ public class HomeActivity extends Activity {
                                                     public void onSuccess(Void unused) {
                                                         playIntent.putExtra("RoomID", room.getRoomID());
                                                         playIntent.putExtra("Player", (Serializable) newPlayer);
-                                                        playIntent.putExtras(bundle);
+                                                        if (bundle != null) playIntent.putExtras(bundle);
                                                         startActivity(playIntent);
                                                         finish();
                                                     }
@@ -219,7 +219,7 @@ public class HomeActivity extends Activity {
                     Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
                     roomIntent.putExtra("name", edtName.getText().toString());
                     roomIntent.putExtra("avatar", avatars[pos]);
-                    roomIntent.putExtras(bundle);
+                    if (bundle != null) roomIntent.putExtras(bundle);
                     startActivityForResult(roomIntent, 0);
                 }
             }
@@ -265,7 +265,7 @@ public class HomeActivity extends Activity {
                         public void onSuccess(Void unused) {
                             playIntent.putExtra("RoomID", room.getRoomID());
                             playIntent.putExtra("Player", (Serializable) newPlayer);
-                            playIntent.putExtras(bundle);
+                            if (bundle != null) playIntent.putExtras(bundle);
                             startActivity(playIntent);
                             alert.dismiss();
                             finish();
@@ -306,7 +306,7 @@ public class HomeActivity extends Activity {
                                     public void onSuccess(Void unused) {
                                         playIntent.putExtra("RoomID", room.getRoomID());
                                         playIntent.putExtra("Player", (Serializable) newPlayer);
-                                        playIntent.putExtras(bundle);
+                                        if (bundle != null) playIntent.putExtras(bundle);
                                         startActivity(playIntent);
                                         finish();
                                     }

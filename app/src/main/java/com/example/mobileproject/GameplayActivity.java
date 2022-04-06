@@ -99,7 +99,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
-                                intent.putExtras(bundle);
+                                if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
                                 finish();
                             }
@@ -268,7 +268,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
             drawIntent.putExtra("roomID", roomID);
             drawIntent.putExtra("vocab", roomState.getVocab());
-            drawIntent.putExtras(bundle);
+            if (bundle != null) drawIntent.putExtras(bundle);
             if(popupWindow != null){
                 popupWindow.dismiss();
             }

@@ -124,7 +124,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                         dialog.dismiss();
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("Player", (Serializable) host);
-                        playIntent.putExtras(bundle);
+                        if (bundle != null) playIntent.putExtras(bundle);
                         startActivity(playIntent);
                     }
                 });
