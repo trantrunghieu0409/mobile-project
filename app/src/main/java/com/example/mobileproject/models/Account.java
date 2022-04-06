@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.mobileproject.adapter.CustomListFriendAdapter;
+import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.utils.CloudFirestore;
 import com.example.mobileproject.utils.FriendRequestService;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -77,7 +78,7 @@ public class Account extends Player implements Serializable {
 
     public Account(String name,String email,String hashPassword,String accountId,String token)
     {
-        super(name, 0, 2131230807);
+        super(name, 0, GlobalConstants.thumbnails[0]);
         this.email = email;
         this.hashPassword = null;
         this.first_place = 0;

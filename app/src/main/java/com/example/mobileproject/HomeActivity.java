@@ -56,7 +56,8 @@ public class HomeActivity extends Activity {
     ImageView avatar;
     EditText edtName;
     Player newPlayer;
-    
+    Account account;
+    Bundle bundle;
 
     int pos = 0;
     @Override
@@ -66,6 +67,8 @@ public class HomeActivity extends Activity {
 
 //        FriendRequestService.createToken(getApplicationContext());
 
+        account = null;
+        bundle = null;
         btnPlay = (Button) findViewById(R.id.btnPlay);
         btnCreateRoom = (Button) findViewById(R.id.btnCreateRoom);
         Spinner spinner = (Spinner) findViewById(R.id.languages_spinner);
@@ -78,35 +81,38 @@ public class HomeActivity extends Activity {
         btnLogin = (ImageView) findViewById(R.id.btnLogin);
 
         Intent logged = getIntent();
-        Bundle bundle = logged.getExtras();
+        bundle = logged.getExtras();
         if (bundle != null) {
-            Account account = (Account) bundle.getSerializable("account");
-            avatar.setImageResource(account.getAvatar());
-            edtName.setText(account.getName());
-            edtName.setEnabled(false);
-            btnNext.setVisibility(View.GONE);
-            btnPrev.setVisibility(View.GONE);
-            btnLogin.setImageResource(account.getAvatar());
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
-                    String accountName = currentUser.getEmail();
-                    final Account[] accountList = {new Account("example@gmail.com", "password")};
+            account = (Account) bundle.getSerializable("account");
+            if(account != null){
+                avatar.setImageResource(account.getAvatar());
+                avatars[pos] = account.getAvatar();
+                edtName.setText(account.getName());
+                edtName.setEnabled(false);
+                btnNext.setVisibility(View.GONE);
+                btnPrev.setVisibility(View.GONE);
+                btnLogin.setImageResource(account.getAvatar());
+                btnLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        String accountID = currentUser.getUid();
+                        final Account[] accountList = {new Account("example@gmail.com", "password")};
 
-                    DocumentReference documentReference = Account.getDataFromFirebase(accountName);
-                    if (documentReference != null) {
-                        documentReference.get().addOnSuccessListener(documentSnapshot -> {
-                            accountList[0] = documentSnapshot.toObject(Account.class);
-                            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                            intent.putExtra("account", (Serializable) accountList[0]);
-                            startActivity(intent);
+                        DocumentReference documentReference = Account.getDataFromFirebase(accountID);
+                        if (documentReference != null) {
+                            documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                                accountList[0] = documentSnapshot.toObject(Account.class);
+                                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
 
-                        });
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
         }
         else {
             btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +187,7 @@ public class HomeActivity extends Activity {
                                                     public void onSuccess(Void unused) {
                                                         playIntent.putExtra("RoomID", room.getRoomID());
                                                         playIntent.putExtra("Player", (Serializable) newPlayer);
+                                                        playIntent.putExtras(bundle);
                                                         startActivity(playIntent);
                                                         finish();
                                                     }
@@ -212,6 +219,7 @@ public class HomeActivity extends Activity {
                     Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
                     roomIntent.putExtra("name", edtName.getText().toString());
                     roomIntent.putExtra("avatar", avatars[pos]);
+                    roomIntent.putExtras(bundle);
                     startActivityForResult(roomIntent, 0);
                 }
             }
@@ -257,6 +265,7 @@ public class HomeActivity extends Activity {
                         public void onSuccess(Void unused) {
                             playIntent.putExtra("RoomID", room.getRoomID());
                             playIntent.putExtra("Player", (Serializable) newPlayer);
+                            playIntent.putExtras(bundle);
                             startActivity(playIntent);
                             alert.dismiss();
                             finish();
@@ -297,6 +306,7 @@ public class HomeActivity extends Activity {
                                     public void onSuccess(Void unused) {
                                         playIntent.putExtra("RoomID", room.getRoomID());
                                         playIntent.putExtra("Player", (Serializable) newPlayer);
+                                        playIntent.putExtras(bundle);
                                         startActivity(playIntent);
                                         finish();
                                     }

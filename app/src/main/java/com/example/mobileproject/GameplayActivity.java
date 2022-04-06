@@ -27,6 +27,7 @@ import com.example.mobileproject.fragment.FragmentGetDrawing;
 import com.example.mobileproject.fragment.FragmentNotiDrawer;
 import com.example.mobileproject.fragment.FragmentResult;
 import com.example.mobileproject.fragment.MainCallbacks;
+import com.example.mobileproject.models.Account;
 import com.example.mobileproject.models.Chat;
 import com.example.mobileproject.models.Player;
 import com.example.mobileproject.models.Room;
@@ -70,10 +71,18 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     public Player currentDrawing;
     PopupWindow popupWindow;
+    Account account;
+    Bundle bundle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        account = null;
+        //get Account
+        bundle = null;
+        bundle = getIntent().getExtras();
+
+        //
         roomID = getIntent().getStringExtra("RoomID");
         mainPlayer = (Player) getIntent().getSerializableExtra("Player");
         barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
@@ -90,6 +99,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
+                                intent.putExtras(bundle);
                                 startActivity(intent);
                                 finish();
                             }
@@ -258,6 +268,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
             drawIntent.putExtra("roomID", roomID);
             drawIntent.putExtra("vocab", roomState.getVocab());
+            drawIntent.putExtras(bundle);
             if(popupWindow != null){
                 popupWindow.dismiss();
             }

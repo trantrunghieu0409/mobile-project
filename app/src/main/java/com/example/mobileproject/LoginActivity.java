@@ -37,9 +37,9 @@ public class LoginActivity extends AppCompatActivity {
         if(account != null){
             Toast.makeText(this,"You login successfully",Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, HomeActivity.class);
-            String accountName = account.getEmail();
+            String accountID = account.getUid();
             final Account[] accountList = {new Account("example@gmail.com", "password")};
-            DocumentReference documentReference = Account.getDataFromFirebase(accountName);
+            DocumentReference documentReference = Account.getDataFromFirebase(accountID);
             if (documentReference != null) {
                 documentReference.get().addOnSuccessListener(documentSnapshot -> {
                     accountList[0] = documentSnapshot.toObject(Account.class);
@@ -96,5 +96,13 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(signUpIntent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent newIntent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(newIntent);
+        finish();
     }
 }

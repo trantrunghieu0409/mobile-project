@@ -40,11 +40,13 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
     CircularImageView imgTopic;
     int pos = 0;
     String name;
+    Bundle bundle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createroom);
+
 
         imgTopic = (CircularImageView) findViewById(R.id.topic);
         txtTopic = (TextView) findViewById(R.id.txtTopic);
@@ -73,6 +75,9 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
         });
 
         name = getIntent().getStringExtra("name").toString();
+
+        bundle = null;
+        bundle = getIntent().getExtras();
         int avatar = getIntent().getIntExtra("avatar", 0);
 
         numPlayerSpinner = (Spinner) findViewById(R.id.players_spinner);
@@ -119,6 +124,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                         dialog.dismiss();
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("Player", (Serializable) host);
+                        playIntent.putExtras(bundle);
                         startActivity(playIntent);
                     }
                 });

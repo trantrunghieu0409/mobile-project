@@ -51,6 +51,7 @@ public class DrawActivity extends Activity {
     int timeout;
     String roomID;
     String vocab;
+    Bundle bundle;
 
 
     @Override
@@ -121,6 +122,7 @@ public class DrawActivity extends Activity {
                                 // remove player from database ?
 
                                 Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
+                                intent.putExtras(bundle);
                                 startActivity(intent);
                                 finish();
                             }
@@ -250,6 +252,13 @@ public class DrawActivity extends Activity {
         }
         return false;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        btnClose.callOnClick();
+    }
+
     public void setEraser(View v){
         penMode = Config.PenType.ERASE;
         thickness = 30;
