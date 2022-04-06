@@ -81,10 +81,15 @@
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_countrylist.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/popup_votekick.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/123/OneDrive - VNU-HCMUS/Android/Source_code/mobile-project/app/src/main/res/layout/votekick_popup.xml" value="0.17552083333333332" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/backgroud_beautiful_color.xml" value="0.114" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_beatiful_button.xml" value="0.2175" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_beautiful.xml" value="0.114" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_beautiful_textview.xml" value="0.114" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn2.xml" value="0.24375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_btn_white.xml" value="0.114" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_edittext.xml" value="0.24375" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_image.xml" value="0.114" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/background_title.xml" value="0.2175" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_border_color_24.xml" value="0.24375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/drawable/ic_baseline_campaign_24.xml" value="0.24375" />
@@ -105,7 +110,7 @@
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_editprofile.xml" value="0.4" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_friendlist.xml" value="0.264" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_gameplay.xml" value="0.4311594202898551" />
-        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_homescreen.xml" value="0.264" />
+        <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_homescreen.xml" value="0.176" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_login.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
         <entry key="..\:/Year3/Android/MobileProject/app/src/main/res/layout/activity_profile.xml" value="0.264" />
