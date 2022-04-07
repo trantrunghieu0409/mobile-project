@@ -37,7 +37,6 @@
             </intent-filter>
         </service>
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".EditProfileActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".DrawActivity" />
         <activity android:name=".GameplayActivity" android:launchMode="singleTask"/>

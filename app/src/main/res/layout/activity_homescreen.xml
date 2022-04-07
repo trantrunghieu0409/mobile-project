@@ -4,29 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/background_color_75"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:background="@color/background_color">
+        android:background="@drawable/background_beautiful">
 
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp">
-            <ImageView
-                android:id="@+id/imgApp"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logo" />
+            android:layout_marginTop="10dp"
+            android:src="@drawable/logo" />
 
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,6 +45,7 @@
                 android:src="@drawable/icon_login" />
 
             <TextView
+                android:id="@+id/txtLogin"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,30 +61,23 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="60dp"
-        android:paddingTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="50dp"
         android:background="@drawable/background_img"
         >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose avatar"
-        android:textSize="20dp"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPrev"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/prev_button"
             android:layout_gravity="center"/>
 
@@ -95,13 +85,16 @@
             android:id="@+id/circle_avatar"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/avatar"
+            android:src="@drawable/avatar_batman"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnNext"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="5dp"
             android:background="@drawable/next_button"
             android:layout_gravity="center"/>
     </LinearLayout>
@@ -120,7 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
-            android:paddingLeft="10dp"
+            android:hint="Username"
+            android:paddingStart="20dp"
             android:inputType="textPersonName"
             android:background="@drawable/input_box"
             android:text=""/>
@@ -140,6 +134,7 @@
             android:layout_height="wrap_content"
             android:text="@string/play"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:background="@drawable/button_yellow"
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -149,6 +144,8 @@
             android:layout_width="wrap_content"
             android:paddingTop="10dp"
             android:text="@string/create_room"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:background="@drawable/button_blue"
             android:layout_height="70dp"
             />

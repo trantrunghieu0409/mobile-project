@@ -59,7 +59,7 @@ public class HomeActivity extends Activity {
     Player newPlayer;
     Account account;
     Bundle bundle;
-
+    TextView txtLogin;
     int pos = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class HomeActivity extends Activity {
         avatar = (ImageView) findViewById(R.id.circle_avatar);
         edtName = (EditText) findViewById(R.id.edtName);
         btnLogin = (ImageView) findViewById(R.id.btnLogin);
-
+        txtLogin = (TextView) findViewById(R.id.txtLogin);
         Intent logged = getIntent();
         bundle = logged.getExtras();
         if (bundle != null) {
@@ -92,6 +92,7 @@ public class HomeActivity extends Activity {
                 edtName.setEnabled(false);
                 btnNext.setVisibility(View.GONE);
                 btnPrev.setVisibility(View.GONE);
+                txtLogin.setText("Profile");
                 btnLogin.setImageResource(account.getAvatar());
                 btnLogin.setOnClickListener(new View.OnClickListener() {
                     @Override

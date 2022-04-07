@@ -5,48 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:orientation="vertical">
-
-
-    <Button
-        android:id="@+id/buttonDraw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Người vẽ"
-        android:layout_margin="40dp"/>
-
-    <Button
-        android:id="@+id/buttonWatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Người xem"
-        android:layout_margin="40dp"/>
-
-    <Button
-        android:id="@+id/buttonProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        android:layout_margin="40dp"/>
-
-    <Button
-        android:id="@+id/ButtonNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notification"
-        android:layout_margin="40dp"/>
-
-    <Button
-        android:id="@+id/buttonDeleteListRooms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Firebase - ListofRooms" />
-
-    <Button
-        android:id="@+id/buttonDeleteRoomState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Firebase - RoomState"/>
+    android:orientation="vertical"
+    android:background="@drawable/background_flash_screen">
 
 
 </LinearLayout>

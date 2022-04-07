@@ -1,65 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color_75"
     tools:context=".ProfileActivity"
-    android:orientation="horizontal">
+    android:paddingTop="20dp">
 
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_beautiful_textview"
+        android:padding="5dp"
+        android:text="PROFILE"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:translationZ="90dp" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="5dp"
-        android:layout_weight="1"
-        android:background="@drawable/profile_border"
-        android:orientation="vertical">
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/background_img"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textSize="24sp"
-                android:text="Your profile"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
-
-            <ImageButton
-                android:id="@+id/btnClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end"
-                android:layout_margin="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/x" />
-        </RelativeLayout>
-
-        <LinearLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="30dp">
 
             <ImageView
                 android:id="@+id/imgAvatar"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_weight="3"
-                android:src="@drawable/avatar_batman"
-                android:padding="5dp"
                 android:layout_margin="5dp"
-                android:clickable="true"/>
+                android:layout_weight="3"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/avatar_batman" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -74,20 +68,21 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageView android:layout_height="20dp"
+                    <ImageView
                         android:layout_width="20dp"
-                        android:src="@drawable/icon_user_small"
-                        android:layout_marginEnd="2dp"/>
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/icon_user_small" />
 
 
                     <EditText
-                        android:maxLength="15"
                         android:id="@+id/txtUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:background="@android:color/transparent" >
-                    </EditText>
+                        android:textSize="13dp"
+                        android:background="@android:color/transparent"
+                        android:maxLength="15"></EditText>
                 </LinearLayout>
 
 
@@ -96,10 +91,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageView android:layout_height="20dp"
+                    <ImageView
                         android:layout_width="20dp"
-                        android:src="@drawable/icon_achievement_small"
-                        android:layout_marginEnd="2dp"/>
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/icon_achievement_small" />
 
                     <TextView
                         android:id="@+id/txtAchievements"
@@ -113,20 +109,21 @@
                     android:id="@+id/btnChangePassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:orientation="horizontal"
-                    android:pointerIcon="crosshair"
-                    android:clickable="true">
+                    android:pointerIcon="crosshair">
 
-                    <ImageView android:layout_height="20dp"
+                    <ImageView
                         android:layout_width="20dp"
-                        android:src="@drawable/ic_baseline_border_color_24"
-                        android:layout_marginEnd="2dp"/>
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_baseline_border_color_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text= "Change password" />
+                        android:text="Change password" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -134,59 +131,85 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="2dp"
-            android:background="@color/black"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_margin="5dp"
+            android:orientation="vertical"
             android:padding="5dp">
 
             <FrameLayout
                 android:id="@+id/profile_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
+
                 <RadioButton
                     android:id="@+id/radioLeft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"/>
+                    android:minWidth="0dp"
+                    android:minHeight="0dp" />
 
                 <RadioButton
                     android:id="@+id/radioRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"/>
+                    android:minWidth="0dp"
+                    android:minHeight="0dp" />
 
             </LinearLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="2dp"
-            android:background="@color/black"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:background="@color/black" />
 
-        <Button
-            android:id="@+id/btnSignOut"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:text="SIGN OUT" />
+            android:orientation="vertical"
+            android:paddingHorizontal="75dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_yellow"
+                android:text="SIGN OUT"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnClose"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_blue"
+                android:paddingTop="10dp"
+                android:text="Back"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
