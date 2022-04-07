@@ -138,7 +138,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         ft.replace(R.id.holder_chat_input, FragmentChatInput);
                         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
                         ft.commit();
-                        System.out.println(room.getPlayers().size() + " "+  room.getRoomID() + " " + room.getOwnerUsername());
+
                         if(room.getDrawer() != -1){
                             flagCurrentActivity = room.getFlagCurrentActivity();
                             currentDrawing = room.getPlayers().get(room.getDrawer());
@@ -251,9 +251,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
         ft.commitAllowingStateLoss();
+        // Block Answer Chat
+        FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //Reset
         FragmentBoxChat.onMsgFromMainToFragment("`Reset`");
-        FragmentChatInput.onMsgFromMainToFragment("`Reset`");
         if(mainPlayer.getName().equals(currentDrawing.getName())){
             popupNotiDraw(vocab);
             FragmentBoxChat.onMsgFromMainToFragment("`TURNFOR`" + currentDrawing.getName());
@@ -276,6 +277,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             startActivity(drawIntent);
         }
         else{
+            // Unblock answer chat
+            FragmentChatInput.onMsgFromMainToFragment("`Reset`");
             // start sync drawing fragment
             ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
@@ -292,6 +295,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         else{
             FragmentBoxChat.onMsgFromMainToFragment("`ANSWER`");
         }
+        // Block Answer Chat
+        FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //result fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentResult);
@@ -322,6 +327,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     public void processGameOver(){
         beginProgressBar(MAX_PROGRESS_WAITING);
+        // Block Answer Chat
+        FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //Gameover fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentGameOver);
@@ -329,18 +336,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     }
 
     public void processOutRoom(){
-        if(mainPlayer.getName().equals(room.getOwnerUsername())){
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    // Delete that room
-                    CloudFirestore.deleteDoc("ListofRooms", roomID);
-                    CloudFirestore.deleteDoc("RoomState", roomID);
-                }
-            }, 5000);
-        }
-        this.finish();
-
+        popupGameOver();
     }
 
     public void beginProgressBar(int max_process){
@@ -496,6 +492,42 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
 
         popupWindow.showAtLocation(popup_notidraw,Gravity.CENTER, 0 , 0);
+    }
+
+    public void popupGameOver(){
+        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(GameplayActivity.this);
+        View popupGameover = inflater.inflate(R.layout.popup_game_over,null);
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        popupWindow = new PopupWindow(popupGameover, width, height, false);
+        Button btnOk = popupGameover.findViewById(R.id.btnOKGameOver);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(false);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mainPlayer.getName().equals(room.getOwnerUsername())){
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            // Delete that room
+                            CloudFirestore.deleteDoc("ListofRooms", roomID);
+                            CloudFirestore.deleteDoc("RoomState", roomID);
+                        }
+                    }, 5000);
+
+
+                    Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
+                    if (bundle != null) intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        });
+
+        popupWindow.showAtLocation(popupGameover,Gravity.CENTER, 0 , 0);
     }
 
 

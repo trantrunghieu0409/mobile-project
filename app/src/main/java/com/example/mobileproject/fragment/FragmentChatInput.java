@@ -128,10 +128,14 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
         popUpChatText = (TextView) layout_chat_input.findViewById(R.id.statusPopupChatText);
 
         editTextAnswer = (EditText) layout_chat_input.findViewById(R.id.editTextAnswer);
-
+        btnAudio.setEnabled(false);
 
         audio = true;
         report = false;
+
+        editTextAnswer.setEnabled(false);
+        editTextAnswer.setText("Interval");
+        btnSendAnswer.setEnabled(false);
 
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,10 +241,12 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                     @Override
                     public void onClick(View view) {
                         String mess = String.valueOf(editTextChat.getText());
-                        editTextChat.setText("");
-                        customChatPopupApdater.notifyDataSetChanged();
-                        Chat chat = new Chat(gameplayActivity.mainPlayer.getName(),mess,gameplayActivity.mainPlayer.getAvatar());
-                        documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
+                        if(!mess.isEmpty()) {
+                            editTextChat.setText("");
+                            customChatPopupApdater.notifyDataSetChanged();
+                            Chat chat = new Chat(gameplayActivity.mainPlayer.getName(), mess, gameplayActivity.mainPlayer.getAvatar());
+                            documentReference.collection("ChatPopUp").document(chat.getTimestamp()).set(chat);
+                        }
                     }
                 });
 
@@ -270,8 +276,10 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
             @Override
             public void onClick(View view) {
                 String mess = String.valueOf(editTextAnswer.getText());
-                editTextAnswer.setText("");
-                gameplayActivity.onMsgFromFragToMain("MESS-FLAG",  mess);
+                if(!mess.isEmpty()){
+                    editTextAnswer.setText("");
+                    gameplayActivity.onMsgFromFragToMain("MESS-FLAG",  mess);
+                }
             }
         });
 
@@ -293,11 +301,19 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
     public void onMsgFromMainToFragment(String strValue) {
         if(strValue.contains("`Reset`")){
 //            editTextAnswer.setFocusableInTouchMode(true);
-            editTextAnswer.setEnabled(true);
+            if(editTextAnswer != null && btnSendAnswer != null) {
+                editTextAnswer.setEnabled(true);
+                editTextAnswer.setText("");
+                btnSendAnswer.setEnabled(true);
+            }
         }
         else if(strValue.contains("`RIGHT`")){
 //            editTextAnswer.setFocusable(false);
-            editTextAnswer.setEnabled(false);
+            if(editTextAnswer != null && btnSendAnswer != null){
+                editTextAnswer.setEnabled(false);
+                editTextAnswer.setText("Interval");
+                btnSendAnswer.setEnabled(false);
+            }
         }
         else{
             Chat chat = new Chat(strValue);
