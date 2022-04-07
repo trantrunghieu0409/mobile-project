@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Account;
@@ -50,8 +51,8 @@ public class HomeActivity extends Activity {
 
     Button btnPlay;
     Button btnCreateRoom;
-    ImageButton btnNext;
-    ImageButton btnPrev;
+    AppCompatButton btnNext;
+    AppCompatButton btnPrev;
     ImageView btnLogin;
     ImageView avatar;
     EditText edtName;
@@ -74,8 +75,8 @@ public class HomeActivity extends Activity {
         Spinner spinner = (Spinner) findViewById(R.id.languages_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
         spinner.setAdapter(adapter);
-        btnNext = (ImageButton) findViewById(R.id.btnNext);
-        btnPrev = (ImageButton) findViewById(R.id.btnPrev);
+        btnNext = (AppCompatButton) findViewById(R.id.btnNext);
+        btnPrev = (AppCompatButton) findViewById(R.id.btnPrev);
         avatar = (ImageView) findViewById(R.id.circle_avatar);
         edtName = (EditText) findViewById(R.id.edtName);
         btnLogin = (ImageView) findViewById(R.id.btnLogin);
