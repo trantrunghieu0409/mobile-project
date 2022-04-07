@@ -1,7 +1,6 @@
 package com.example.mobileproject;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -217,12 +216,27 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                                 processGameOver();
                                             }
                                             if(flagCurrentActivity == 6){
-                                                processOutRoom();
+                                                processResetRoom();
                                             }
                                         }
                                     }
                                 });
                             }
+
+                            if(newRoom.getFlagCurrentActivity() == 0 && newRoom.getPlayers().size() == 1){
+                                FragmentDrawBox.onMsgFromMainToFragment("CLOSE");
+                            }
+
+                            //Change owner room when awaiting
+                            if(newRoom.getFlagCurrentActivity() == 0 && !newRoom.getOwnerUsername().equals(room.getOwnerUsername())){
+                                room = newRoom;
+                                FragmentDrawBox = FragmentDrawBox.newInstance(true);
+                                //Reset fragment
+                                ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+                                ft.commitAllowingStateLoss();
+                            }
+
 
                             // Check kick
                             if(newRoom.checkVote()){
@@ -230,7 +244,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                 room.setVote(0);
                                 nextDrawer();
                                 if(currentDrawing.getName().equals(mainPlayer.getName())){
-                                    processOutRoom();
+//                                    processOutRoom();
                                 }
                             }
 
@@ -335,8 +349,16 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft.commitAllowingStateLoss();
     }
 
-    public void processOutRoom(){
-        popupGameOver();
+    public void processResetRoom(){
+        room.resetAllPointPlayer();
+        room.setFlagCurrentActivity(0);
+        room.setDrawer(-1);
+        CloudFirestore.sendData("ListofRooms", roomID, room);
+
+        //Reset fragment
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+        ft.commitAllowingStateLoss();
     }
 
     public void beginProgressBar(int max_process){
@@ -507,23 +529,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mainPlayer.getName().equals(room.getOwnerUsername())){
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            // Delete that room
-                            CloudFirestore.deleteDoc("ListofRooms", roomID);
-                            CloudFirestore.deleteDoc("RoomState", roomID);
-                        }
-                    }, 5000);
-
-
-                    Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
-                    if (bundle != null) intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
-                }
-
+                Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
+                if (bundle != null) intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
             }
         });
 

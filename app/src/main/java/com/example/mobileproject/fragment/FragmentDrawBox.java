@@ -81,7 +81,9 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
                 layout_draw_box = (LinearLayout) inflater.inflate(R.layout.layout_waitstart,null);
                 popupInvitation(gameplayActivity.mainPlayer.getAccountId());
                 buttonStart = (Button) layout_draw_box.findViewById(R.id.btnStart);
-                buttonStart.setEnabled(false);
+                if(gameplayActivity.room.getPlayers().size() == 1){
+                    buttonStart.setEnabled(false);
+                }
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -104,6 +106,9 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
     public void onMsgFromMainToFragment(String strValue) {
         if(strValue.equals("NEW_PLAYER") && gameplayActivity.mainPlayer.getName().equals(gameplayActivity.room.getOwnerUsername())){
             buttonStart.setEnabled(true);
+        }
+        if(strValue.equals("CLOSE") && gameplayActivity.mainPlayer.getName().equals(gameplayActivity.room.getOwnerUsername())){
+            buttonStart.setEnabled(false);
         }
     }
     public void popupInvitation(String playerId){

@@ -202,7 +202,8 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                 int width = LinearLayout.LayoutParams.MATCH_PARENT;
                 int height = LinearLayout.LayoutParams.WRAP_CONTENT;
                 final PopupWindow popupWindow = new PopupWindow(popupInfo, width, height, true);
-
+                TextView txtIDRoom = popupInfo.findViewById(R.id.txtInvitationInInfo);
+                txtIDRoom.setText(gameplayActivity.roomID);
                 popupWindow.showAtLocation(view,Gravity.CENTER, 0 , 0);
             }
         });
