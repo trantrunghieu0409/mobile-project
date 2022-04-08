@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Account;
@@ -50,15 +51,15 @@ public class HomeActivity extends Activity {
 
     Button btnPlay;
     Button btnCreateRoom;
-    ImageButton btnNext;
-    ImageButton btnPrev;
+    AppCompatButton btnNext;
+    AppCompatButton btnPrev;
     ImageView btnLogin;
     ImageView avatar;
     EditText edtName;
     Player newPlayer;
     Account account;
     Bundle bundle;
-
+    TextView txtLogin;
     int pos = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,12 +75,12 @@ public class HomeActivity extends Activity {
         Spinner spinner = (Spinner) findViewById(R.id.languages_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, languages);
         spinner.setAdapter(adapter);
-        btnNext = (ImageButton) findViewById(R.id.btnNext);
-        btnPrev = (ImageButton) findViewById(R.id.btnPrev);
+        btnNext = (AppCompatButton) findViewById(R.id.btnNext);
+        btnPrev = (AppCompatButton) findViewById(R.id.btnPrev);
         avatar = (ImageView) findViewById(R.id.circle_avatar);
         edtName = (EditText) findViewById(R.id.edtName);
         btnLogin = (ImageView) findViewById(R.id.btnLogin);
-
+        txtLogin = (TextView) findViewById(R.id.txtLogin);
         Intent logged = getIntent();
         bundle = logged.getExtras();
         if (bundle != null) {
@@ -91,6 +92,7 @@ public class HomeActivity extends Activity {
                 edtName.setEnabled(false);
                 btnNext.setVisibility(View.GONE);
                 btnPrev.setVisibility(View.GONE);
+                txtLogin.setText("Profile");
                 btnLogin.setImageResource(account.getAvatar());
                 btnLogin.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -105,7 +107,7 @@ public class HomeActivity extends Activity {
                             documentReference.get().addOnSuccessListener(documentSnapshot -> {
                                 accountList[0] = documentSnapshot.toObject(Account.class);
                                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                                intent.putExtras(bundle);
+                                if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
 
                             });
@@ -187,7 +189,7 @@ public class HomeActivity extends Activity {
                                                     public void onSuccess(Void unused) {
                                                         playIntent.putExtra("RoomID", room.getRoomID());
                                                         playIntent.putExtra("Player", (Serializable) newPlayer);
-                                                        playIntent.putExtras(bundle);
+                                                        if (bundle != null) playIntent.putExtras(bundle);
                                                         startActivity(playIntent);
                                                         finish();
                                                     }
@@ -219,7 +221,7 @@ public class HomeActivity extends Activity {
                     Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
                     roomIntent.putExtra("name", edtName.getText().toString());
                     roomIntent.putExtra("avatar", avatars[pos]);
-                    roomIntent.putExtras(bundle);
+                    if (bundle != null) roomIntent.putExtras(bundle);
                     startActivityForResult(roomIntent, 0);
                 }
             }
@@ -265,7 +267,7 @@ public class HomeActivity extends Activity {
                         public void onSuccess(Void unused) {
                             playIntent.putExtra("RoomID", room.getRoomID());
                             playIntent.putExtra("Player", (Serializable) newPlayer);
-                            playIntent.putExtras(bundle);
+                            if (bundle != null) playIntent.putExtras(bundle);
                             startActivity(playIntent);
                             alert.dismiss();
                             finish();
@@ -306,7 +308,7 @@ public class HomeActivity extends Activity {
                                     public void onSuccess(Void unused) {
                                         playIntent.putExtra("RoomID", room.getRoomID());
                                         playIntent.putExtra("Player", (Serializable) newPlayer);
-                                        playIntent.putExtras(bundle);
+                                        if (bundle != null) playIntent.putExtras(bundle);
                                         startActivity(playIntent);
                                         finish();
                                     }

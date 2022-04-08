@@ -4,47 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@drawable/background_beautiful"
+    android:background="@color/background_color_75"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:background="@color/teal_700_50">
+        android:background="@drawable/background_beautiful">
 
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp">
-            <ImageView
-                android:id="@+id/imgApp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/logo_no_background_best_quality_no_title" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:padding="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Draw8Guess"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="24dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Let's draw!"
-                    android:textColor="@color/white"/>
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:src="@drawable/logo" />
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -67,6 +45,7 @@
                 android:src="@drawable/icon_login" />
 
             <TextView
+                android:id="@+id/txtLogin"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,46 +58,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/profile_border"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="50dp"
+        android:background="@drawable/background_img"
         >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose avatar"
-        android:textSize="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         >
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPrev"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@android:drawable/ic_media_play"
-            android:rotation="180"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/prev_button"
             android:layout_gravity="center"/>
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/circle_avatar"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/avatar"
+            android:src="@drawable/avatar_batman"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnNext"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@android:drawable/ic_media_play"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/next_button"
             android:layout_gravity="center"/>
     </LinearLayout>
 
@@ -134,15 +111,19 @@
         <EditText
             android:id="@+id/edtName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
+            android:hint="Username"
+            android:paddingStart="20dp"
             android:inputType="textPersonName"
+            android:background="@drawable/input_box"
             android:text=""/>
         <Spinner
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/list_border"
+            android:layout_height="45dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/input_box"
             android:id="@+id/languages_spinner"
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -152,17 +133,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/play"
-            android:background="@drawable/background_btn2"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/button_yellow"
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCreateRoom"
-            android:minWidth="200dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_room"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:background="@drawable/background_btn2"
+            android:layout_width="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/create_room"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@drawable/button_blue"
+            android:layout_height="70dp"
             />
 
     </LinearLayout>

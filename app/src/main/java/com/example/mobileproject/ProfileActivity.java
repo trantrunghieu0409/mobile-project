@@ -13,17 +13,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -46,15 +47,14 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends FragmentActivity implements MainCallbacks {
     FragmentTransaction ft; FragmentProfile profileFragment; FragmentListFriends listFriendsFragment;
-    LinearLayout btnChangeAvatar, btnChangePassword, mainProfile;
+    LinearLayout btnChangeAvatar, btnChangePassword;
+    RelativeLayout mainProfile;
     ImageView imgAvatar;
     TextView txtUsername, txtAchievements;
-    LinearLayout btnEditProfile;
-    ImageButton btnClose;
+    AppCompatButton btnClose, btnSignOut;
     Account account;
     String accountId;
     RadioButton radioLeft, radioRight;
-    Button btnSignOut;
     private FirebaseAuth mAuth;
 
     @Override
@@ -67,9 +67,9 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         txtAchievements = (TextView) findViewById(R.id.txtAchievements);
         radioLeft = (RadioButton) findViewById(R.id.radioLeft);
         radioRight = (RadioButton) findViewById(R.id.radioRight);
-        btnSignOut=(Button)findViewById(R.id.btnSignOut) ;
+        btnSignOut=(AppCompatButton) findViewById(R.id.btnSignOut) ;
         btnChangePassword = (LinearLayout) findViewById(R.id.btnChangePassword);
-        mainProfile = (LinearLayout) findViewById(R.id.mainProfile);
+        mainProfile = (RelativeLayout) findViewById(R.id.mainProfile);
 
         Intent intent = getIntent();
         Bundle myBundle = intent.getExtras();
@@ -81,23 +81,11 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
             accountId = account.getAccountId();
         }
 
-
-
-
-
         imgAvatar.setImageResource(account.getAvatar());
         txtUsername.setText(account.getName());
         txtAchievements.setText(String.valueOf(account.getnGames()));
 
-
-//        btnEditProfile = (LinearLayout) findViewById(R.id.btnEditProfile);
-//        btnEditProfile.setOnClickListener(view -> {
-//            Intent intent1 = new Intent(ProfileActivity.this, EditProfileActivity.class);
-//            intent1.putExtra("account", account);
-//            startActivityForResult(intent1, 110);
-//        });
-
-        btnClose = (ImageButton) findViewById(R.id.btnClose);
+        btnClose = (AppCompatButton) findViewById(R.id.btnClose);
         btnClose.setOnClickListener(view -> { finish(); });
 
         ft = getSupportFragmentManager().beginTransaction();
@@ -215,7 +203,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
             public void onClick(View view) {
                 mAuth = FirebaseAuth.getInstance();
                 mAuth.signOut();
-                Intent intent=new Intent(ProfileActivity.this,MainActivity.class);
+                Intent intent=new Intent(ProfileActivity.this,HomeActivity.class);
                 startActivity(intent);
             }
         });
@@ -286,12 +274,6 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
 
     @Override
     public void onMsgFromFragToMain(String sender, String strValue) {
-        if (sender.equals("EDIT-FLAG")) {
-            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-            Bundle bundle = new Bundle();
-            // some information about player here (maybe id or player object serialization )
-            intent.putExtras(bundle);
-            startActivityForResult(intent, 1122);
-        }
+
     }
 }

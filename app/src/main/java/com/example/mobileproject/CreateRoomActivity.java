@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.mobileproject.constants.GlobalConstants;
 import com.example.mobileproject.draw_config.Config;
@@ -34,8 +35,8 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
     Spinner maxPointSpinner;
     TextView btnBack;
     TextView txtTopic;
-    ImageButton btnNext;
-    ImageButton btnPrev;
+    AppCompatButton btnNext;
+    AppCompatButton btnPrev;
     Button btnCreate;
     CircularImageView imgTopic;
     int pos = 0;
@@ -51,7 +52,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
         imgTopic = (CircularImageView) findViewById(R.id.topic);
         txtTopic = (TextView) findViewById(R.id.txtTopic);
 
-        btnNext = (ImageButton) findViewById(R.id.btnNext);
+        btnNext = (AppCompatButton) findViewById(R.id.btnNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +63,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                 txtTopic.setText(GlobalConstants.topics[pos]);
             }
         });
-        btnPrev = (ImageButton) findViewById(R.id.btnPrev);
+        btnPrev = (AppCompatButton) findViewById(R.id.btnPrev);
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +127,7 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
                         dialog.dismiss();
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("Player", (Serializable) host);
-                        playIntent.putExtras(bundle);
+                        if (bundle != null) playIntent.putExtras(bundle);
                         startActivity(playIntent);
                     }
                 });

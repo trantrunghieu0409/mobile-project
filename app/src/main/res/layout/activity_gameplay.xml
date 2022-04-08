@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameplayActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background_color_75">
 
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->
@@ -31,9 +32,10 @@
         <FrameLayout
             android:id="@+id/holder_box_draw"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:layout_margin="10dp"
-            android:background="@drawable/profile_border"
+            android:padding="10dp"
+            android:background="@drawable/background_img"
             >
 
             <ImageButton

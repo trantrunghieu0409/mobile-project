@@ -122,7 +122,7 @@ public class DrawActivity extends Activity {
                                 // remove player from database ?
 
                                 Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
-                                intent.putExtras(bundle);
+                                if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
                                 finish();
                             }

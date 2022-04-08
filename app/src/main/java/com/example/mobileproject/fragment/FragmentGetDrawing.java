@@ -74,10 +74,12 @@ public class FragmentGetDrawing extends Fragment implements FragmentCallbacks {
                                 room = documentSnapshot.toObject(RoomState.class);
 
                                 if (room != null) {
-                                    if (room.getImgBitmap() != null) { // if not draw anything
+                                    if (room.getImgBitmap() != null && i != null) { // if not draw anything
                                         // show drawing
-                                        b = CloudFirestore.decodeBitmap(room.getImgBitmap());
-                                        i.setImageBitmap(b);
+                                        if(room.getImgBitmap() != null){
+                                            b = CloudFirestore.decodeBitmap(room.getImgBitmap());
+                                            i.setImageBitmap(b);
+                                        }
                                     }
 
                                     // show hint

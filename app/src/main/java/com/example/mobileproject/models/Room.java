@@ -212,6 +212,12 @@ public class Room {
         }
     }
 
+    public void resetAllPointPlayer(){
+        for (Player player : players){
+            player.setPoint(0);
+        }
+    }
+
 
     public ArrayList<Player> sortDescendingPoint() {
         ArrayList<Player> list = this.players;

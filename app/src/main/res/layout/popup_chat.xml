@@ -31,13 +31,14 @@
                 android:transcriptMode="alwaysScroll" />
 
             <ImageButton
-                android:layout_alignParentEnd="true"
+                android:padding="5dp"
                 android:id="@+id/btnClosePopUpChat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
-                android:src="@drawable/x"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:src="@drawable/x" />
         </RelativeLayout>
 
         <LinearLayout

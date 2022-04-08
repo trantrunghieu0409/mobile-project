@@ -3,7 +3,8 @@
     android:id="@+id/friendAccept"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="5dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -30,24 +31,25 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/txtUsername"
-            android:layout_width="80dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User01"
             android:textColor="@color/Blue"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLength="25"/>
 
         <TextView
             android:id="@+id/txtStatus"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Active now"
             android:textSize="15sp" />
     </LinearLayout>
@@ -69,16 +71,6 @@
             android:background="@drawable/red_background_border"
             android:padding="5dp"
             android:src="@drawable/ic_baseline_person_remove_24" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="150dp"
-            android:layout_marginEnd="26dp"
-            android:layout_toStartOf="@+id/btnUnfriend"
-            android:text="Button" />
 
     </RelativeLayout>
 

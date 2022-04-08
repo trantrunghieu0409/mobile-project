@@ -1,7 +1,6 @@
 package com.example.mobileproject;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -99,7 +98,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
-                                intent.putExtras(bundle);
+                                if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
                                 finish();
                             }
@@ -138,7 +137,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                         ft.replace(R.id.holder_chat_input, FragmentChatInput);
                         ft.replace(R.id.holder_chat_box, FragmentBoxChat);
                         ft.commit();
-                        System.out.println(room.getPlayers().size() + " "+  room.getRoomID() + " " + room.getOwnerUsername());
+
                         if(room.getDrawer() != -1){
                             flagCurrentActivity = room.getFlagCurrentActivity();
                             currentDrawing = room.getPlayers().get(room.getDrawer());
@@ -217,12 +216,27 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                                 processGameOver();
                                             }
                                             if(flagCurrentActivity == 6){
-                                                processOutRoom();
+                                                processResetRoom();
                                             }
                                         }
                                     }
                                 });
                             }
+
+                            if(newRoom.getFlagCurrentActivity() == 0 && newRoom.getPlayers().size() == 1){
+                                FragmentDrawBox.onMsgFromMainToFragment("CLOSE");
+                            }
+
+                            //Change owner room when awaiting
+                            if(newRoom.getFlagCurrentActivity() == 0 && !newRoom.getOwnerUsername().equals(room.getOwnerUsername())){
+                                room = newRoom;
+                                FragmentDrawBox = FragmentDrawBox.newInstance(true);
+                                //Reset fragment
+                                ft = getSupportFragmentManager().beginTransaction();
+                                ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+                                ft.commitAllowingStateLoss();
+                            }
+
 
                             // Check kick
                             if(newRoom.checkVote()){
@@ -230,7 +244,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                                 room.setVote(0);
                                 nextDrawer();
                                 if(currentDrawing.getName().equals(mainPlayer.getName())){
-                                    processOutRoom();
+//                                    processOutRoom();
                                 }
                             }
 
@@ -251,9 +265,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft.replace(R.id.holder_box_draw,fragmentNotiDrawer);
         fragmentNotiDrawer.onMsgFromMainToFragment(str);
         ft.commitAllowingStateLoss();
+        // Block Answer Chat
+        FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //Reset
         FragmentBoxChat.onMsgFromMainToFragment("`Reset`");
-        FragmentChatInput.onMsgFromMainToFragment("`Reset`");
         if(mainPlayer.getName().equals(currentDrawing.getName())){
             popupNotiDraw(vocab);
             FragmentBoxChat.onMsgFromMainToFragment("`TURNFOR`" + currentDrawing.getName());
@@ -268,7 +283,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             drawIntent.putExtra("Timeout", MAX_PROGRESS_DRAWING);
             drawIntent.putExtra("roomID", roomID);
             drawIntent.putExtra("vocab", roomState.getVocab());
-            drawIntent.putExtras(bundle);
+            if (bundle != null) drawIntent.putExtras(bundle);
             if(popupWindow != null){
                 popupWindow.dismiss();
             }
@@ -276,6 +291,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             startActivity(drawIntent);
         }
         else{
+            // Unblock answer chat
+            FragmentChatInput.onMsgFromMainToFragment("`Reset`");
             // start sync drawing fragment
             ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.holder_box_draw, fragmentGetDrawing);
@@ -292,6 +309,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         else{
             FragmentBoxChat.onMsgFromMainToFragment("`ANSWER`");
         }
+        // Block Answer Chat
+        FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //result fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentResult);
@@ -322,25 +341,24 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     public void processGameOver(){
         beginProgressBar(MAX_PROGRESS_WAITING);
+        // Block Answer Chat
+        FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //Gameover fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentGameOver);
         ft.commitAllowingStateLoss();
     }
 
-    public void processOutRoom(){
-        if(mainPlayer.getName().equals(room.getOwnerUsername())){
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    // Delete that room
-                    CloudFirestore.deleteDoc("ListofRooms", roomID);
-                    CloudFirestore.deleteDoc("RoomState", roomID);
-                }
-            }, 5000);
-        }
-        this.finish();
+    public void processResetRoom(){
+        room.resetAllPointPlayer();
+        room.setFlagCurrentActivity(0);
+        room.setDrawer(-1);
+        CloudFirestore.sendData("ListofRooms", roomID, room);
 
+        //Reset fragment
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.holder_box_draw, FragmentDrawBox);
+        ft.commitAllowingStateLoss();
     }
 
     public void beginProgressBar(int max_process){
@@ -496,6 +514,29 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
 
         popupWindow.showAtLocation(popup_notidraw,Gravity.CENTER, 0 , 0);
+    }
+
+    public void popupGameOver(){
+        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(GameplayActivity.this);
+        View popupGameover = inflater.inflate(R.layout.popup_game_over,null);
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        popupWindow = new PopupWindow(popupGameover, width, height, false);
+        Button btnOk = popupGameover.findViewById(R.id.btnOKGameOver);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(false);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
+                if (bundle != null) intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        popupWindow.showAtLocation(popupGameover,Gravity.CENTER, 0 , 0);
     }
 
 

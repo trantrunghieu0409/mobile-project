@@ -20,7 +20,7 @@ public final class Config {
     }
 
     public static Integer[] Avatars = {
-            R.drawable.avatar,R.drawable.avatar1, R.drawable.avatar2, R.drawable.avatar3, R.drawable.avatar_batman
+            R.drawable.avatar_batman, R.drawable.avatar1, R.drawable.avatar2, R.drawable.avatar3
     };
     public static Integer[] Topics = {
             R.drawable.topic1,R.drawable.topic2,R.drawable.topic3
