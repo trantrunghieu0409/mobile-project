@@ -147,79 +147,85 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
 
         //this is custom dialog
         //custom_popup_dialog contains textview only
-
-        LinearLayout layout_list_friends = (LinearLayout) layoutInflater.inflate(R.layout.layout_list_friends, null, false);
-        if(layout_list_friends.getParent() != null) {
-            ((ViewGroup)layout_list_friends.getParent()).removeView(layout_list_friends); // <- fix
+        if (playerId==null)
+        {
+            Toast.makeText(gameplayActivity, "Only logged in user can invite friends!", Toast.LENGTH_LONG);
         }
-        ListView listViewFriends = (ListView) layout_list_friends.findViewById(R.id.list_friends);
-        ArrayList<Account>  listFriends=new ArrayList<>();
-        CustomListFriendAdapter adapter = new CustomListFriendAdapter(listFriends, getContext());
+        else{
+            LinearLayout layout_list_friends = (LinearLayout) layoutInflater.inflate(R.layout.layout_list_friends, null, false);
+            if(layout_list_friends.getParent() != null) {
+                ((ViewGroup)layout_list_friends.getParent()).removeView(layout_list_friends); // <- fix
+            }
+            ListView listViewFriends = (ListView) layout_list_friends.findViewById(R.id.list_friends);
+            ArrayList<Account>  listFriends=new ArrayList<>();
+            CustomListFriendAdapter adapter = new CustomListFriendAdapter(listFriends, getContext());
 
-        listViewFriends.setAdapter(adapter);
-        DatabaseReference reqRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Requests").child(playerId);
-        DatabaseReference accRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Account");
+            listViewFriends.setAdapter(adapter);
+            DatabaseReference reqRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .getReference("Requests").child(playerId);
+            DatabaseReference accRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .getReference("Account");
 
-        ArrayList<String> idList=new ArrayList<>();
-        reqRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String status=dataSnapshot.child("status").getValue(String.class);
-                    String reqId=dataSnapshot.getKey();
-                    if (status.equals("pending")) {
-                        accRef.child(reqId).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                Account a = snapshot.getValue(Account.class);
-                                listFriends.add(a);
-                                idList.add(a.getAccountId());
-                                adapter.notifyDataSetChanged();
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+            ArrayList<String> idList=new ArrayList<>();
+            reqRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String status=dataSnapshot.child("status").getValue(String.class);
+                        String reqId=dataSnapshot.getKey();
+                        if (status.equals("pending")) {
+                            accRef.child(reqId).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Account a = snapshot.getValue(Account.class);
+                                    listFriends.add(a);
+                                    idList.add(a.getAccountId());
+                                    adapter.notifyDataSetChanged();
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
+
+                    adapter.notifyDataSetChanged();
                 }
 
-                adapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        final int[] chosenPos = {-1};
-        Button button = new Button(gameplayActivity);
-        button.setText("Invite");
-        layout_list_friends.addView(button);
+                }
+            });
+            final int[] chosenPos = {-1};
+            Button button = new Button(gameplayActivity);
+            button.setText("Invite");
+            layout_list_friends.addView(button);
 
 
-        listViewFriends.setOnItemClickListener((adapterView, view12, i, l) -> {
-            if (chosenPos[0] != -1) {
-                View v = listViewFriends.getChildAt(chosenPos[0]);
-                v.setBackgroundColor(124333); // initial background color of gridview
-            }
-            chosenPos[0] = i;
-            view12.setBackgroundColor(R.drawable.red_background_border);
-        });
+            listViewFriends.setOnItemClickListener((adapterView, view12, i, l) -> {
+                if (chosenPos[0] != -1) {
+                    View v = listViewFriends.getChildAt(chosenPos[0]);
+                    v.setBackgroundColor(124333); // initial background color of gridview
+                }
+                chosenPos[0] = i;
+                view12.setBackgroundColor(R.drawable.red_background_border);
+            });
 
 
-        button.setOnClickListener(view1 -> {
-            if (chosenPos[0] != -1) {
-                FriendRequestService.sendMessage(listViewFriends.getContext(), gameplayActivity, "You have invitation to Guess Draw", gameplayActivity.roomID, idList.get(chosenPos[0]));
-            }
-            else {
-                Toast.makeText((GameplayActivity) context, "Cannot send message", Toast.LENGTH_SHORT).show();
-            }
+            button.setOnClickListener(view1 -> {
+                if (chosenPos[0] != -1) {
+                    FriendRequestService.sendMessage(listViewFriends.getContext(), gameplayActivity, "You have invitation to Guess Draw", gameplayActivity.roomID, idList.get(chosenPos[0]));
+                }
+                else {
+                    Toast.makeText((GameplayActivity) context, "Cannot send message", Toast.LENGTH_SHORT).show();
+                }
 //            builder.dismiss();
-        });
-        builder.setView(layout_list_friends);
+            });
+            builder.setView(layout_list_friends);
+        }
+
         AlertDialog alert = builder.create();
         alert.show();
     }

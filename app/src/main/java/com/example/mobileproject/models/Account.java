@@ -185,46 +185,12 @@ public class Account extends Player implements Serializable {
 //        hashMap.put(acc.getAccountId(),acc);
         AccRef.child(acc.getAccountId()).setValue(acc);
     }
-
-    public static void getPendingList(String id, CustomListFriendAdapter adapter,ArrayList<Account> listFriends) {
-
-
-        DatabaseReference reqRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Requests").child(id);
-        DatabaseReference accRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Account");
-//        ArrayList<Account> pendingList=new ArrayList<>(100);
-        reqRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String status=dataSnapshot.child("status").getValue(String.class);
-                    String reqId=dataSnapshot.getKey();
-                    if (status.equals("pending")) {
-                        accRef.child(reqId).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                Account a = snapshot.getValue(Account.class);
-                                listFriends.add(a);
-
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+    public static boolean isLogged (){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null)
+                return true;
+        return false;
     }
 
 

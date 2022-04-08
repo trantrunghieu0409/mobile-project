@@ -100,7 +100,9 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
 
                 Intent playIntent = new Intent(CreateRoomActivity.this, GameplayActivity.class);
                 Player host = new Player(name, 0, avatar, FriendRequestService.getToken(getApplicationContext()));
+                if(Account.isLogged())
                 host.setAccountId(Account.getCurrertAccountId());
+
                 Room room = new Room(GlobalConstants.nPoints[maxPointSpinner.getSelectedItemPosition()],
                         GlobalConstants.nPlayers[numPlayerSpinner.getSelectedItemPosition()],
                         GlobalConstants.topics[pos], host);
