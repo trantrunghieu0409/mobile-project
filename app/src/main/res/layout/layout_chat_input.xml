@@ -74,7 +74,7 @@
                 android:layout_toEndOf="@+id/btnPopUpChat"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textStyle="bold"></TextView>
+                android:textStyle="bold"/>
 
         </RelativeLayout>
 
@@ -87,7 +87,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
         android:layout_weight="3"
-        android:background="@drawable/profile_border"
+        android:background="@drawable/background_img"
         android:padding="10dp" />
 
     <LinearLayout
@@ -104,7 +104,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/profile_border"
+                android:background="@drawable/background_img"
                 android:padding="15dp" />
 
             <ImageButton
@@ -114,7 +114,7 @@
                 android:layout_weight="4"
                 android:src="@drawable/ic_baseline_pending_24"
                 android:padding="5dp"
-                android:background="@drawable/profile_border"
+                android:background="@drawable/background_img"
                 />
 
         </LinearLayout>

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
     android:background="#2A000000"
     >
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,9 +15,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="300"
-            android:background="@drawable/profile_border"
+            android:background="@drawable/background_img"
             android:layout_margin="5dp">
 
             <ListView
@@ -28,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="500dp"
                 android:divider="@null"
+                android:padding="22dp"
                 android:transcriptMode="alwaysScroll" />
 
             <ImageButton
@@ -47,23 +45,24 @@
             android:layout_weight="1"
             android:layout_margin="5dp"
             android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/editTextChat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/profile_border"
+                android:background="@drawable/background_img"
                 android:padding="15dp"
                 android:layout_marginEnd="5dp"
                 tools:ignore="NestedWeights" />
             <ImageButton
                 android:id="@+id/btnSendChat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="4"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:src="@drawable/ic_baseline_sms_24"
-                android:background="@drawable/profile_border" />
+                android:background="@drawable/background_img" />
         </LinearLayout>
 
     </LinearLayout>

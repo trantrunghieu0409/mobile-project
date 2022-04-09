@@ -60,6 +60,8 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
     boolean report;
     int popUpNoti = 0;
 
+    ListView boxChat;
+
     DocumentReference documentReference;
     ArrayList<Chat> messages = new ArrayList<>();
     CustomChatPopupApdater customChatPopupApdater;
@@ -106,6 +108,9 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                     messages.add(msg);
                     popUpNoti++;
                     customChatPopupApdater.notifyDataSetChanged();
+                    if(boxChat != null){
+                        boxChat.setSelection(customChatPopupApdater.getCount() - 1);
+                    }
                     updatePopupNoti();
                 }
             }
@@ -128,7 +133,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
         popUpChatText = (TextView) layout_chat_input.findViewById(R.id.statusPopupChatText);
 
         editTextAnswer = (EditText) layout_chat_input.findViewById(R.id.editTextAnswer);
-        btnAudio.setEnabled(false);
+//        btnAudio.setEnabled(false);
 
         audio = true;
         report = false;
@@ -136,6 +141,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
         editTextAnswer.setEnabled(false);
         editTextAnswer.setText("Interval");
         btnSendAnswer.setEnabled(false);
+        btnReport.setEnabled(false);
 
         btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,14 +225,14 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
 
 
 
-                ListView boxchat = popupChat.findViewById(R.id.box_chat_popup);
+                boxChat = popupChat.findViewById(R.id.box_chat_popup);
                 ImageView btnClose = popupChat.findViewById(R.id.btnClosePopUpChat);
                 final ImageButton btnSendChat =  (ImageButton) popupChat.findViewById(R.id.btnSendChat);
 
                 final EditText editTextChat = (EditText) popupChat.findViewById(R.id.editTextChat);
 
                 editTextChat.requestFocus();
-                boxchat.setAdapter(customChatPopupApdater);
+                boxChat.setAdapter(customChatPopupApdater);
 
 
                 btnClose.setOnClickListener(new View.OnClickListener() {

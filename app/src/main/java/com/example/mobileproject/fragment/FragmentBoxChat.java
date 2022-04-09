@@ -73,6 +73,9 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
                     assert msg != null;
                     message.add(msg.getMsg());
                     apdater.notifyDataSetChanged();
+                    if(boxChatAnswer != null){
+                        boxChatAnswer.setSelection(apdater.getCount() - 1);
+                    }
                 }
             }
         });

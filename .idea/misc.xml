@@ -180,14 +180,16 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_list_country.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_list_friend.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/custom_list_player.xml" value="0.75" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/friend_request_popup.xml" value="0.3625" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_answer.xml" value="0.17831813576494426" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_box_chat.xml" value="0.36666666666666664" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_chat_input.xml" value="0.5" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_chat_input.xml" value="0.33" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_gameover.xml" value="0.5" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_gameover2.xml" value="0.25" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_gameover_1.xml" value="0.5" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_getdrawing.xml" value="0.3625" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_list_player.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_inactive.xml" value="0.3625" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_list_player.xml" value="0.25" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_notiuserdraw.xml" value="0.17831813576494426" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/layout_result.xml" value="0.12635869565217392" />
@@ -198,9 +200,11 @@
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_changepassword.xml" value="0.12817028985507245" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_chat.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_countrylist.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_error_same_name.xml" value="0.1762917933130699" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_game_over.xml" value="0.5" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_gameover.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_inactive.xml" value="0.36666666666666664" />
-        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_info.xml" value="0.36666666666666664" />
+        <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_info.xml" value="0.1" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notidraw.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_notiuserdraw.xml" value="0.36666666666666664" />
         <entry key="..\:/code github/mobile-project/app/src/main/res/layout/popup_shareinvite.xml" value="0.36666666666666664" />
