@@ -131,9 +131,17 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
             }
             else if (Player.checkAnswer(vocal,strValue) == 1){
                 message.add("<font color=\"#000000\"><b>"+ strValue +"</b> is close!</font>");
+                apdater.notifyDataSetChanged();
+                if(boxChatAnswer != null){
+                    boxChatAnswer.setSelection(apdater.getCount() - 1);
+                }
             }
             else{
                 message.add("<font color=\"#CC3300\"><b>"+ strValue +"</b> is not correct!</font>");
+                apdater.notifyDataSetChanged();
+                if(boxChatAnswer != null){
+                    boxChatAnswer.setSelection(apdater.getCount() - 1);
+                }
             }
         }
 
