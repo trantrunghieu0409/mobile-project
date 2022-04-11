@@ -176,23 +176,7 @@ public class HomeActivity extends Activity {
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                DocumentSnapshot documentSnapshot = listRooms.get(rand.nextInt(listRooms.size()));
-                                                Room room = documentSnapshot.toObject(Room.class);
-                                                assert room != null;
-                                                newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
-                                                newPlayer.setAccountId(Account.getCurrertAccountId());
-                                                room.addPlayer(newPlayer);
-                                                Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
-                                                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        playIntent.putExtra("RoomID", room.getRoomID());
-                                                        playIntent.putExtra("Player", (Serializable) newPlayer);
-                                                        if (bundle != null) playIntent.putExtras(bundle);
-                                                        startActivity(playIntent);
-                                                        finish();
-                                                    }
-                                                });
+                                               btnCreateRoom.callOnClick();
                                             }
                                         })
                                         .setNegativeButton("No", null)
@@ -257,7 +241,12 @@ public class HomeActivity extends Activity {
                 }
                 else{
                     newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
-                    newPlayer.setAccountId(Account.getCurrertAccountId());
+                    if(!Account.isLogged()){
+                        newPlayer.setAccountId("");
+                    }
+                    else {
+                        newPlayer.setAccountId(Account.getCurrertAccountId());
+                    }
                     room.addPlayer(newPlayer);
                     Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
                     // Join room
