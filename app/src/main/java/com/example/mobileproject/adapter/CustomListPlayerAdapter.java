@@ -76,8 +76,29 @@ public class CustomListPlayerAdapter extends BaseAdapter {
         requestRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Requests").child(player.getAccountId());
 
-        receiveRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Requests").child(Account.getCurrertAccountId());
+        if(!Account.isLogged())
+        {
+            receiveRef=null;
+        }
+        else{
+            receiveRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .getReference("Requests").child(Account.getCurrertAccountId());
+
+            requestRef.child(Account.getCurrertAccountId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    currentState=snapshot.child("status").getValue(String.class);
+                    if (currentState == null) currentState = "nothing_happen";
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
 
         friendRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference().child("Friends");
@@ -118,24 +139,12 @@ public class CustomListPlayerAdapter extends BaseAdapter {
                 iconTopScore.setImageResource(0);
                 break;
         }
-        requestRef.child(Account.getCurrertAccountId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentState=snapshot.child("status").getValue(String.class);
-                if (currentState == null) currentState = "nothing_happen";
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         PlayerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(player.getAccountId().equals(Account.getCurrertAccountId()))
+                if(receiveRef==null || player.getAccountId().equals(Account.getCurrertAccountId()))
                 {
                     //do nothing
                 }
