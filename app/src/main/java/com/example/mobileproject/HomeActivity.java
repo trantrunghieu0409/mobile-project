@@ -292,7 +292,12 @@ public class HomeActivity extends Activity {
                             Room room = documentSnapshot.toObject(Room.class);
                             if (room != null) {
                                 newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
-                                newPlayer.setAccountId(Account.getCurrertAccountId());
+                                if(!Account.isLogged()){
+                                    newPlayer.setAccountId("");
+                                }
+                                else {
+                                    newPlayer.setAccountId(Account.getCurrertAccountId());
+                                }
                                 // Player's name has already existed
                                 if(room.existedUser(newPlayer.getName())){
                                     dialog.dismiss();
@@ -308,6 +313,7 @@ public class HomeActivity extends Activity {
                                         playIntent.putExtra("RoomID", room.getRoomID());
                                         playIntent.putExtra("Player", (Serializable) newPlayer);
                                         if (bundle != null) playIntent.putExtras(bundle);
+                                        dialog.dismiss();
                                         startActivity(playIntent);
                                         finish();
                                     }
