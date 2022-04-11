@@ -28,7 +28,7 @@ import java.io.Serializable;
 
 public class CreateRoomActivity extends Activity implements View.OnClickListener {
     String[] numPlayers = {"5 players", "10 players", "15 players", "20 players"};
-    String[] maxPoints = {"120 Points", "200 Points", "300 Points", "400 Points"};
+    String[] maxPoints = {"50 Points" ,"120 Points", "200 Points", "300 Points", "400 Points"};
 
     Integer[] topicImgs = Config.Topics;
     Spinner numPlayerSpinner;
