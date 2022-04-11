@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Random;
 
 public class HomeActivity extends Activity {
-    String[] languages = {"Tiếng Việt", "English"};
+    String[] languages = {"English", "Tiếng Việt"};
     Integer[] avatars = Config.Avatars;
 
     Button btnPlay;
