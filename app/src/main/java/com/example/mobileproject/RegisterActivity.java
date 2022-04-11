@@ -2,6 +2,7 @@ package com.example.mobileproject;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,11 +66,15 @@ public class RegisterActivity extends AppCompatActivity {
                     if(currentUser==null)
                     {
                         if (registerPassword.getText().toString().equals(registerRetypePassword.getText().toString())) {
-
+                        ProgressDialog dialog = new ProgressDialog(RegisterActivity.this);
+                        dialog.setMessage("Please wait white we're setting up for you...");
+                        dialog.setCancelable(false);
+                        dialog.show();
                         mAuth.createUserWithEmailAndPassword(email, password)
                                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
+                                        dialog.dismiss();
                                         if (task.isSuccessful()) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "createUserWithEmail:success");

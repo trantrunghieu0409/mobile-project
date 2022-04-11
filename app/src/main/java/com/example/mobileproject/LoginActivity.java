@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,10 +69,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email=emailEditText.getText().toString();
                 String password=passwordEditText.getText().toString();
+                ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
+                dialog.setMessage("Please wait white we're setting up for you...");
+                dialog.setCancelable(false);
+                dialog.show();
+
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                dialog.dismiss();
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "signInWithEmail:success");
