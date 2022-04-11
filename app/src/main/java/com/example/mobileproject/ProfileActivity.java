@@ -92,6 +92,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
             bundleClose.putSerializable("account", account);
             intentClose.putExtras(bundleClose);
             startActivity(intentClose);
+            finish();
         });
 
         ft = getSupportFragmentManager().beginTransaction();
