@@ -109,7 +109,6 @@ public class HomeActivity extends Activity {
                                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                                 if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
-
                             });
                         }
                     }

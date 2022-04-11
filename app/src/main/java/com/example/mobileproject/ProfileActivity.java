@@ -86,7 +86,13 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
         txtAchievements.setText(String.valueOf(account.getnGames()));
 
         btnClose = (AppCompatButton) findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(view -> { finish(); });
+        btnClose.setOnClickListener(view -> {
+            Intent intentClose = new Intent(ProfileActivity.this, HomeActivity.class);
+            Bundle bundleClose = new Bundle();
+            bundleClose.putSerializable("account", account);
+            intentClose.putExtras(bundleClose);
+            startActivity(intentClose);
+        });
 
         ft = getSupportFragmentManager().beginTransaction();
         profileFragment = FragmentProfile.newInstance(account);
@@ -266,10 +272,9 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
                     popupWindow.dismiss();
                     mainProfile.setAlpha(1.0F); // return to normal state
                 });
-
-
             }
         });
+
     }
 
     @Override

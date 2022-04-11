@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
                     Thread.sleep(2000);
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
+
+                    finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

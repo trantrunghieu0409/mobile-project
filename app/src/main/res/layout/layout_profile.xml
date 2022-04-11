@@ -36,6 +36,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:textColor="@color/white"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
@@ -59,6 +60,7 @@
                         android:id="@+id/txtWin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:text="0"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -83,6 +85,7 @@
                         android:id="@+id/txtLose"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:text="0"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -111,6 +114,7 @@
                         android:id="@+id/txtFirst"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:text="0"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -135,6 +139,7 @@
                         android:id="@+id/txtSecond"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:text="0"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -159,6 +164,7 @@
                         android:id="@+id/txtThird"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:text="0"
                         android:textAlignment="center"/>
                 </LinearLayout>
