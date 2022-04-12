@@ -155,8 +155,11 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                     final PopupWindow popupWindow = new PopupWindow(popupVoteKick, width, height, focusable);
 
                     // show a pop up
-                    popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
-
+                    if(gameplayActivity.currentDrawing != null && gameplayActivity.mainPlayer != null){
+                        if(!gameplayActivity.currentDrawing.getName().equals(gameplayActivity.mainPlayer.getName())){
+                            popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
+                        }
+                    }
                     final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
                     final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
                     final TextView nameUser = popupVoteKick.findViewById(R.id.usernameTxt);
@@ -312,6 +315,7 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                 editTextAnswer.setEnabled(true);
                 editTextAnswer.setText("");
                 btnSendAnswer.setEnabled(true);
+                btnReport.setEnabled(true);
             }
         }
         else if(strValue.contains("`RIGHT`")){
@@ -321,6 +325,9 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                 editTextAnswer.setText("Interval");
                 btnSendAnswer.setEnabled(false);
             }
+        }
+        else if(strValue.contains("`REPORT-BLOCK`")){
+            btnReport.setEnabled(false);
         }
         else{
             Chat chat = new Chat(strValue);

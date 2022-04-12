@@ -23,6 +23,7 @@
     <string name="waiting">Waiting</string>
     <string name="the_winner_is">The winner is</string>
     <string name="you_are_already_in_this_room_or_someone_has_the_same_nickname_as_you">You are already in this room or someone has the same nickname as you</string>
+    <string name="you_have_been_kicked_by_everyone">You have been kicked by everyone!</string>
     <string-array name="languages_array">
         <item>Mercury</item>
         <item>Venus</item>

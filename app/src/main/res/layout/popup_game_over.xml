@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#33000000">
 
     <TextView
         android:id="@+id/title"
@@ -37,17 +39,10 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-<!--        <ImageView-->
-<!--            android:layout_marginTop="30dp"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_height="150dp"-->
-<!--            android:src="@drawable/ic_baseline_warning_24"-->
-<!--            android:layout_gravity="center"/>-->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Game has ended! We will out room"
+            android:text="@string/you_have_been_kicked_by_everyone"
             android:textSize="18sp"
             android:textAlignment="center"
             android:layout_marginTop="40dp"

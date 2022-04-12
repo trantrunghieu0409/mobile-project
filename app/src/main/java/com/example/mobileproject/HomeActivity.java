@@ -2,7 +2,9 @@ package com.example.mobileproject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,7 +51,7 @@ import java.util.Random;
 public class HomeActivity extends Activity {
     String[] languages = {"English", "Tiếng Việt"};
     Integer[] avatars = Config.Avatars;
-
+    boolean isKick = false;
     Button btnPlay;
     Button btnCreateRoom;
     AppCompatButton btnNext;
@@ -83,6 +86,12 @@ public class HomeActivity extends Activity {
         txtLogin = (TextView) findViewById(R.id.txtLogin);
         Intent logged = getIntent();
         bundle = logged.getExtras();
+        isKick = getIntent().getBooleanExtra("isKick",false);
+        if(isKick){
+            popupKickPlayer();
+            isKick = false;
+        }
+
         if (bundle != null) {
             account = (Account) bundle.getSerializable("account");
             if(account != null){
@@ -354,4 +363,25 @@ public class HomeActivity extends Activity {
             }
         });
     }
+
+    public void popupKickPlayer(){
+        Dialog dialogKickPlayer = new Dialog(HomeActivity.this);
+        dialogKickPlayer.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogKickPlayer.setCancelable(true);
+        dialogKickPlayer.setContentView(R.layout.popup_game_over);
+        Button btnOk = dialogKickPlayer.findViewById(R.id.btnOKGameOver);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogKickPlayer.dismiss();
+
+            }
+        });
+        dialogKickPlayer.show();
+        Window window = dialogKickPlayer.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    }
+
+
+
 }

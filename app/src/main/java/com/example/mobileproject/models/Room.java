@@ -151,6 +151,10 @@ public class Room {
         return firstAnswer;
     }
 
+    public int getVote() {
+        return vote;
+    }
+
     public void findPlayerAndSetPoint(String name, boolean isDrawer, boolean isFirst, int time){
         for(int i = 0; i < players.size();i++){
             if(players.get(i).getName().equals(name)){
@@ -203,7 +207,7 @@ public class Room {
     }
 
     public boolean checkVote(){
-        return this.vote >= Math.round((float) this.players.size() / 2);
+        return this.vote >= Math.floor((float) this.players.size() / 2);
     }
 
     public void resetAllStatusPlayer(){

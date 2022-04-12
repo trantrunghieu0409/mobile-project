@@ -52,7 +52,7 @@ public class DrawActivity extends Activity {
     String roomID;
     String vocab;
     Bundle bundle;
-
+    Thread timeCountActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,8 +123,10 @@ public class DrawActivity extends Activity {
 
                                 Intent intent = new Intent(DrawActivity.this, HomeActivity.class);
                                 if (bundle != null) intent.putExtras(bundle);
+                                intent.putExtra("isKick",true);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
-                                finish();
+//                                finish();
                             }
                         })
                         .setNegativeButton("No", null)
@@ -133,11 +135,13 @@ public class DrawActivity extends Activity {
             }
         });
 
-
-        Thread timeCountActivity = new Thread(new Runnable() {
+        if(timeCountActivity != null &&timeCountActivity.isAlive()) {
+            timeCountActivity.interrupt();
+        }
+        timeCountActivity = new Thread(new Runnable() {
             @Override
             public void run() {
-                for(int i = 0; i < timeout;i++){
+                for(int i = 0; i < timeout && isRunning;i++){
                     try {
                         Thread.sleep(1000);
                         roomState.setTimeLeft(timeout-i-1);
@@ -150,10 +154,13 @@ public class DrawActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
-                Intent intent = new Intent(DrawActivity.this, GameplayActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                if(isRunning){
+                    Intent intent = new Intent(DrawActivity.this, GameplayActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         });
         timeCountActivity.start();
@@ -182,7 +189,19 @@ public class DrawActivity extends Activity {
 
     @Override
     protected void onStop() {
-        super.onStop(); isRunning = false;
+        if(timeCountActivity != null &&timeCountActivity.isAlive()) {
+            timeCountActivity.interrupt();
+        }
+        isRunning = false;
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(timeCountActivity != null &&timeCountActivity.isAlive()) {
+            timeCountActivity.interrupt();
+        }
+        super.onDestroy();
     }
 
     @Override

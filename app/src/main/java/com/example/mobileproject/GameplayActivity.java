@@ -1,6 +1,8 @@
 package com.example.mobileproject;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -67,7 +70,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     private String Vocab;
     private RoomState roomState;
-
+    private Thread barThread;
     public Player currentDrawing;
     PopupWindow popupWindow;
     Account account;
@@ -242,9 +245,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             if(newRoom.checkVote()){
                                 room = newRoom;
                                 room.setVote(0);
-                                nextDrawer();
                                 if(currentDrawing.getName().equals(mainPlayer.getName())){
-//                                    processOutRoom();
+                                    processKickPlayer();
                                 }
                             }
 
@@ -252,7 +254,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                     }
                 }
             });
-
         }
     }
 
@@ -309,6 +310,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         else{
             FragmentBoxChat.onMsgFromMainToFragment("`ANSWER`");
         }
+        //Block report
+        FragmentChatInput.onMsgFromMainToFragment("`REPORT-BLOCK`");
         // Block Answer Chat
         FragmentChatInput.onMsgFromMainToFragment("`RIGHT`");
         //result fragment
@@ -349,6 +352,16 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft.commitAllowingStateLoss();
     }
 
+    public void processKickPlayer(){
+        Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        intent.putExtra("isKick",true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+
     public void processResetRoom(){
         room.resetAllPointPlayer();
         room.setFlagCurrentActivity(0);
@@ -366,12 +379,19 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         barHorizontal.setMax(max_process);
         barHorizontal.setProgress(accum);
 
-        Thread backgroundThread = new Thread(backgroundTime,"isBarTime");
-        backgroundThread.start();
+        if(barThread != null &&barThread.isAlive()) {
+            barThread.interrupt();
+        }
+        barThread = new Thread(backgroundTime,"isBarTime");
+        barThread.start();
     }
 
     public void handleExitPlayer(){
         // Handle change drawer
+        if(room.getPlayers().size() == 1){
+            RemovePlayer();
+            return;
+        }
         if(room.getPlayers().size() <= 2){
             room.setDrawer(-1);
         }
@@ -387,7 +407,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
     public void RemovePlayer(){
         //Remove
-        fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+        if(fragmentGetDrawing != null){
+            fragmentGetDrawing.onMsgFromMainToFragment("END-FLAG");
+        }
         room.removePlayer(mainPlayer.getName());
         if(room.getPlayers().size() == 0){
             // If the last person in room left
@@ -499,6 +521,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         handleExitPlayer();
         System.out.println("Destroy");
         FragmentChatInput.onMsgFromMainToFragment(mainPlayer.getName() + " left");
+        if(barThread != null &&barThread.isAlive()) {
+            barThread.interrupt();
+        }
         super.onDestroy();
     }
 
@@ -514,29 +539,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
 
         popupWindow.showAtLocation(popup_notidraw,Gravity.CENTER, 0 , 0);
-    }
-
-    public void popupGameOver(){
-        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(GameplayActivity.this);
-        View popupGameover = inflater.inflate(R.layout.popup_game_over,null);
-        int width = LinearLayout.LayoutParams.MATCH_PARENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        popupWindow = new PopupWindow(popupGameover, width, height, false);
-        Button btnOk = popupGameover.findViewById(R.id.btnOKGameOver);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setFocusable(false);
-
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GameplayActivity.this, HomeActivity.class);
-                if (bundle != null) intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        popupWindow.showAtLocation(popupGameover,Gravity.CENTER, 0 , 0);
     }
 
 

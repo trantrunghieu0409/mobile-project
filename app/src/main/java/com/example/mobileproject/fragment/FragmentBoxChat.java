@@ -115,6 +115,8 @@ public class FragmentBoxChat extends Fragment implements FragmentCallbacks {
             String mess = strValue.replace("`REPORT`","");
             Chat chat = new Chat(mess);
             documentReference.collection("Chat").document(chat.getTimestamp()).set(chat);
+            gameplayActivity.room.addVote();
+            CloudFirestore.sendData("ListofRooms", gameplayActivity.roomID, gameplayActivity.room);
         }
         else{
             if(Player.checkAnswer(vocal,strValue) == 2){
