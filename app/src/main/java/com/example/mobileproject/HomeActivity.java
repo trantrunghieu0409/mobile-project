@@ -87,10 +87,6 @@ public class HomeActivity extends Activity {
         Intent logged = getIntent();
         bundle = logged.getExtras();
         isKick = getIntent().getBooleanExtra("isKick",false);
-        if(isKick){
-            popupKickPlayer();
-            isKick = false;
-        }
 
         if (bundle != null) {
             account = (Account) bundle.getSerializable("account");
@@ -218,6 +214,11 @@ public class HomeActivity extends Activity {
                 }
             }
         });
+
+        if(isKick){
+            popupKickPlayer();
+            isKick = false;
+        }
     }
     public void popupPlay(List<DocumentSnapshot> listRooms){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

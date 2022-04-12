@@ -234,6 +234,18 @@ public class Room {
         return list;
     }
 
+    public Boolean[] getTopRoom(String nameUser) {
+        ArrayList<Player> list = this.sortDescendingPoint();
+        Boolean[] place = {false,false,false};
+        for (int i = 0; i < 3 && i < list.size(); i++) {
+            if (list.get(i).getName().equals(nameUser)) {
+                place[i] = true;
+            }
+
+        }
+        return place;
+    }
+
     public void addPlayer(Player player){
         this.players.add(player);
     }

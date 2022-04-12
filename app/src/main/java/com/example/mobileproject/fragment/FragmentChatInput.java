@@ -160,10 +160,13 @@ public class FragmentChatInput extends Fragment implements FragmentCallbacks {
                             popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0);
                         }
                     }
+                    final Button btnFriendRequest = popupVoteKick.findViewById(R.id.friendRequestBtn);
                     final Button btnVoteKick=popupVoteKick.findViewById(R.id.votekickBtn);
                     final Button btnCancel=popupVoteKick.findViewById((R.id.votekickCancelBtn));
                     final TextView nameUser = popupVoteKick.findViewById(R.id.usernameTxt);
                     final ImageView avatarUser = popupVoteKick.findViewById(R.id.imgAvatar);
+                    btnFriendRequest.setEnabled(false);
+                    btnFriendRequest.setVisibility(View.GONE);
 
                     nameUser.setText(gameplayActivity.currentDrawing.getName());
                     avatarUser.setImageResource(gameplayActivity.currentDrawing.getAvatar());

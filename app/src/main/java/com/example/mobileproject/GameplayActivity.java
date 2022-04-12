@@ -37,11 +37,14 @@ import com.example.mobileproject.models.RoomState;
 import com.example.mobileproject.models.Topic;
 import com.example.mobileproject.utils.CloudFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -73,7 +76,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
     private Thread barThread;
     public Player currentDrawing;
     PopupWindow popupWindow;
-    Account account;
+    public Account account;
     Bundle bundle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +86,9 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         //get Account
         bundle = null;
         bundle = getIntent().getExtras();
-
+        if (bundle != null) {
+            account = (Account) bundle.getSerializable("account");
+        }
         //
         roomID = getIntent().getStringExtra("RoomID");
         mainPlayer = (Player) getIntent().getSerializableExtra("Player");
@@ -255,6 +260,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 }
             });
         }
+
     }
 
 
@@ -350,6 +356,12 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.holder_box_draw, fragmentGameOver);
         ft.commitAllowingStateLoss();
+        if(!mainPlayer.getAccountId().isEmpty()){
+            if(account != null){
+                Boolean[] place = room.getTopRoom(mainPlayer.getName());
+                account.updateAnalystAccount(place);
+            }
+        }
     }
 
     public void processKickPlayer(){
@@ -358,7 +370,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             intent.putExtras(bundle);
         }
         intent.putExtra("isKick",true);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

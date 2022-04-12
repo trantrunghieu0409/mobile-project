@@ -33,6 +33,8 @@ public class Account extends Player implements Serializable {
     int second_place;
     int third_place;
     int nGames;
+    int nWin;
+    int nLose;
     String accountId;
     String token;
 
@@ -140,12 +142,20 @@ public class Account extends Player implements Serializable {
 
     public ArrayList<Account> getFriendList(){ return friendList;}
 
+    public int getnLose() {
+        return nLose;
+    }
+
+    public int getnWin() {
+        return nWin;
+    }
+
 
     public static void sendDataToFirebase(Account account) {
         CloudFirestore.sendData("Account", account.getAccountId(), account).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.e("Firebase Error", "Success");
+//                Log.e("Firebase Error", "Success");
             }
         });
     }
@@ -184,6 +194,32 @@ public class Account extends Player implements Serializable {
 //        HashMap<String,Account> hashMap=new HashMap<>();
 //        hashMap.put(acc.getAccountId(),acc);
         AccRef.child(acc.getAccountId()).setValue(acc);
+    }
+
+    public void updateAnalystAccount(Boolean[] place){
+        this.nGames++;
+        for(int i = 0 ; i < place.length;i++){
+            if(i == 0 && place[i]){
+                this.first_place++;
+                this.nWin++;
+                sendDataToFirebase(this);
+                return;
+            }
+            if(i == 1 && place[i]){
+                this.second_place++;
+                this.nWin++;
+                sendDataToFirebase(this);
+                return;
+            }
+            if(i == 2 && place[i]){
+                this.third_place++;
+                this.nWin++;
+                sendDataToFirebase(this);
+                return;
+            }
+        }
+        this.nLose++;
+        sendDataToFirebase(this);
     }
     public static boolean isLogged (){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
