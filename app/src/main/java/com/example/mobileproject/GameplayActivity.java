@@ -160,6 +160,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
                 }
             });
+
             documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
