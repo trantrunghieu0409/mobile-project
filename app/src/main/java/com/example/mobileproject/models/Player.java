@@ -61,12 +61,12 @@ public class Player implements Serializable {
     public  String getToken(){return token;}
 
     public static int checkAnswer(String result, String answer) {
-        result = result.toLowerCase().replace(" ","");
-        answer = answer.toLowerCase().replace(" ","");
+        result = result.toLowerCase().replaceAll(" ","");
+        answer = answer.toLowerCase().replaceAll(" ","");
         if (answer.equals(result)) {
             return 2;
         }
-        else if((result.contains(answer) && (float)answer.length()/result.length()> 0.7)
+        else if((result.contains(answer) && (float)answer.length()/result.length()> 0.6)
                 || answer.contains(result)){
             return 1;
         }

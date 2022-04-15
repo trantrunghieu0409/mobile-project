@@ -1,5 +1,6 @@
 package com.example.mobileproject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -366,6 +367,21 @@ public class HomeActivity extends Activity {
     }
 
     public void popupKickPlayer(){
+//        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(HomeActivity.this);
+//        @SuppressLint("InflateParams") View popup_KickPlayer = inflater.inflate(R.layout.popup_game_over,null);
+//        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+//        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        PopupWindow popupWindow = new PopupWindow(popup_KickPlayer, width, height, true);
+//        popupWindow.showAtLocation(popup_KickPlayer, Gravity.CENTER, 0 , 0);
+//        Button btnOk = popup_KickPlayer.findViewById(R.id.btnOKGameOver);
+//        btnOk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                popupWindow.dismiss();
+//            }
+//        });
+
+
         Dialog dialogKickPlayer = new Dialog(HomeActivity.this);
         dialogKickPlayer.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogKickPlayer.setCancelable(true);
@@ -382,7 +398,4 @@ public class HomeActivity extends Activity {
         Window window = dialogKickPlayer.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
     }
-
-
-
 }

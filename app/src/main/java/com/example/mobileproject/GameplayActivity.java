@@ -248,9 +248,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
 
 
                             // Check kick
-                            if(newRoom.checkVote()){
+                            if(newRoom.checkVote() && newRoom.getPlayers().size() != 1){
                                 room = newRoom;
                                 room.setVote(0);
+                                CloudFirestore.sendData("ListofRooms", roomID, room);
                                 if(currentDrawing.getName().equals(mainPlayer.getName())){
                                     processKickPlayer();
                                 }
@@ -508,6 +509,11 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        btnClose.callOnClick();
+//        super.onBackPressed();
+    }
 
     @Override
     protected void onStart() {
@@ -546,7 +552,8 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         View popup_notidraw = inflater.inflate(R.layout.popup_notidraw,null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        popupWindow = new PopupWindow(popup_notidraw, width, height, true);
+        popupWindow = new PopupWindow(popup_notidraw, width, height, false);
+        popupWindow.setOutsideTouchable(false);
 
         TextView Vocab = popup_notidraw.findViewById(R.id.txt_vocab_popup_notidraw);
         Vocab.setText(vocab);
