@@ -92,7 +92,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
         //
         roomID = getIntent().getStringExtra("RoomID");
-        Log.d("RoomID", roomID);
         mainPlayer = (Player) getIntent().getSerializableExtra("Player");
         barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
@@ -253,7 +252,6 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                             if(newRoom.checkVote() && newRoom.getPlayers().size() != 1){
                                 room = newRoom;
                                 room.setVote(0);
-                                CloudFirestore.sendData("ListofRooms", roomID, room);
                                 if(currentDrawing.getName().equals(mainPlayer.getName())){
                                     processKickPlayer();
                                 }
@@ -374,9 +372,10 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             intent.putExtras(bundle);
         }
         intent.putExtra("isKick",true);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finishAffinity();
     }
 
     public void processResetRoom(){
@@ -409,7 +408,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             RemovePlayer();
             return;
         }
-        if(room.getPlayers().size() == 2){
+        if(room.getPlayers().size() <= 2){
             room.setDrawer(-1);
         }
         else if(currentDrawing != null){
