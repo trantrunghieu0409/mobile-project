@@ -208,10 +208,11 @@ public class HomeActivity extends Activity {
                 }
                 else {
                     Intent roomIntent = new Intent(HomeActivity.this, CreateRoomActivity.class);
+                    if (bundle != null) roomIntent.putExtras(bundle);
                     roomIntent.putExtra("name", edtName.getText().toString());
                     roomIntent.putExtra("avatar", avatars[pos]);
-                    if (bundle != null) roomIntent.putExtras(bundle);
-                    startActivityForResult(roomIntent, 0);
+                    startActivity(roomIntent);
+                    finish();
                 }
             }
         });

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,18 +118,18 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
 //                    finish();
 //                }
 
-                // delete this later when you've already have event from GamePLay to drawActivity
-                GlobalConstants.currentRoomID = room.getRoomID();
 
 
                 CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         dialog.dismiss();
+                        Log.d("create room", room.getRoomID());
+                        if (bundle != null) playIntent.putExtras(bundle);
                         playIntent.putExtra("RoomID", room.getRoomID());
                         playIntent.putExtra("Player", (Serializable) host);
-                        if (bundle != null) playIntent.putExtras(bundle);
                         startActivity(playIntent);
+                        finish();
                     }
                 });
             }
@@ -140,5 +141,6 @@ public class CreateRoomActivity extends Activity implements View.OnClickListener
 
     public void onClick(View view) {
         super.onBackPressed();
+
     }
 }

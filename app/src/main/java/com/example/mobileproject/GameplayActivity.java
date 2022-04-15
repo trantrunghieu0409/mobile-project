@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,6 +92,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
         //
         roomID = getIntent().getStringExtra("RoomID");
+        Log.d("RoomID", roomID);
         mainPlayer = (Player) getIntent().getSerializableExtra("Player");
         barHorizontal = (ProgressBar) findViewById(R.id.progress_bar_time);
         documentReference = CloudFirestore.getData("ListofRooms", roomID);
@@ -407,7 +409,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
             RemovePlayer();
             return;
         }
-        if(room.getPlayers().size() <= 2){
+        if(room.getPlayers().size() == 2){
             room.setDrawer(-1);
         }
         else if(currentDrawing != null){
@@ -429,6 +431,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         if(room.getPlayers().size() == 0){
             // If the last person in room left
             // Delete that room
+
             CloudFirestore.deleteDoc("ListofRooms", roomID);
             CloudFirestore.deleteDoc("RoomState", roomID);
         }
