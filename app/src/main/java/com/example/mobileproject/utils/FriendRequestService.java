@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.window.SplashScreen;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -37,6 +38,11 @@ import com.example.mobileproject.ProfileActivity;
 import com.example.mobileproject.R;
 import com.example.mobileproject.models.Account;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
@@ -86,17 +92,18 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
         return t[0];
     }
 
-    public static void sendMessage(Context context, Activity mCurrentActivity, String title, String body,String token) {
-        if(token==null)
+    public static void sendMessage(Context context, Activity mCurrentActivity, String title, String body,String id) {
+        if((id==null || id.equals("empty")||id.equals("")))
         {
             FirebaseMessaging.getInstance().getToken()
                     .addOnCompleteListener(task -> {
+                        Log.d("send_message_Id", id);
                         if (task.isSuccessful() && task.getResult() != null) {
                             Log.e("newToken", task.getResult());
                             FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
                                     task.getResult(),
-                                    title,
-                                    body, context, mCurrentActivity);
+                                   "Error",
+                                    "Cannot send notification", context, mCurrentActivity);
                             notificationsSender.SendNotifications();
 
 
@@ -107,11 +114,32 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
                     });
         }
         else{
-            FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
-                    token,
-                    title,
-                    body, context, mCurrentActivity);
-            notificationsSender.SendNotifications();
+            Log.d("sendmessageId", id);
+            DatabaseReference accRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                    .getReference("Account").child(id);
+            accRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        String status=snapshot.getValue(String.class);
+//                        String reqId=snapshot.getKey();
+                        Account a = snapshot.getValue(Account.class);
+                    Log.d("sendmessageId",  a.getToken());
+                        FcmNotificationsSender notificationsSender = new FcmNotificationsSender(
+                                a.getToken(),
+                                title,
+                                body, context, mCurrentActivity);
+                        notificationsSender.SendNotifications();
+
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }
 
     }

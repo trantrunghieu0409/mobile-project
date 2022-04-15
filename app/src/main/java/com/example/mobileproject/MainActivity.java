@@ -46,5 +46,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         thread.start();
+        FriendRequestService.createToken(getApplicationContext());
     }
 }

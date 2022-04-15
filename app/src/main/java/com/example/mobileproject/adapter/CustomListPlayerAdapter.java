@@ -176,7 +176,7 @@ public class CustomListPlayerAdapter extends BaseAdapter {
                         }
                     });
 
-                    Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
                     btnFriendRequest.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -193,7 +193,7 @@ public class CustomListPlayerAdapter extends BaseAdapter {
 //                            notificationsSender.SendNotifications();
 //                        }
 
-                            Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText((GameplayActivity) context, currentState, Toast.LENGTH_SHORT).show();
 
                             if (Account.getcurrentAccount() == null || player.getAccountId() == null) {
                                 Toast.makeText((GameplayActivity) context, "Only logged in user can send friend request", Toast.LENGTH_SHORT).show();
