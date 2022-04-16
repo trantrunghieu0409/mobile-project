@@ -37,8 +37,6 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
     CustomListFriendAdapter adapter;
     ListView listViewFriends;
     static ArrayList<Account> listFriends;
-    static String roomId;
-    DocumentReference documentReference;
 
     TextView txtListFriendEmpty;
 
@@ -62,27 +60,6 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
         catch (IllegalStateException e) {
             throw new IllegalStateException("Activity must implement callbacks");
         }
-//        documentReference = CloudFirestore.getData("Account", Account.getCurrertAccountId());
-//        if(documentReference != null){
-//            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                @Override
-//                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                    assert documentSnapshot != null;
-//
-//                    room = documentSnapshot.toObject(Account.class);
-//
-//
-//                    }
-//
-//                }
-//            });
-
-        // get friends info from firebase here
-
-//
-//        Account acc = new Account("user", 0, R.drawable.avatar_batman, "email@gmail.com", "password");
-//        listFriends.add(acc);
-
     }
 
     @Nullable
@@ -96,6 +73,7 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
         listFriends=new ArrayList<>();
         adapter = new CustomListFriendAdapter(listFriends, getContext());
         listViewFriends.setAdapter(adapter);
+
         DatabaseReference reqRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Requests").child(accountId);
         DatabaseReference accRef = FirebaseDatabase.getInstance("https://drawguess-79bb9-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -113,11 +91,21 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 Account a = snapshot.getValue(Account.class);
 
-                                if (txtListFriendEmpty.getVisibility() == View.VISIBLE)
-                                    txtListFriendEmpty.setVisibility(View.GONE);
-
-                                listFriends.add(a);
-                                adapter.notifyDataSetChanged();
+                                DocumentReference documentReference = Account.getDataFromFirebase(a.getAccountId());
+                                if (documentReference != null) {
+                                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            Account acc = documentSnapshot.toObject(Account.class);
+                                            if (acc != null && !acc.getAccountId().equals(accountId)) {
+                                                if (txtListFriendEmpty.getVisibility() == View.VISIBLE)
+                                                    txtListFriendEmpty.setVisibility(View.GONE);
+                                                listFriends.add(acc);
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                    });
+                                }
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -127,7 +115,6 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
                     }
                 }
 
-                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -135,6 +122,7 @@ public class FragmentListFriends extends Fragment implements FragmentCallbacks {
 
             }
         });
+
         return layout_list_friends;
     }
 

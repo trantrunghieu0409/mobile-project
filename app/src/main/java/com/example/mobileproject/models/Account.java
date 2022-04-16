@@ -17,9 +17,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.type.DateTime;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,10 +37,11 @@ public class Account extends Player implements Serializable {
     int nGames;
     int nWin;
     int nLose;
-    String accountId;
-    String token;
+    String accountId; // player already has this ?
+    String token; // player already has this?
 
     boolean online = false;
+    long lastOnline = new Date().getTime();
 
     @Override
     public String getToken() {
@@ -49,8 +52,8 @@ public class Account extends Player implements Serializable {
         return accountId;
     }
 
-    public void setAccountId(String acountId) {
-        this.accountId = acountId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     ArrayList<Account>friendList;
@@ -231,25 +234,44 @@ public class Account extends Player implements Serializable {
         return false;
     }
 
-    public boolean isOnline() {
-        return online;
+    public long getTimePlay() {
+        long duration = 0;
+        if (online) {
+            duration = new Date().getTime() - lastOnline;
+        }
+        return duration;
     }
+
+    public long getTimeOffline() {
+        long duration = 0;
+        if (!online) {
+            Log.e("get TIME OFFLINE", email + String.valueOf(lastOnline));
+            duration = new Date().getTime() - lastOnline;
+        }
+        return duration;
+    }
+
+    public boolean isOnline() {return online;}
 
     public void online() {
         online = true;
         CloudFirestore.updateField("Account", accountId, "online", true);
+        CloudFirestore.updateField("Account", accountId, "lastOnline", lastOnline);
     }
 
     public void offline() {
+        lastOnline = new Date().getTime();
+        Log.d("online Time", String.valueOf(lastOnline));
+
         online = false;
         CloudFirestore.updateField("Account", accountId, "online", false);
+        CloudFirestore.updateField("Account", accountId, "lastOnline", lastOnline);
     }
-
 
     @Override
     protected void finalize() throws Throwable {
-        if (!online)
-            offline();
+        //if (online)
+        //    offline();
         super.finalize();
     }
 }

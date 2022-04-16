@@ -12,13 +12,14 @@ import android.widget.TextView;
 import com.example.mobileproject.R;
 import com.example.mobileproject.models.Account;
 import com.example.mobileproject.models.Player;
+import com.example.mobileproject.utils.FormatDate;
 
 import java.util.ArrayList;
 
 
 public class CustomListFriendAdapter extends BaseAdapter {
     Context context;
-    TextView username, status;
+    TextView username, txtOnline;
     ImageView avatar, iconStatus;
     ImageButton btnUnfriend;
 
@@ -60,10 +61,20 @@ public class CustomListFriendAdapter extends BaseAdapter {
         btnUnfriend = (ImageButton) row.findViewById(R.id.btnUnfriend);
 
         iconStatus = (ImageView) row.findViewById(R.id.iconStatus);
-        status = (TextView) row.findViewById(R.id.txtStatus);
+        txtOnline = (TextView) row.findViewById(R.id.txtOnline);
+
 
         username.setText(friend.getName());
         avatar.setImageResource(friend.getAvatar());
+
+        if (friend.isOnline()) {
+            iconStatus.setImageResource(R.drawable.icon_online);
+            txtOnline.setText("Active now");
+        }
+        else {
+            iconStatus.setImageResource(R.drawable.icon_offline);
+            txtOnline.setText(FormatDate.formatDuration(friend.getTimeOffline()));
+        }
 
         btnUnfriend.setOnClickListener(new View.OnClickListener() {
             @Override
