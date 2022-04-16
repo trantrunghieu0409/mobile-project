@@ -413,6 +413,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
         else if(currentDrawing != null){
             if(currentDrawing.getName().equals(mainPlayer.getName())){
+                RemovePlayer();
                 Room newRoom = room.deepcopy();
                 if(room.getDrawer() + 1 >= room.getPlayers().size()){
                     newRoom.setDrawer(0);
@@ -422,6 +423,7 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
                 }
                 CloudFirestore.sendData("ListofRooms", roomID, newRoom);
                 stillPlaying = false;
+                return;
             }
         }
         RemovePlayer();
