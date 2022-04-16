@@ -413,8 +413,17 @@ public class GameplayActivity extends FragmentActivity implements MainCallbacks 
         }
         else if(currentDrawing != null){
             if(currentDrawing.getName().equals(mainPlayer.getName())){
-                nextDrawer();
+                RemovePlayer();
+                Room newRoom = room.deepcopy();
+                if(room.getDrawer() + 1 >= room.getPlayers().size()){
+                    newRoom.setDrawer(0);
+                }
+                else {
+                    newRoom.setDrawer(room.getDrawer() + 1);
+                }
+                CloudFirestore.sendData("ListofRooms", roomID, newRoom);
                 stillPlaying = false;
+                return;
             }
         }
         RemovePlayer();
