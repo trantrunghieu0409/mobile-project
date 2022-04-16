@@ -191,30 +191,30 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
 //                |Intent. FLAG_ACTIVITY_NEW_TASK);
 //        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
 //
-//        Intent intent2 = new Intent(this, HomeActivity.class);
-//        intent2.putExtra("no",false);
-//        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                |Intent. FLAG_ACTIVITY_NEW_TASK);
-//        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
+        Intent intent2 = new Intent(this, HomeActivity.class);
+        intent2.putExtra("no",false);
+        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
+                |Intent. FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
 
-        Intent intent = new Intent(this, HomeActivity.class);
-        String accountId = Account.getCurrertAccountId();
-        final Account[] accountList = {new Account("example@gmail.com", "password")};
-        DocumentReference documentReference = Account.getDataFromFirebase(accountId);
-        if (documentReference != null) {
-            documentReference.get().addOnSuccessListener(documentSnapshot -> {
-                accountList[0] = documentSnapshot.toObject(Account.class);
-                intent.putExtra("account", (Serializable) accountList[0]);
-                pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_ONE_SHOT);
-            });
-        }
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        String accountId = Account.getCurrertAccountId();
+//        final Account[] accountList = {new Account("example@gmail.com", "password")};
+//        DocumentReference documentReference = Account.getDataFromFirebase(accountId);
+//        if (documentReference != null) {
+//            documentReference.get().addOnSuccessListener(documentSnapshot -> {
+//                accountList[0] = documentSnapshot.toObject(Account.class);
+//                intent.putExtra("account", (Serializable) accountList[0]);
+//                pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_ONE_SHOT);
+//            });
+//        }
 
 
             builder.setContentTitle(remoteMessage.getNotification().getTitle());
             builder.setContentText(remoteMessage.getNotification().getBody());
 //        builder.addAction(R.drawable.ic_launcher_foreground,"Yes",pendingIntent);
 //        builder.addAction(R.drawable.ic_launcher_foreground,"No",pendingIntent);
-            builder.setContentIntent(pendingIntent);
+            builder.setContentIntent(pendingIntent2);
             builder.setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()));
             builder.setAutoCancel(true);
             builder.setPriority(Notification.PRIORITY_MAX);
