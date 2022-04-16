@@ -210,6 +210,7 @@ public class ProfileActivity extends FragmentActivity implements MainCallbacks {
             public void onClick(View view) {
                 mAuth = FirebaseAuth.getInstance();
                 mAuth.signOut();
+                account.offline();
                 Intent intent=new Intent(ProfileActivity.this,HomeActivity.class);
                 startActivity(intent);
             }

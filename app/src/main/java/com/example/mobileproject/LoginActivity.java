@@ -44,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
             if (documentReference != null) {
                 documentReference.get().addOnSuccessListener(documentSnapshot -> {
                     accountList[0] = documentSnapshot.toObject(Account.class);
+                    if (accountList[0] != null) {
+                        accountList[0].online();
+                    }
                     intent.putExtra("account", (Serializable) accountList[0]);
                     startActivity(intent);
                     finish();

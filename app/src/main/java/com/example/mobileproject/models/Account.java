@@ -38,6 +38,8 @@ public class Account extends Player implements Serializable {
     String accountId;
     String token;
 
+    boolean online = false;
+
     @Override
     public String getToken() {
         return token;
@@ -229,8 +231,27 @@ public class Account extends Player implements Serializable {
         return false;
     }
 
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void online() {
+        online = true;
+        CloudFirestore.updateField("Account", accountId, "online", true);
+    }
+
+    public void offline() {
+        online = false;
+        CloudFirestore.updateField("Account", accountId, "online", false);
+    }
 
 
+    @Override
+    protected void finalize() throws Throwable {
+        if (!online)
+            offline();
+        super.finalize();
+    }
 }
 
 
