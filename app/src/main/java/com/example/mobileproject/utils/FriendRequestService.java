@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
 import com.example.mobileproject.HomeActivity;
@@ -55,6 +56,9 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
     NotificationManager mNotificationManager;
     static private FirebaseAuth mAuth;
     PendingIntent pendingIntent;
+    private LocalBroadcastManager broadcaster;
+
+
 
     public static String getToken(Context context) {
         return context.getSharedPreferences("_", MODE_PRIVATE).getString("fb", "empty");
@@ -157,7 +161,7 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-
+        broadcaster = LocalBroadcastManager.getInstance(this);
 // playing audio and vibration when user se request
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -191,10 +195,11 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
 //                |Intent. FLAG_ACTIVITY_NEW_TASK);
 //        PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0, intent1, PendingIntent.FLAG_ONE_SHOT);
 //
-        Intent intent2 = new Intent(this, HomeActivity.class);
-        intent2.putExtra("no",false);
-        intent2.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP
-                |Intent. FLAG_ACTIVITY_NEW_TASK);
+        Intent intent2 = new Intent();
+        intent2.setAction("GoToRoom");
+        intent2.putExtra("isInvited", true);
+        intent2.putExtra("playCode",remoteMessage.getNotification().getBody());
+        broadcaster.sendBroadcast(intent2);
         PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 1, intent2, PendingIntent.FLAG_ONE_SHOT);
 
 //        Intent intent = new Intent(this, HomeActivity.class);

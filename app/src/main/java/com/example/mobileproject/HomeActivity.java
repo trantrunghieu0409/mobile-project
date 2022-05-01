@@ -5,10 +5,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +32,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.mobileproject.draw_config.Config;
 import com.example.mobileproject.models.Account;
@@ -65,6 +70,26 @@ public class HomeActivity extends Activity {
     Bundle bundle;
     TextView txtLogin;
     int pos = 0;
+    private boolean isInvited=false;
+    private String PlayCode="";
+    private String InvitedPlayerName="";
+    private IntentFilter intfilt;
+
+
+
+    BroadcastReceiver InviteBroadcast = new BroadcastReceiver()
+    {
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+
+            isInvited=arg1.getExtras().getBoolean("isInvited");
+            PlayCode=arg1.getExtras().getString("playCode");
+//            InvitedPlayerName=arg1.getExtras().getString("InvitedPlayerName");
+            handler.sendEmptyMessage(0);
+
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +113,9 @@ public class HomeActivity extends Activity {
         Intent logged = getIntent();
         bundle = logged.getExtras();
         isKick = getIntent().getBooleanExtra("isKick",false);
-
+        intfilt = new IntentFilter();
+        intfilt.addAction("GoToRoom");
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(InviteBroadcast, intfilt);
         if (bundle != null) {
             account = (Account) bundle.getSerializable("account");
             if(account != null){
@@ -222,6 +249,85 @@ public class HomeActivity extends Activity {
             isKick = false;
         }
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(isInvited==true)
+            {
+                ProgressDialog dialog = new ProgressDialog(HomeActivity.this);
+                dialog.setMessage("Please wait\nWe're searching rooms for you...");
+                dialog.setCancelable(false);
+                dialog.show();
+
+                // Join room
+                DocumentReference documentReference = CloudFirestore.getData("ListofRooms", PlayCode);
+                if (documentReference != null) {
+                    documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Room room = documentSnapshot.toObject(Room.class);
+                            if (room != null) {
+                                newPlayer = new Player(Account.getcurrentAccountEmail(), 0, avatars[0], FriendRequestService.getToken(getApplicationContext()));
+                                if(!Account.isLogged()){
+                                    newPlayer.setAccountId("empty");
+                                }
+                                else {
+                                    newPlayer.setAccountId(Account.getCurrertAccountId());
+                                }
+                                // Player's name has already existed
+                                if(room.existedUser(newPlayer.getName())){
+                                    dialog.dismiss();
+                                    popupNotiSameName();
+//                                    edtName.requestFocus();
+                                    return;
+                                }
+                                room.addPlayer(newPlayer);
+                                Intent playIntent = new Intent(HomeActivity.this, GameplayActivity.class);
+                                CloudFirestore.db.collection("ListofRooms").document(room.getRoomID()).set(room).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        playIntent.putExtra("RoomID", room.getRoomID());
+                                        playIntent.putExtra("Player", (Serializable) newPlayer);
+                                        if (bundle != null) playIntent.putExtras(bundle);
+                                        dialog.dismiss();
+                                        startActivity(playIntent);
+                                        finish();
+                                    }
+                                });
+                            }
+                            else {
+                                // pop up room not found
+                                AlertDialog notfoundDialog = new AlertDialog.Builder(HomeActivity.this)
+                                        .setTitle("Room not found")
+                                        .setMessage("Room not found")
+                                        .setNegativeButton("OK", null)
+                                        .setIcon(R.drawable.ic_baseline_sad_face_24)
+                                        .show();
+
+                                dialog.dismiss();
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    // pop up room not found
+                    AlertDialog notfoundDialog = new AlertDialog.Builder(HomeActivity.this)
+                            .setTitle("Room not found")
+                            .setMessage("Room not found")
+                            .setNegativeButton("OK", null)
+                            .setIcon(R.drawable.ic_baseline_sad_face_24)
+                            .show(); // do nothing
+
+                    dialog.dismiss();
+                }
+
+            }
+        }
+    };
+
     public void popupPlay(List<DocumentSnapshot> listRooms){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = getLayoutInflater();
@@ -294,7 +400,7 @@ public class HomeActivity extends Activity {
                             if (room != null) {
                                 newPlayer = new Player(edtName.getText().toString(), 0, avatars[pos], FriendRequestService.getToken(getApplicationContext()));
                                 if(!Account.isLogged()){
-                                    newPlayer.setAccountId("");
+                                    newPlayer.setAccountId("empty");
                                 }
                                 else {
                                     newPlayer.setAccountId(Account.getCurrertAccountId());

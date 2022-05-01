@@ -223,7 +223,7 @@ public class FragmentDrawBox extends Fragment implements FragmentCallbacks {
             button.setOnClickListener(view1 -> {
                 if (chosenPos[0] != -1) {
                     Log.d("sender id",idList.get(chosenPos[0]) );
-                    FriendRequestService.sendMessage(listViewFriends.getContext(), gameplayActivity, "You have invitation to Guess Draw","CODE:"+ gameplayActivity.roomID, idList.get(chosenPos[0]));
+                    FriendRequestService.sendMessage(listViewFriends.getContext(), gameplayActivity, "You have invitation to Guess Draw",gameplayActivity.roomID, idList.get(chosenPos[0]));
                     Toast.makeText((GameplayActivity) context, "Invitation sent successfully", Toast.LENGTH_SHORT).show();
                 }
                 else {
