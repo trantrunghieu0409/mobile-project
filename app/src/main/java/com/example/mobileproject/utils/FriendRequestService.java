@@ -216,7 +216,7 @@ public class FriendRequestService extends com.google.firebase.messaging.Firebase
 
 
             builder.setContentTitle(remoteMessage.getNotification().getTitle());
-            builder.setContentText(remoteMessage.getNotification().getBody());
+//            builder.setContentText(remoteMessage.getNotification().getBody());
 //        builder.addAction(R.drawable.ic_launcher_foreground,"Yes",pendingIntent);
 //        builder.addAction(R.drawable.ic_launcher_foreground,"No",pendingIntent);
             builder.setContentIntent(pendingIntent2);
