@@ -143,9 +143,20 @@ public class HomeActivity extends Activity {
                                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                                 if (bundle != null) intent.putExtras(bundle);
                                 startActivity(intent);
-                                finish();
+//                                finish();
                             });
                         }
+                    }
+                });
+            }
+            else {
+                btnLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //go to login here
+                        Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                        startActivity(loginIntent);
+                        finish();
                     }
                 });
             }
